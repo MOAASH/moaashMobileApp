@@ -1,8 +1,10 @@
-let colors = {
-    color1: '#fdb409',
-    color2: '#184e83',
-    color3: '#206eb9',
-    color4: '#64a6de',
+let Colors = {
+    color1: '#552586',
+    color2: '#6a359c',
+    color3: '#804fb3',
+    color4: '#9969c7',
+    color5: '#b589d6',
+    white: "white",
 };
 
-export default colors;
+export default Colors;
