@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   View,
+  Dimensions,
   Text,
   StyleSheet,
   ScrollView,
@@ -25,25 +26,15 @@ export default class MainLogin extends Component {
     return (
       <ScrollView style={styles.container}>
         <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
-          Enter your phone number
+          What's your password?
         </Text>
         <TextInput
-          style={[styles.inputStyle, {marginTop: 10}]}
-          placeholder="Phone"
-          placeholderTextColor="black"
-          keyboardType="default"
-          returnKeyType="next"
-          onChangeText={(text) => this.setState({email: text})}
-        />
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 20}}>
-          Enter your password
-        </Text>
-        <TextInput
-          style={[styles.inputStyle, {marginTop: 10}]}
+          style={[styles.inputStyle, {marginTop: 4}]}
           placeholder="Password"
           placeholderTextColor="black"
           keyboardType="default"
           returnKeyType="next"
+          autoFocus
           onChangeText={(text) => this.setState({email: text})}
         />
         <TouchableOpacity
@@ -55,7 +46,9 @@ export default class MainLogin extends Component {
             marginTop: 60,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('Home')}>
+          onPress={() =>
+            this.props.navigation.navigate('SignupConfirmPassword')
+          }>
           <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -76,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.color2,
     borderWidth: 1,
     paddingVertical: 16,
-    borderRadius: 6,
+    borderRadius: 8,
     color: 'black',
   },
 });

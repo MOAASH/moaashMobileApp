@@ -8,6 +8,8 @@ target 'Moaash' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'MoaashTests' do
     inherit! :complete
     # Pods for testing

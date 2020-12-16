@@ -21,13 +21,21 @@ export default class MainLogin extends Component {
         <Image
           style={{
             width: Dimensions.get('screen').width,
-            height: 180,
-            marginTop: 40,
+            height: 200,
+            marginTop: 50,
           }}
           source={require('../../assets/Logo.png')}
           resizeMode="contain"
         />
-
+        <Text
+          style={{
+            fontSize: 18,
+            color: Colors.color1,
+            marginBottom: 40,
+            fontWeight: '600',
+          }}>
+          Pakistan's #1 Online Reselling Platform
+        </Text>
         <CustomButton
           text="Sign up"
           onPress="Signup"
@@ -40,6 +48,7 @@ export default class MainLogin extends Component {
           }}
           textStyle={{fontSize: 20, color: Colors.white}}
           navigation={this.props.navigation}
+          onPress="SignupName"
         />
         <CustomButton
           text="Log in"
@@ -55,40 +64,7 @@ export default class MainLogin extends Component {
           }}
           textStyle={{fontSize: 20}}
           navigation={this.props.navigation}
-        />
-        <View style={{flexDirection: 'row', marginTop: 30}}>
-          <View
-            style={{
-              width: '48%',
-              borderColor: Colors.lightGray,
-              borderWidth: 1,
-              marginTop: 12,
-              height: 1,
-            }}
-          />
-          <Text style={{fontSize: 20, color: Colors.Gray}}>or</Text>
-          <View
-            style={{
-              width: '48%',
-              borderColor: Colors.lightGray,
-              borderWidth: 1,
-              marginTop: 12,
-              height: 1,
-            }}
-          />
-        </View>
-        <CustomButton
-          text="Continue with Facebook"
-          onPress="Facebook"
-          buttonStyle={{
-            alignItems: 'center',
-            backgroundColor: Colors.blue,
-            marginTop: 30,
-            width: '80%',
-            borderRadius: 10,
-            padding: 16,
-          }}
-          textStyle={{fontSize: 20, color: Colors.white}}
+          onPress="Login"
         />
       </View>
     );
