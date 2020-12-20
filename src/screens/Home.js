@@ -9,6 +9,8 @@ import {
   Image,
   SafeAreaView,
   TextInput,
+  FlatList,
+  ImageBackground,
 } from 'react-native';
 import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +18,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
+import CategoriesList from '../components/CategoriesList';
+import AdSlider from '../components/AdSlider';
+import QualityBanner from '../components/QualityBanner';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -25,126 +30,378 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    console.log('Home page of the app');
   };
 
   render() {
+    const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Image
-            style={{
-              width: 150,
-              height: 60,
-              alignSelf: 'center',
-            }}
-            source={require('../../assets/Logo.png')}
-          />
-          <TouchableOpacity>
-            <TextInput
-              style={[styles.inputStyle]}
-              placeholder="Search by Keyword or Product ID"
-              placeholderTextColor="black"
-              keyboardType="default"
-              returnKeyType="next"
-              onChangeText={(text) => this.setState({email: text})}
+        <ScrollView>
+          <View style={styles.header}>
+            <Image
+              style={{
+                width: 150,
+                height: 60,
+                alignSelf: 'center',
+              }}
+              source={require('../../assets/Logo.png')}
             />
-          </TouchableOpacity>
-        </View>
-        <ScrollView
-          horizontal={true}
-          style={{paddingHorizontal: 12, marginTop: 10, height: 50}}>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
+            <TouchableOpacity>
+              <TextInput
+                style={[styles.inputStyle]}
+                placeholder="Search by Keyword or Product ID"
+                placeholderTextColor="black"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+            </TouchableOpacity>
           </View>
+          <View>
+            <ScrollView
+              horizontal={true}
+              style={{paddingHorizontal: 12, marginTop: 10}}>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
 
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+              <View style={{alignItems: 'center'}}>
+                <FontAwesome
+                  name="list-alt"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Categories
+                </Text>
+              </View>
+            </ScrollView>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
+          <View>
+            <FlatList
+              keyExtractor={(item) => item.id}
+              data={data}
+              horizontal
+              pagingEnabled={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={(item) => (
+                <AdSlider
+                  AdImage={item}
+                  scrollEnabled={true}
+                  navigation={this.props.navigation}
+                />
+              )}
             />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
+          <QualityBanner />
+          <View style={styles.productCard}>
+            <View
+              style={{
+                flexDirection: 'row',
+                height: 220,
+                justifyContent: 'space-evenly',
+              }}>
+              <Image
+                style={{
+                  width: Dimensions.get('screen').width / 2,
+                  height: 210,
+                  marginTop: 20,
+                }}
+                source={require('../../assets/shirt1.jpg')}
+              />
+              <View>
+                <Image
+                  style={{
+                    width: Dimensions.get('screen').width / 3,
+                    height: 100,
+                    marginTop: 20,
+                  }}
+                  source={require('../../assets/shirt2.jpeg')}
+                />
+                <View
+                  style={{
+                    justifyContent: 'space-around',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      width: Dimensions.get('screen').width / 3,
+                      height: 100,
+                      marginTop: 10,
+                    }}
+                    source={require('../../assets/shirt3.jpeg')}
+                  />
+                  <View
+                    style={{
+                      ...StyleSheet.absoluteFillObject,
+                      backgroundColor: 'rgba(0,0,0,0.6)',
+                    }}
+                  />
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      justifyContent: 'center',
+                      alignSelf: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 32,
+
+                        color: Colors.white,
+                      }}>
+                      + 2
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={{marginTop: 20, paddingHorizontal: 16}}>
+              <Text style={{fontSize: 18}}>Fancy Men Shirt</Text>
+              <Text style={{fontSize: 16}}>Starting from Rs. 300</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: Colors.borderGray,
+                  padding: 4,
+                  width: 150,
+                }}>
+                <FontAwesome
+                  name="truck"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color2}
+                />
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    paddingLeft: 4,
+                    fontWeight: '600',
+                  }}>
+                  Free Delivery
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: Colors.color3,
+                  borderRadius: 5,
+                  marginTop: 20,
+                  flexDirection: 'row',
+                  padding: 12,
+                }}
+                onPress={() => this.props.navigation.navigate('Home')}>
+                <FontAwesome
+                  name="share-square"
+                  size={20}
+                  style={{fontWeight: '700'}}
+                  color={Colors.white}
+                />
+                <Text
+                  style={{fontSize: 20, color: Colors.white, paddingLeft: 12}}>
+                  Share Now
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesome
-              name="list-alt"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color1}
-            />
-            <Text
-              style={{alignSelf: 'center', fontSize: 11, color: Colors.color2}}>
-              {' '}
-              Categories
-            </Text>
+          <View style={styles.productCard}>
+            <View
+              style={{
+                flexDirection: 'row',
+                height: 220,
+                justifyContent: 'space-evenly',
+              }}>
+              <Image
+                style={{
+                  width: Dimensions.get('screen').width / 2,
+                  height: 210,
+                  marginTop: 20,
+                }}
+                source={require('../../assets/shirt1.jpg')}
+              />
+              <View>
+                <Image
+                  style={{
+                    width: Dimensions.get('screen').width / 3,
+                    height: 100,
+                    marginTop: 20,
+                  }}
+                  source={require('../../assets/shirt2.jpeg')}
+                />
+                <Image
+                  style={{
+                    width: Dimensions.get('screen').width / 3,
+                    height: 100,
+                    marginTop: 10,
+                    shadowOffset: {
+                      width: Dimensions.get('screen').width / 2,
+                      height: 80,
+                    },
+                    shadowColor: 'black',
+                    shadowOpacity: 1,
+                  }}
+                  source={require('../../assets/shirt3.jpeg')}
+                />
+              </View>
+            </View>
+            <View style={{marginTop: 20, paddingHorizontal: 16}}>
+              <Text style={{fontSize: 18}}>Fancy Men Shirt</Text>
+              <Text style={{fontSize: 16}}>Starting from Rs. 300</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  backgroundColor: Colors.color5,
+                  padding: 4,
+                  width: 150,
+                }}>
+                <FontAwesome
+                  name="truck"
+                  size={40}
+                  style={{fontWeight: '700'}}
+                  color={Colors.color1}
+                />
+                <Text style={{alignSelf: 'center', paddingLeft: 4}}>
+                  Free Delivery
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: Colors.color3,
+                  borderRadius: 5,
+                  marginTop: 20,
+                  flexDirection: 'row',
+                  padding: 12,
+                }}
+                onPress={() => this.props.navigation.navigate('Home')}>
+                <FontAwesome
+                  name="share-square"
+                  size={20}
+                  style={{fontWeight: '700'}}
+                  color={Colors.white}
+                />
+                <Text
+                  style={{fontSize: 20, color: Colors.white, paddingLeft: 12}}>
+                  Share Now
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -177,5 +434,12 @@ const styles = StyleSheet.create({
   header: {
     borderBottomColor: Colors.borderGray,
     borderBottomWidth: 1,
+  },
+  productCard: {
+    backgroundColor: Colors.white,
+    borderTopWidth: 1,
+    borderColor: Colors.color5,
+    paddingVertical: 8,
+    marginBottom: 8,
   },
 });

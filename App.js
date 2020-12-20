@@ -45,7 +45,6 @@ const MainTabs = createBottomTabNavigator(
 
   {
     tabBarPosition: 'bottom',
-    //tabBarComponent: (props) => <CustomTabComponent {...props}/>,
     animationEnabled: true,
     tabBarOptions: {
       showIcon: true,
@@ -60,11 +59,10 @@ const MainTabs = createBottomTabNavigator(
         bottom: 0,
         left: 0,
         width: '100%',
-        borderTopColor: '#2c4452',
+        borderTopColor: Colors.Gray,
         shadowColor: 'transparent',
-        backgroundColor: 'transparent',
+        backgroundColor: 'white',
         shadowColor: 'red',
-        elevation: 2,
       },
       activeBackgroundColor: 'transparent',
       inactiveBackgroundColor: 'transparent',
@@ -82,7 +80,6 @@ const MainTabs = createBottomTabNavigator(
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 0,
-
         shadowColor: 'transparent',
       },
       indicatorStyle: {
@@ -199,30 +196,30 @@ const testNavigator = createStackNavigator({
   //     headerShown: false,
   //   },
   // },
-  // SignupName: {
-  //   screen: BankDetails,
-  //   navigationOptions: {
-  //     title: 'Enter your bank details',
-  //     headerTintColor: 'white',
-  //     headerStyle: {
-  //       backgroundColor: Colors.color2,
-  //     },
-  //   },
-  // },
   SignupName: {
-    screen: ReferralEarn,
+    screen: MainTabs,
     navigationOptions: {
-      title: 'Refer and Earn',
+      title: 'My Payments',
       headerTintColor: 'white',
       headerStyle: {
         backgroundColor: Colors.color2,
       },
     },
   },
+  // SignupName: {
+  //   screen: ReferralEarn,
+  //   navigationOptions: {
+  //     title: 'Refer and Earn',
+  //     headerTintColor: 'white',
+  //     headerStyle: {
+  //       backgroundColor: Colors.color2,
+  //     },
+  //   },
+  // },
 });
 export default class MainApp extends Component {
   render() {
-    const App = createAppContainer(testNavigator);
+    const App = createAppContainer(AppNavigator);
     return (
       <Provider {...stores}>
         <PaperProvider>
