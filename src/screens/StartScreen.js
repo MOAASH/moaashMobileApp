@@ -22,7 +22,6 @@ export default class MainLogin extends Component {
           style={{
             width: Dimensions.get('screen').width,
             height: 200,
-            marginTop: 50,
           }}
           source={require('../../assets/Logo.png')}
           resizeMode="contain"
@@ -76,6 +75,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: Colors.white,
+    justifyContent: 'center',
   },
   logo: {
     alignSelf: 'center',

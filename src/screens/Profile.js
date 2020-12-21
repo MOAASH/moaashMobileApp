@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -26,7 +27,7 @@ export default class MainLogin extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>Account</Text>
         </View>
@@ -101,7 +102,8 @@ export default class MainLogin extends Component {
             padding: 8,
             paddingVertical: 20,
             justifyContent: 'space-between',
-          }}>
+          }}
+          onPress={() => this.props.navigation.navigate('Payments')}>
           <View style={{flexDirection: 'row'}}>
             <FontAwesome name="money" size={20} style={{fontWeight: '700'}} />
             <Text
@@ -128,7 +130,8 @@ export default class MainLogin extends Component {
             padding: 8,
             paddingVertical: 20,
             justifyContent: 'space-between',
-          }}>
+          }}
+          onPress={() => this.props.navigation.navigate('SharedProducts')}>
           <View style={{flexDirection: 'row'}}>
             <Ionicons name="ios-share-outline" size={20} />
             <Text
@@ -154,7 +157,8 @@ export default class MainLogin extends Component {
             padding: 8,
             paddingVertical: 20,
             justifyContent: 'space-between',
-          }}>
+          }}
+          onPress={() => this.props.navigation.navigate('ReferralEarn')}>
           <View style={{flexDirection: 'row'}}>
             <Ionicons
               name="cash-outline"
@@ -177,7 +181,7 @@ export default class MainLogin extends Component {
             <Ionicons name="ios-chevron-forward-outline" size={20} style={{}} />
           </View>
         </TouchableOpacity>
-      </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -205,11 +209,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   header: {
-    marginTop: 50,
     alignContent: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomColor: Colors.lightGray,
+    borderBottomColor: Colors.borderGray,
     borderBottomWidth: 1,
   },
 });

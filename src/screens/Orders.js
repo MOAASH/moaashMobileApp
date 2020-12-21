@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  SafeAreaView,
   Dimensions,
 } from 'react-native';
 import axios from '../utils/axios';
@@ -27,84 +28,16 @@ export default class MainLogin extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>Orders</Text>
         </View>
-        <Text style={{paddingHorizontal: 8, marginTop: 4, fontSize: 14}}>
-          Target Tracker => 1 Jan - 7 Jan
-        </Text>
-
-        <View
-          style={{
-            marginTop: 4,
-            marginHorizontal: 8,
-            elevation: 8,
-            borderColor: Colors.lightGray,
-            borderWidth: 2,
-            paddingVertical: 8,
-          }}>
-          <View style={{flexDirection: 'row'}}>
-            <Text
-              style={{
-                paddingHorizontal: 8,
-                marginTop: 4,
-                fontSize: 18,
-                fontWeight: '700',
-              }}>
-              Target sales for 2% bonus:
-            </Text>
-            <Text
-              style={{
-                color: Colors.color1,
-                fontSize: 18,
-                fontWeight: '700',
-                marginTop: 4,
-              }}>
-              PKR 1800
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 4}}>
-            <Text
-              style={{
-                paddingHorizontal: 8,
-                marginTop: 4,
-                fontSize: 18,
-                fontWeight: '700',
-              }}>
-              Current week sales:
-            </Text>
-            <Text
-              style={{
-                color: Colors.color1,
-                fontSize: 18,
-                fontWeight: '700',
-                marginTop: 4,
-              }}>
-              PKR 0
-            </Text>
-          </View>
-          <View style={{flexDirection: 'row', marginTop: 4}}>
-            <Text
-              style={{
-                paddingHorizontal: 8,
-                marginTop: 4,
-                fontSize: 18,
-                fontWeight: '700',
-              }}>
-              Amount left to reach target:
-            </Text>
-            <Text
-              style={{
-                color: Colors.color1,
-                fontSize: 18,
-                fontWeight: '700',
-                marginTop: 4,
-              }}>
-              PKR 1800
-            </Text>
-          </View>
-        </View>
+        <FontAwesome
+          name="gift"
+          size={120}
+          color={Colors.color1}
+          style={{alignSelf: 'center'}}
+        />
         <Text style={{fontSize: 28, alignSelf: 'center', marginTop: 12}}>
           No Orders Found
         </Text>
@@ -121,7 +54,7 @@ export default class MainLogin extends Component {
           textStyle={{fontSize: 20, color: Colors.white}}
           navigation={this.props.navigation}
         />
-      </ScrollView>
+      </SafeAreaView>
     );
   }
 }
@@ -149,11 +82,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   header: {
-    marginTop: 50,
     alignContent: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomColor: Colors.lightGray,
+    borderBottomColor: Colors.borderGray,
     borderBottomWidth: 1,
   },
 });

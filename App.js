@@ -20,25 +20,58 @@ import Orders from './src/screens/Orders';
 import Profile from './src/screens/Profile';
 import BankDetails from './src/screens/BankDetails';
 import Payments from './src/screens/Payments';
+import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
 const MainTabs = createBottomTabNavigator(
   {
     Home: {
       screen: Home,
       navigationOptions: {
-        tabBarIcon: ({focused}) => <FontAwesome name="home" size={28} />,
+        tabBarLabel: 'Home',
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="home"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
+      },
+    },
+    Categories: {
+      screen: Orders,
+      navigationOptions: {
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="list-alt"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
+        headerTitle: 'Categories',
       },
     },
     Orders: {
       screen: Orders,
       navigationOptions: {
-        tabBarIcon: ({focused}) => <FontAwesome name="gift" size={28} />,
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="gift"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
       },
     },
     Profile: {
       screen: Profile,
       navigationOptions: {
-        tabBarIcon: ({focused}) => <FontAwesome name="user-o" size={28} />,
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="user-o"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
       },
     },
   },
@@ -48,7 +81,7 @@ const MainTabs = createBottomTabNavigator(
     animationEnabled: true,
     tabBarOptions: {
       showIcon: true,
-      showLabel: false,
+      showLabel: true,
       showIndicator: false,
       titleStyle: {
         justifyContent: 'center',
@@ -62,13 +95,13 @@ const MainTabs = createBottomTabNavigator(
         borderTopColor: Colors.Gray,
         shadowColor: 'transparent',
         backgroundColor: 'white',
-        shadowColor: 'red',
+        shadowColor: 'white',
       },
       activeBackgroundColor: 'transparent',
       inactiveBackgroundColor: 'transparent',
       labelStyle: {
-        fontSize: 14,
-        color: '#fff',
+        fontSize: 12,
+        color: 'black',
         position: 'relative',
         alignSelf: 'center',
       },
@@ -182,6 +215,50 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  BankDetails: {
+    screen: BankDetails,
+    navigationOptions: {
+      title: 'Enter Your Bank Details',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  Payments: {
+    screen: Payments,
+    navigationOptions: {
+      title: 'My Payments',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  ReferralEarn: {
+    screen: ReferralEarn,
+    navigationOptions: {
+      title: 'Refer & Earn',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  ProductDetail: {
+    screen: ProductDetail,
+    navigationOptions: {
+      title: 'Product Detail',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
   AuthLoading: {
     screen: MainTabs,
     navigationOptions: {
@@ -196,11 +273,12 @@ const testNavigator = createStackNavigator({
   //     headerShown: false,
   //   },
   // },
-  SignupName: {
-    screen: MainTabs,
+  ProductDetail: {
+    screen: ProductDetail,
     navigationOptions: {
-      title: 'My Payments',
+      title: 'Product Detail',
       headerTintColor: 'white',
+      headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
       },
@@ -219,7 +297,7 @@ const testNavigator = createStackNavigator({
 });
 export default class MainApp extends Component {
   render() {
-    const App = createAppContainer(AppNavigator);
+    const App = createAppContainer(testNavigator);
     return (
       <Provider {...stores}>
         <PaperProvider>

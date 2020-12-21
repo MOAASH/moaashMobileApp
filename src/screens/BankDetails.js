@@ -73,6 +73,13 @@ export default class MainLogin extends Component {
             returnKeyType="next"
             onChangeText={(text) => this.setState({email: text})}
           />
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <Ionicons size={25} color={Colors.primary} name={'ios-checkbox'} />
+            <Text style={{paddingTop: 4, paddingLeft: 8}}>
+              I don't want money in the bank. I will collect cash from service
+              center.
+            </Text>
+          </View>
         </ScrollView>
         <TouchableOpacity
           style={{
