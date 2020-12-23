@@ -22,6 +22,12 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      bank: false,
+      jazzcash: false,
+      easypaisa: false,
+      cashcollect: false,
+    };
   }
 
   componentDidMount = async () => {
@@ -39,47 +45,161 @@ export default class MainLogin extends Component {
             color: Colors.Gray,
           }}>
           <Text style={{fontSize: 14, marginTop: 4, fontWeight: '600'}}>
-            Please enter your bank details correctly. They will be used for all
-            refunds, margins and bonus payments
+            Choose your payment method
           </Text>
-          <Text style={{fontSize: 15, marginTop: 30}}>Name of Bank</Text>
-          <TextInput
-            style={[styles.inputStyle, {marginTop: 4}]}
-            label="Banks"
-            mode="outlined"
-            keyboardType="default"
-            returnKeyType="next"
-            onChangeText={(text) => this.setState({email: text})}
-          />
-          <Text style={{fontSize: 15, marginTop: 12}}>
-            Account Title / Account Holder's Name
-          </Text>
-          <TextInput
-            style={[styles.inputStyle, {marginTop: 4}]}
-            label="Account Title"
-            mode="outlined"
-            keyboardType="default"
-            returnKeyType="next"
-            onChangeText={(text) => this.setState({email: text})}
-          />
-          <Text style={{fontSize: 15, marginTop: 12}}>
-            Account Number / IBAN Number
-          </Text>
-          <TextInput
-            style={[styles.inputStyle, {marginTop: 4}]}
-            label="Account Number"
-            mode="outlined"
-            keyboardType="default"
-            returnKeyType="next"
-            onChangeText={(text) => this.setState({email: text})}
-          />
           <View style={{flexDirection: 'row', marginTop: 10}}>
-            <Ionicons size={25} color={Colors.primary} name={'ios-checkbox'} />
+            <TouchableOpacity
+              onPress={() => this.setState({bank: !this.state.bank})}>
+              {this.state.bank ? (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'ios-checkbox'}
+                />
+              ) : (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'square-outline'}
+                />
+              )}
+            </TouchableOpacity>
+            <Text style={{paddingTop: 4, paddingLeft: 8}}>Bank Transfer</Text>
+          </View>
+
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <TouchableOpacity
+              onPress={() => this.setState({jazzcash: !this.state.jazzcash})}>
+              {this.state.jazzcash ? (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'ios-checkbox'}
+                />
+              ) : (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'square-outline'}
+                />
+              )}
+            </TouchableOpacity>
+            <Text style={{paddingTop: 4, paddingLeft: 8}}>Jazz Cash</Text>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <TouchableOpacity
+              onPress={() => this.setState({easypaisa: !this.state.easypaisa})}>
+              {this.state.easypaisa ? (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'ios-checkbox'}
+                />
+              ) : (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'square-outline'}
+                />
+              )}
+            </TouchableOpacity>
+            <Text style={{paddingTop: 4, paddingLeft: 8}}>Easy Paisa</Text>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({cashcollect: !this.state.cashcollect})
+              }>
+              {this.state.cashcollect ? (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'ios-checkbox'}
+                />
+              ) : (
+                <Ionicons
+                  size={25}
+                  color={Colors.primary}
+                  name={'square-outline'}
+                />
+              )}
+            </TouchableOpacity>
             <Text style={{paddingTop: 4, paddingLeft: 8}}>
-              I don't want money in the bank. I will collect cash from service
-              center.
+              Collect cash from service center
             </Text>
           </View>
+          {this.state.bank && (
+            <View>
+              <Text style={{fontSize: 15, marginTop: 30}}>Name of Bank</Text>
+              <TextInput
+                style={[styles.inputStyle, {marginTop: 4}]}
+                label="Banks"
+                mode="outlined"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+              <Text style={{fontSize: 15, marginTop: 12}}>
+                Account Title / Account Holder's Name
+              </Text>
+              <TextInput
+                style={[styles.inputStyle, {marginTop: 4}]}
+                label="Account Title"
+                mode="outlined"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+              <Text style={{fontSize: 15, marginTop: 12}}>
+                Account Number / IBAN Number
+              </Text>
+              <TextInput
+                style={[styles.inputStyle, {marginTop: 4}]}
+                label="Account Number"
+                mode="outlined"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+
+              <Text style={{paddingTop: 4}}>
+                ● If you are a tax filer, 10% fee will be deducted
+              </Text>
+              <Text style={{paddingTop: 4}}>
+                ● If you are not a tax filer, 20% fee will be deducted
+              </Text>
+            </View>
+          )}
+          {this.state.easypaisa && (
+            <View>
+              <Text style={{fontSize: 15, marginTop: 30}}>
+                Enter easy paisa mobile number
+              </Text>
+              <TextInput
+                style={[styles.inputStyle, {marginTop: 4}]}
+                label="Banks"
+                mode="outlined"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+            </View>
+          )}
+          {this.state.jazzcash && (
+            <View>
+              <Text style={{fontSize: 15, marginTop: 30}}>
+                Enter jazz cash mobile number
+              </Text>
+              <TextInput
+                style={[styles.inputStyle, {marginTop: 4}]}
+                label="Banks"
+                mode="outlined"
+                keyboardType="default"
+                returnKeyType="next"
+                onChangeText={(text) => this.setState({email: text})}
+              />
+            </View>
+          )}
         </ScrollView>
         <TouchableOpacity
           style={{

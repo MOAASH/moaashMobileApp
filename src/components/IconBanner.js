@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
@@ -63,8 +64,21 @@ export default class IconBanner extends Component {
             alignItems: 'center',
             alignContent: 'center',
             justifyContent: 'center',
-          }}>
-          <Text style={{fontSize: 10, color: Colors.color2}}>
+            paddingBottom: 8,
+          }}
+          onPress={() =>
+            Alert.alert(
+              'Return Policy',
+              'You can request return of the product within 7 days after delivery of the product. The product should be unused, undamaged and in original condition.',
+              [
+                {
+                  text: 'OK',
+                },
+              ],
+              {cancelable: false},
+            )
+          }>
+          <Text style={{fontSize: 12, color: Colors.color2}}>
             More Information
           </Text>
         </TouchableOpacity>

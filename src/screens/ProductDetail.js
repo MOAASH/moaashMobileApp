@@ -19,22 +19,42 @@ import FacebookLogo from '../utils/Constants';
 import ShareAndCartButton from '../components/ShareAndCartButton';
 import ProductDetailsDescription from '../components/ProductDetailsDescription';
 import IconBanner from '../components/IconBanner';
+import SelectSizePopup from '../components/SelectSizePopup';
+import SoldBy from '../components/SoldBy';
+import WhatsappPopup from '../components/WhatsappPopup';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      addToCart: false,
+      added: false,
+      sharing: false,
+    };
   }
-
-  componentDidMount = async () => {
-    console.log('Starting the app');
+  shareProduct = async () => {
+    this.setState({sharing: true});
   };
+  hidePopup = async () => {
+    this.setState({sharing: false});
+  };
+  addToCart = async (prop) => {
+    console.log('adding' + prop);
+    this.setState({addToCart: prop});
+  };
+  addedtoCart = async (prop) => {
+    console.log('Product added to cart' + prop);
+    this.setState({added: prop});
+  };
+
+  componentDidMount = async () => {};
 
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: Colors.lightGray}}>
-        <ScrollView style={{marginBottom: SCREEN_HEIGHT / 16}}>
+        <ScrollView style={{marginBottom: SCREEN_HEIGHT / 30}}>
           <View style={styles.productCard}>
             <View>
               <Image
@@ -137,8 +157,25 @@ export default class MainLogin extends Component {
             }}>
             <IconBanner />
           </View>
+          <View
+            style={{
+              marginTop: 8,
+            }}>
+            <SoldBy />
+          </View>
         </ScrollView>
-        <ShareAndCartButton />
+        <ShareAndCartButton
+          addToCart={this.addToCart}
+          checkout={this.state.added}
+          navigation={this.props.navigation}
+        />
+        {this.state.addToCart && (
+          <SelectSizePopup
+            addedtoCart={this.addedtoCart}
+            addToCart={this.addToCart}
+          />
+        )}
+        {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
       </SafeAreaView>
     );
   }

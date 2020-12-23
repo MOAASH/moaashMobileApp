@@ -42,7 +42,7 @@ export default class MainLogin extends Component {
           No Orders Found
         </Text>
         <CustomButton
-          text="Browse Catalogs"
+          text="Browse Items"
           buttonStyle={{
             alignItems: 'center',
             backgroundColor: Colors.color2,
@@ -53,6 +53,7 @@ export default class MainLogin extends Component {
           }}
           textStyle={{fontSize: 20, color: Colors.white}}
           navigation={this.props.navigation}
+          onPress="Categories"
         />
       </SafeAreaView>
     );

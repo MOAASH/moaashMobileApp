@@ -17,11 +17,18 @@ import SignupConfirmPassword from './src/screens/SignupConfirmPassword';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import Orders from './src/screens/Orders';
+import Categories from './src/screens/Categories';
 import Profile from './src/screens/Profile';
 import BankDetails from './src/screens/BankDetails';
 import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
+import MySharedProducts from './src/screens/MySharedProducts';
+import Checkout from './src/screens/Checkout';
+import AddMargin from './src/screens/AddMargin';
+import AddShippingAddress from './src/screens/AddShippingAddress';
+import OrderSummary from './src/screens/OrderSummary';
+import OrderPlaced from './src/screens/OrderPlaced';
 const MainTabs = createBottomTabNavigator(
   {
     Home: {
@@ -38,7 +45,7 @@ const MainTabs = createBottomTabNavigator(
       },
     },
     Categories: {
-      screen: Orders,
+      screen: Categories,
       navigationOptions: {
         tabBarIcon: ({focused}) => (
           <FontAwesome
@@ -67,7 +74,7 @@ const MainTabs = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({focused}) => (
           <FontAwesome
-            name="user-o"
+            name="user"
             size={28}
             color={focused ? Colors.color1 : Colors.color5}
           />
@@ -237,6 +244,17 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  MySharedProducts: {
+    screen: MySharedProducts,
+    navigationOptions: {
+      title: 'My Shared Products',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
   ReferralEarn: {
     screen: ReferralEarn,
     navigationOptions: {
@@ -252,6 +270,61 @@ const AppNavigator = createStackNavigator({
     screen: ProductDetail,
     navigationOptions: {
       title: 'Product Detail',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  Checkout: {
+    screen: Checkout,
+    navigationOptions: {
+      title: 'Checkout',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  AddMargin: {
+    screen: AddMargin,
+    navigationOptions: {
+      title: 'Add your profit',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  AddShippingAddress: {
+    screen: AddShippingAddress,
+    navigationOptions: {
+      title: 'Add Shipping Address',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  OrderSummary: {
+    screen: OrderSummary,
+    navigationOptions: {
+      title: 'Order Summary',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  OrderPlaced: {
+    screen: OrderPlaced,
+    navigationOptions: {
+      title: 'Order Placed',
       headerTintColor: 'white',
       headerBackTitleVisible: false,
       headerStyle: {
@@ -297,7 +370,7 @@ const testNavigator = createStackNavigator({
 });
 export default class MainApp extends Component {
   render() {
-    const App = createAppContainer(testNavigator);
+    const App = createAppContainer(AppNavigator);
     return (
       <Provider {...stores}>
         <PaperProvider>

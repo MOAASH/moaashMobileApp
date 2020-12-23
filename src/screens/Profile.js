@@ -84,7 +84,7 @@ export default class MainLogin extends Component {
                 paddingLeft: 12,
                 fontSize: 16,
               }}>
-              Bank Details
+              Payment Details
             </Text>
           </View>
           <View
@@ -131,7 +131,7 @@ export default class MainLogin extends Component {
             paddingVertical: 20,
             justifyContent: 'space-between',
           }}
-          onPress={() => this.props.navigation.navigate('SharedProducts')}>
+          onPress={() => this.props.navigation.navigate('MySharedProducts')}>
           <View style={{flexDirection: 'row'}}>
             <Ionicons name="ios-share-outline" size={20} />
             <Text

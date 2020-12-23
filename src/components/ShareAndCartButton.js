@@ -15,75 +15,64 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class QualityBanner extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      addToCart: false,
+    };
   }
-
+  onButtonPress = async () => {
+    this.props.checkout
+      ? this.props.navigation.navigate('Checkout')
+      : this.props.addToCart(true);
+  };
   render() {
     return (
       <View
         style={{
-          flexDirection: 'row',
           position: 'absolute',
           bottom: 0,
-
           paddingTop: 1,
         }}>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.color3,
             flexDirection: 'row',
+            paddingBottom: 30,
             padding: 8,
             alignItems: 'center',
             alignContent: 'center',
             justifyContent: 'center',
-            width: SCREEN_WIDTH / 2,
+            width: SCREEN_WIDTH,
             borderTopColor: Colors.borderGray,
             borderWidth: 1,
           }}
-          onPress={() => this.shareProduct()}>
+          onPress={() => this.onButtonPress()}>
           <FontAwesome
             name="shopping-cart"
             size={20}
             style={{fontWeight: '700'}}
-            color={Colors.color2}
-          />
-          <Text
-            style={{
-              fontSize: 18,
-
-              alignSelf: 'center',
-              color: Colors.color2,
-              paddingLeft: 12,
-            }}>
-            ADD TO CART
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: Colors.color3,
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'center',
-            alignContent: 'center',
-            justifyContent: 'center',
-            width: SCREEN_WIDTH / 2,
-          }}
-          onPress={() => this.props.navigation.navigate('Home')}>
-          <FontAwesome
-            name="share-square"
-            size={20}
-            style={{fontWeight: '700'}}
             color={Colors.white}
           />
-          <Text
-            style={{
-              fontSize: 18,
-
-              alignSelf: 'center',
-              color: Colors.white,
-              paddingLeft: 12,
-            }}>
-            Share Now
-          </Text>
+          {this.props.checkout ? (
+            <Text
+              style={{
+                fontSize: 18,
+                alignSelf: 'center',
+                color: Colors.white,
+                paddingLeft: 12,
+              }}>
+              Proceed To Checkout
+            </Text>
+          ) : (
+            <Text
+              style={{
+                fontSize: 18,
+                alignSelf: 'center',
+                color: Colors.white,
+                paddingLeft: 12,
+              }}>
+              ADD TO CART
+            </Text>
+          )}
         </TouchableOpacity>
       </View>
     );

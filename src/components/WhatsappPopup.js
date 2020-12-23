@@ -47,7 +47,7 @@ export default class WhatsappPopup extends Component {
       message: 'I Love you',
     });
     this.setState({markDescription: true});
-    this.po;
+    this.props.hidePopup(false);
   };
   render() {
     return (
@@ -106,11 +106,11 @@ export default class WhatsappPopup extends Component {
               alignItems: 'center',
               backgroundColor: Colors.color2,
               borderRadius: 5,
-              padding: 8,
+              padding: 6,
               marginTop: 20,
             }}
             onPress={() => this.shareImageToWhatsApp()}>
-            <Text style={{fontSize: 20, color: Colors.white}}>Share</Text>
+            <Text style={{fontSize: 18, color: Colors.white}}>Share</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -121,7 +121,7 @@ export default class WhatsappPopup extends Component {
             onPress={() => this.props.hidePopup(false)}>
             <Text
               style={{
-                fontSize: 20,
+                fontSize: 18,
                 color: Colors.color3,
                 textDecorationLine: 'underline',
                 alignSelf: 'center',

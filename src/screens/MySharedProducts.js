@@ -44,173 +44,18 @@ export default class MainLogin extends Component {
   };
 
   render() {
-    const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView style={{marginBottom: SCREEN_HEIGHT / 18}}>
-          <View style={styles.header}>
-            <Image
-              style={{
-                width: 150,
-                height: 60,
-                alignSelf: 'center',
-              }}
-              source={require('../../assets/Logo.png')}
-            />
-            <TouchableOpacity>
-              <TextInput
-                style={[styles.inputStyle]}
-                placeholder="Search by Keyword or Product ID"
-                placeholderTextColor="black"
-                keyboardType="default"
-                returnKeyType="next"
-                onChangeText={(text) => this.setState({email: text})}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <ScrollView
-              horizontal={true}
-              style={{paddingHorizontal: 12, marginTop: 10}}>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
-                </Text>
-              </View>
-            </ScrollView>
-          </View>
-          <View>
-            <FlatList
-              keyExtractor={(item) => item.id}
-              data={data}
-              horizontal
-              pagingEnabled={true}
-              showsHorizontalScrollIndicator={false}
-              renderItem={(item) => (
-                <AdSlider
-                  AdImage={item}
-                  scrollEnabled={true}
-                  navigation={this.props.navigation}
-                />
-              )}
-            />
-          </View>
-          <QualityBanner />
+          <Text
+            style={{
+              paddingHorizontal: 12,
+              fontSize: 16,
+              fontWeight: '500',
+              paddingVertical: 8,
+            }}>
+            Shared at 1 January
+          </Text>
           <TouchableOpacity
             style={styles.productCard}
             onPress={() => this.props.navigation.navigate('ProductDetail')}>
@@ -340,20 +185,9 @@ export default class MainLogin extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
-  },
-  inputStyle: {
-    paddingHorizontal: 10,
-    shadowColor: 'black',
-    borderColor: Colors.color2,
-    borderWidth: 1,
-    paddingVertical: 8,
-    borderRadius: 6,
-    marginHorizontal: 12,
     backgroundColor: Colors.lightGray,
-    marginBottom: 8,
-    color: 'black',
   },
+
   heading: {
     fontSize: 20,
     fontWeight: '600',
@@ -365,7 +199,7 @@ const styles = StyleSheet.create({
   },
   productCard: {
     backgroundColor: Colors.white,
-    borderTopWidth: 1,
+    borderBottomWidth: 1,
     borderColor: Colors.color5,
     paddingVertical: 8,
     marginBottom: 8,
