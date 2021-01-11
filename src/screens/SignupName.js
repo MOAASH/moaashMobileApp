@@ -13,13 +13,21 @@ import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 
+@inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      name: '',
+    };
   }
 
   componentDidMount = async () => {
     console.log('Starting the app');
+  };
+  setName = async () => {
+    this.props.User.setName(this.state.name);
+    this.props.navigation.navigate('SignupPhone');
   };
 
   render() {
@@ -35,7 +43,7 @@ export default class MainLogin extends Component {
           keyboardType="default"
           returnKeyType="next"
           autoFocus
-          onChangeText={(text) => this.setState({email: text})}
+          onChangeText={(text) => this.setState({name: text})}
         />
         <TouchableOpacity
           style={{
@@ -46,7 +54,7 @@ export default class MainLogin extends Component {
             marginTop: 60,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('SignupPhone')}>
+          onPress={() => this.setName()}>
           <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
         </TouchableOpacity>
       </ScrollView>

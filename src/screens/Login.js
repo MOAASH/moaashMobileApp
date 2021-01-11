@@ -11,54 +11,74 @@ import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
+import Loader from '../components/Loader';
 
+@inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      phone: '',
+      password: '',
+      loaded: false,
+    };
   }
 
   componentDidMount = async () => {
     console.log('Starting the app');
   };
+  loginUser = async () => {
+    this.setState({loaded: true});
+    let loginUser = await this.props.User.loginUser(
+      this.state.phone,
+      this.state.password,
+    );
+    loginUser === true
+      ? this.props.navigation.navigate('Home')
+      : this.props.navigation.navigate('StartScreen');
+  };
 
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
-          Enter your phone number
-        </Text>
-        <TextInput
-          style={[styles.inputStyle, {marginTop: 10}]}
-          placeholder="Phone"
-          placeholderTextColor="black"
-          keyboardType="default"
-          returnKeyType="next"
-          onChangeText={(text) => this.setState({email: text})}
-        />
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 20}}>
-          Enter your password
-        </Text>
-        <TextInput
-          style={[styles.inputStyle, {marginTop: 10}]}
-          placeholder="Password"
-          placeholderTextColor="black"
-          keyboardType="default"
-          returnKeyType="next"
-          onChangeText={(text) => this.setState({email: text})}
-        />
-        <TouchableOpacity
-          style={{
-            alignItems: 'center',
-            backgroundColor: Colors.color2,
-            marginHorizontal: 80,
-            borderRadius: 200,
-            marginTop: 60,
-            padding: 16,
-          }}
-          onPress={() => this.props.navigation.navigate('Home')}>
-          <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
-        </TouchableOpacity>
-      </ScrollView>
+      <View style={styles.container}>
+        <ScrollView>
+          <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
+            Enter your phone number
+          </Text>
+          <TextInput
+            style={[styles.inputStyle, {marginTop: 10}]}
+            placeholder="Phone"
+            placeholderTextColor="black"
+            keyboardType="default"
+            returnKeyType="next"
+            onChangeText={(text) => this.setState({phone: text})}
+          />
+          <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 20}}>
+            Enter your password
+          </Text>
+          <TextInput
+            style={[styles.inputStyle, {marginTop: 10}]}
+            placeholder="Password"
+            placeholderTextColor="black"
+            keyboardType="default"
+            returnKeyType="next"
+            onChangeText={(text) => this.setState({password: text})}
+          />
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              backgroundColor: Colors.color2,
+              marginHorizontal: 80,
+              borderRadius: 200,
+              marginTop: 60,
+              padding: 16,
+            }}
+            onPress={() => this.loginUser()}>
+            <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
+          </TouchableOpacity>
+        </ScrollView>
+        {this.state.loaded && <Loader />}
+      </View>
     );
   }
 }

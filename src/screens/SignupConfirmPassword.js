@@ -7,19 +7,34 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
-
+@inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      password: '',
+    };
   }
 
   componentDidMount = async () => {
     console.log('Starting the app');
+  };
+  registerUser = async () => {
+    if (this.state.password !== this.props.User.password) {
+      Alert.alert('Passwords do not match');
+      this.props.navigation.navigate('SignupPassword');
+    } else {
+      let registerUser = await this.props.User.registerUser();
+      registerUser === true
+        ? this.props.navigation.navigate('Home')
+        : this.props.navigation.navigate('StartScreen');
+    }
   };
 
   render() {
@@ -35,7 +50,7 @@ export default class MainLogin extends Component {
           keyboardType="default"
           returnKeyType="next"
           autoFocus
-          onChangeText={(text) => this.setState({email: text})}
+          onChangeText={(text) => this.setState({password: text})}
         />
         <TouchableOpacity
           style={{
@@ -46,7 +61,7 @@ export default class MainLogin extends Component {
             marginTop: 60,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('Home')}>
+          onPress={() => this.registerUser()}>
           <Text style={{fontSize: 20, color: Colors.white}}>
             Create Account
           </Text>

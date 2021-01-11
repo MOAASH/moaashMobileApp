@@ -4,7 +4,7 @@ import Colors from '../utils/colors';
 
 const Loader = ({style}) => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color={Colors.PRIMARY} />
+    <ActivityIndicator size="large" color={'#0ff'} />
   </View>
 );
 

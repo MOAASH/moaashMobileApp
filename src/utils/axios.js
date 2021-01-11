@@ -1,5 +1,5 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default axios.create({
-  baseURL: "http://www.apni-sawari.com",
+  baseURL: 'http://www.ahmedcollection.com/api/v1/',
 });

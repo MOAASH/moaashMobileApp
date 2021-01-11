@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.12.12",
     "@react-native-community/masked-view": "^0.1.10",
     "axios": "^0.20.0",
     "mobx": "^6.0.1",
@@ -28,7 +29,9 @@
     "react-navigation-tabs": "^2.10.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.6",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
     "@babel/runtime": "^7.11.2",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.5.2",

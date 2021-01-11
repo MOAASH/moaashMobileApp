@@ -159,8 +159,14 @@ Profile.navigationOptions = ({navigation}) => {
     tabBarVisible,
   };
 };
-
+// const SwitchNavigation = createSwitchNavigator({});
 const AppNavigator = createStackNavigator({
+  // Start: {
+  //   screen: SwitchNavigation,
+  //   navigationOptions: {
+  //     headerShown: false,
+  //   },
+  // },
   StartScreen: {
     screen: StartScreen,
     navigationOptions: {
