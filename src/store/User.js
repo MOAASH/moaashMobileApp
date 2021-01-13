@@ -6,6 +6,7 @@ class User {
   @observable Name = '';
   @observable phoneNumber = '';
   @observable password = '';
+  @observable userInformation = {};
 
   constructor() {}
   setName = (name) => {
@@ -59,6 +60,7 @@ class User {
       })
       .then((response) => {
         console.log('signin Response-> ' + JSON.stringify(response.data));
+        this.userInformation = response.data.data;
 
         k = true;
         return k;
@@ -67,6 +69,26 @@ class User {
         console.log('bari zor ka error wajja hai signin per ' + error);
       });
     return k;
+  };
+  @action
+  updateBankDetails = async () => {
+    let k = false;
+    console.log('Updating Bank Details');
+    await axios
+      .patch('/users/sign_in', {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('signin Response-> ' + JSON.stringify(response.data));
+
+        k = true;
+        return k;
+      })
+      .catch((error) => {
+        console.log('bari zor ka error wajja hai signin per ' + error);
+      });
   };
 }
 

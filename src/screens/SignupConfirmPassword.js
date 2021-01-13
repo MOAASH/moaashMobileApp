@@ -13,12 +13,14 @@ import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
+import Loader from '../components/Loader';
 @inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       password: '',
+      loaded: false,
     };
   }
 
@@ -26,11 +28,13 @@ export default class MainLogin extends Component {
     console.log('Starting the app');
   };
   registerUser = async () => {
+    this.setState({loaded: true});
     if (this.state.password !== this.props.User.password) {
       Alert.alert('Passwords do not match');
       this.props.navigation.navigate('SignupPassword');
     } else {
       let registerUser = await this.props.User.registerUser();
+      this.setState({loaded: false});
       registerUser === true
         ? this.props.navigation.navigate('Home')
         : this.props.navigation.navigate('StartScreen');
@@ -66,6 +70,7 @@ export default class MainLogin extends Component {
             Create Account
           </Text>
         </TouchableOpacity>
+        {this.state.loaded && <Loader />}
       </ScrollView>
     );
   }

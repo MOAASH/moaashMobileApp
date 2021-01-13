@@ -6,6 +6,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
@@ -33,9 +34,14 @@ export default class MainLogin extends Component {
       this.state.phone,
       this.state.password,
     );
-    loginUser === true
-      ? this.props.navigation.navigate('Home')
-      : this.props.navigation.navigate('StartScreen');
+    if (loginUser === true) {
+      this.setState({loaded: false});
+      this.props.navigation.navigate('Home');
+    } else {
+      Alert.alert('Invalid Credentials');
+      this.setState({loaded: false});
+      this.props.navigation.navigate('Login');
+    }
   };
 
   render() {
