@@ -25,6 +25,9 @@ import WhatsappPopup from '../components/WhatsappPopup';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+
+@inject('User')
+@inject('Products')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +52,9 @@ export default class MainLogin extends Component {
     this.setState({added: prop});
   };
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    let getItems = await this.props.Products.getItems();
+  };
 
   render() {
     return (

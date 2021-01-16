@@ -31,8 +31,10 @@ export default class MainLogin extends Component {
   loginUser = async () => {
     this.setState({loaded: true});
     let loginUser = await this.props.User.loginUser(
-      this.state.phone,
-      this.state.password,
+      // this.state.phone,
+      '03218449409',
+      'Hamza123',
+      // this.state.password,
     );
     if (loginUser === true) {
       this.setState({loaded: false});

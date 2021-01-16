@@ -20,6 +20,7 @@ import Orders from './src/screens/Orders';
 import Categories from './src/screens/Categories';
 import Profile from './src/screens/Profile';
 import BankDetails from './src/screens/BankDetails';
+import ItemGroupDetails from './src/screens/ItemGroupDetails';
 import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
@@ -228,6 +229,17 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  ItemGroupDetails: {
+    screen: ItemGroupDetails,
+    navigationOptions: {
+      title: 'Catalogue',
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
   BankDetails: {
     screen: BankDetails,
     navigationOptions: {
@@ -346,23 +358,23 @@ const AppNavigator = createStackNavigator({
   },
 });
 const testNavigator = createStackNavigator({
-  // Login: {
-  //   screen: Profile,
-  //   navigationOptions: {
-  //     headerShown: false,
-  //   },
-  // },
-  ProductDetail: {
-    screen: ProductDetail,
+  Login: {
+    screen: Home,
     navigationOptions: {
-      title: 'Product Detail',
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
+      headerShown: false,
     },
   },
+  // ProductDetail: {
+  //   screen: ProductDetail,
+  //   navigationOptions: {
+  //     title: 'Product Detail',
+  //     headerTintColor: 'white',
+  //     headerBackTitleVisible: false,
+  //     headerStyle: {
+  //       backgroundColor: Colors.color2,
+  //     },
+  //   },
+  // },
   // SignupName: {
   //   screen: ReferralEarn,
   //   navigationOptions: {
