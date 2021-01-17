@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import HTML from 'react-native-render-html';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -25,12 +26,22 @@ export default class QualityBanner extends Component {
           paddingHorizontal: 16,
           paddingVertical: 8,
         }}>
-        <Text style={{fontSize: 16, marginBottom: 12, fontWeight: '600'}}>
-          Product Details
-        </Text>
-        <Text>Shirt Fabric: Cotton</Text>
-        <Text>Shirt Color: Red, Yellow, Green</Text>
-        <Text>Sizes: Small, Medium, Large</Text>
+        <Text style={{fontSize: 16, fontWeight: '600'}}>Product Details</Text>
+        <HTML
+          source={{
+            html: this.props.description,
+          }}
+          contentWidth={SCREEN_WIDTH}
+          style={{fontSize: 18, fontWeight: '600'}}
+          containerStyle={{paddingTop: 12}}
+          tagsStyles={
+            (div = {
+              textAlign: 'center',
+              fontStyle: 'italic',
+              color: 'grey',
+            })
+          }
+        />
       </View>
     );
   }

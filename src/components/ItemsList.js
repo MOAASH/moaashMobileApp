@@ -17,39 +17,44 @@ export default class ItemGroupList extends Component {
     super(props);
     const {Products} = this.props;
     this.state = {
-      //   id: Products.item.id,
-      //   attributes: Products.item.attributes,
+      name: Products.item.name,
+      data: Products.item.data,
+      images: Products.item.images,
+      price: Products.item.data[0].price,
     };
   }
   componentDidMount = async () => {
-    console.log('item group items ', this.props.Products.item);
+    console.log('item group name ', this.props.Products.item.name);
+    console.log('item group price ', this.props.Products.item.images[0]);
   };
   render() {
-    // const images = this.state.attributes.items_images;
+    const images = this.state.images;
     return (
       <TouchableOpacity
         style={styles.productCard}
-        onPress={() => this.props.navigation.navigate('ItemGroupDetails', {})}>
+        onPress={() =>
+          this.props.navigation.navigate('ProductDetail', {
+            details: this.props.Products.item,
+          })
+        }>
         <View
           style={{
             flexDirection: 'row',
             height: 220,
             justifyContent: 'space-evenly',
           }}>
-          {/* <Image
+          <Image
             style={{
               width: Dimensions.get('screen').width,
               height: 210,
               marginTop: 20,
             }}
             source={{uri: images[0]}}
-          /> */}
+          />
         </View>
         <View style={{marginTop: 20, paddingHorizontal: 16}}>
-          {/* <Text style={{fontSize: 18}}>{this.state.attributes.name}</Text> */}
-          <Text style={{fontSize: 16}}>
-            {/* PKR {this.state.attributes.starting_price} */}
-          </Text>
+          <Text style={{fontSize: 18}}>{this.state.name}</Text>
+          <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
           <View
             style={{
               flexDirection: 'row',

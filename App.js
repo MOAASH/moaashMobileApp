@@ -359,7 +359,7 @@ const AppNavigator = createStackNavigator({
 });
 const testNavigator = createStackNavigator({
   Login: {
-    screen: Home,
+    screen: ProductDetail,
     navigationOptions: {
       headerShown: false,
     },

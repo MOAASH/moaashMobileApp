@@ -28,7 +28,7 @@ export default class SoldBy extends Component {
         <Text style={{fontSize: 16, marginBottom: 12, fontWeight: '600'}}>
           Sold By
         </Text>
-        <Text>XYZ Textiles</Text>
+        <Text>{this.props.companyName}</Text>
       </View>
     );
   }

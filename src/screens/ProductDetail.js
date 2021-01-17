@@ -21,6 +21,7 @@ import ProductDetailsDescription from '../components/ProductDetailsDescription';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
 import SoldBy from '../components/SoldBy';
+import Loader from '../components/Loader';
 import WhatsappPopup from '../components/WhatsappPopup';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
@@ -35,6 +36,10 @@ export default class MainLogin extends Component {
       addToCart: false,
       added: false,
       sharing: false,
+      loaded: true,
+      ItemGroupDetail: {},
+      ProductDetailsData: {},
+      ProductDetailsImages: {},
     };
   }
   shareProduct = async () => {
@@ -53,10 +58,27 @@ export default class MainLogin extends Component {
   };
 
   componentDidMount = async () => {
-    let getItems = await this.props.Products.getItems();
+    this.setState({
+      ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
+      name: this.props.navigation.state.params.details.name,
+      ProductDetailsData: this.props.navigation.state.params.details.data,
+      price: this.props.navigation.state.params.details.data[0].price,
+      ProductDetailsImages: this.props.navigation.state.params.details.images,
+      loaded: false,
+    });
+    console.log(
+      'product detail data is ',
+      this.props.navigation.state.params.details,
+    );
+    console.log(
+      'item group is ',
+      this.props.Products.currentItemGroup.attributes,
+    );
+    // let getItems = await this.props.Products.getItems();
   };
 
   render() {
+    const images = this.state.ProductDetailsImages;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: Colors.lightGray}}>
         <ScrollView style={{marginBottom: SCREEN_HEIGHT / 30}}>
@@ -69,12 +91,12 @@ export default class MainLogin extends Component {
                   marginTop: 20,
                   alignSelf: 'center',
                 }}
-                source={require('../../assets/shirt1.jpg')}
+                source={{uri: images[0]}}
               />
             </View>
             <View style={{marginTop: 20, paddingHorizontal: 16}}>
-              <Text style={{fontSize: 18}}>Fancy Men Shirt</Text>
-              <Text style={{fontSize: 16}}>PKR 300</Text>
+              <Text style={{fontSize: 18}}>{this.state.name}</Text>
+              <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
               <Text style={{fontSize: 10, marginTop: 8, marginBottom: 8}}>
                 Price includes GST
               </Text>
@@ -154,7 +176,9 @@ export default class MainLogin extends Component {
             style={{
               marginTop: 4,
             }}>
-            <ProductDetailsDescription />
+            <ProductDetailsDescription
+              description={this.state.ItemGroupDetail.description}
+            />
           </View>
           <View
             style={{
@@ -166,7 +190,7 @@ export default class MainLogin extends Component {
             style={{
               marginTop: 8,
             }}>
-            <SoldBy />
+            <SoldBy companyName={this.state.ItemGroupDetail.company} />
           </View>
         </ScrollView>
         <ShareAndCartButton
@@ -181,6 +205,7 @@ export default class MainLogin extends Component {
           />
         )}
         {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
+        {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
   }

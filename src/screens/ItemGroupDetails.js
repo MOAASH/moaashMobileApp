@@ -30,39 +30,41 @@ const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 @inject('Products')
-export default class Home extends Component {
+export default class ItemGroupDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loaded: true,
       sharing: false,
       itemsData: {},
       itemGroupData: {},
-      loaded: true,
     };
   }
 
   componentDidMount = async () => {
+    this.setState({loaded: true});
     console.log(
       'item group details and items are ',
       this.props.navigation.state.params.groupID,
     );
-    // console.log('result is  ', result);
 
     this.getItemGroups();
   };
   getItemGroups = async () => {
-    let gettingItem = await this.props.Products.getItems(
+    let [
+      gettingItem,
+      currentItemGroup,
+      Items,
+    ] = await this.props.Products.getItems(
       this.props.navigation.state.params.groupID,
     );
-    console.log(
-      'item data ',
-      this.props.Products.items.item_group_data.data.attributes.name,
-    );
+    console.log('item group data ', currentItemGroup);
     this.setState({
-      itemsData: this.props.Products.items.items_data,
-      itemGroupData: this.props.Products.items.item_group_data.data,
-      loaded: false,
+      itemGroupData: currentItemGroup.attributes,
+      itemsData: Items,
     });
+    this.setState({loaded: false});
+    console.log('item name data ', this.state.itemGroupData.name);
   };
   shareProduct = async () => {
     this.setState({sharing: true});
@@ -74,16 +76,15 @@ export default class Home extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={{marginBottom: SCREEN_HEIGHT / 18}}>
+        <ScrollView>
           <View style={{paddingHorizontal: 12, paddingTop: 12}}>
             <Text style={{fontSize: 18, fontWeight: '600'}}>
-              {this.props.Products.items.item_group_data.data.attributes.name}
+              {this.state.itemGroupData.name}
             </Text>
             <Text style={{fontSize: 18, fontWeight: '600'}}>
               <HTML
                 source={{
-                  html: this.props.Products.items.item_group_data.data
-                    .attributes.description,
+                  html: this.state.itemGroupData.description,
                 }}
                 contentWidth={SCREEN_WIDTH}
                 style={{fontSize: 18, fontWeight: '600'}}
@@ -100,7 +101,7 @@ export default class Home extends Component {
           </View>
           <FlatList
             keyExtractor={(item) => item.id}
-            data={this.props.Products.items.items_data}
+            data={this.state.itemsData}
             renderItem={(item) => (
               <ItemsList
                 Products={item}
@@ -110,8 +111,8 @@ export default class Home extends Component {
             )}
           />
         </ScrollView>
-        {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
         {this.state.loaded && <Loader />}
+        {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
       </SafeAreaView>
     );
   }
