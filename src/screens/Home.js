@@ -84,10 +84,10 @@ export default class Home extends Component {
             <ScrollView
               horizontal={true}
               style={{paddingHorizontal: 12, marginTop: 10}}>
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="male"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -98,14 +98,14 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
+                  Men
                 </Text>
               </View>
 
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="female"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -116,13 +116,13 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
+                  Women
                 </Text>
               </View>
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="child"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -133,13 +133,13 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
+                  Kids
                 </Text>
               </View>
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="shopping-bag"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -150,13 +150,13 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
+                  Shoes & Bags
                 </Text>
               </View>
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="bed"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -167,13 +167,22 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
+                  Home
+                </Text>
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    fontSize: 11,
+                    color: Colors.color2,
+                  }}>
+                  {' '}
+                  Accessories
                 </Text>
               </View>
-              <View style={{alignItems: 'center'}}>
+              <View style={{alignItems: 'center', width: 80}}>
                 <FontAwesome
-                  name="list-alt"
-                  size={40}
+                  name="soccer-ball-o"
+                  size={30}
                   style={{fontWeight: '700'}}
                   color={Colors.color1}
                 />
@@ -184,24 +193,7 @@ export default class Home extends Component {
                     color: Colors.color2,
                   }}>
                   {' '}
-                  Categories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center'}}>
-                <FontAwesome
-                  name="list-alt"
-                  size={40}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Categories
+                  Sports
                 </Text>
               </View>
             </ScrollView>

@@ -12,6 +12,7 @@ import {
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from '../components/CustomButton';
 import Loader from '../components/Loader';
 @inject('User')
@@ -21,6 +22,7 @@ export default class MainLogin extends Component {
     this.state = {
       password: '',
       loaded: false,
+      showPassword: true,
     };
   }
 
@@ -40,6 +42,9 @@ export default class MainLogin extends Component {
         : this.props.navigation.navigate('StartScreen');
     }
   };
+  showPassword = async () => {
+    this.setState({showPassword: !this.state.showPassword});
+  };
 
   render() {
     return (
@@ -52,10 +57,16 @@ export default class MainLogin extends Component {
           placeholder="Confirm Password"
           placeholderTextColor="black"
           keyboardType="default"
+          secureTextEntry={this.state.showPassword}
           returnKeyType="next"
           autoFocus
           onChangeText={(text) => this.setState({password: text})}
         />
+        <TouchableOpacity
+          onPress={() => this.showPassword()}
+          style={{position: 'absolute', right: 30, top: 68, zIndex: 2}}>
+          <Ionicons name="ios-eye" size={25} color={Colors.darkGray} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={{
             alignItems: 'center',

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from '../utils/axios';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
@@ -18,11 +19,15 @@ export default class MainLogin extends Component {
     super(props);
     this.state = {
       password: '',
+      showPassword: true,
     };
   }
 
   componentDidMount = async () => {
     console.log('Starting the app');
+  };
+  showPassword = async () => {
+    this.setState({showPassword: !this.state.showPassword});
   };
   setPassword = async () => {
     this.props.User.setPassword(this.state.password);
@@ -38,11 +43,17 @@ export default class MainLogin extends Component {
           style={[styles.inputStyle, {marginTop: 4}]}
           placeholder="Password"
           placeholderTextColor="black"
+          secureTextEntry={this.state.showPassword}
           keyboardType="default"
           returnKeyType="next"
           autoFocus
           onChangeText={(text) => this.setState({password: text})}
         />
+        <TouchableOpacity
+          onPress={() => this.showPassword()}
+          style={{position: 'absolute', right: 30, top: 68, zIndex: 2}}>
+          <Ionicons name="ios-eye" size={25} color={Colors.darkGray} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={{
             alignItems: 'center',
