@@ -64,7 +64,7 @@ export default class ItemGroupDetails extends Component {
       itemsData: Items,
     });
     this.setState({loaded: false});
-    console.log('item name data ', this.state.itemGroupData.name);
+    console.log('items data ', this.state.itemsData);
   };
   shareProduct = async () => {
     this.setState({sharing: true});

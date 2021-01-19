@@ -19,8 +19,12 @@ export default class ItemGroupList extends Component {
     this.state = {
       id: Products.item.id,
       attributes: Products.item.attributes,
+      sharing: false,
     };
   }
+  shareProduct = async () => {
+    this.props.shareProduct(true);
+  };
   componentDidMount = async () => {
     console.log('item group images ', this.state.attributes.items_images[0]);
   };

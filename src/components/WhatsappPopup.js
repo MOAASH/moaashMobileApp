@@ -16,6 +16,8 @@ import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import files from '../components/imageFile64';
 
+@inject('User')
+@inject('Products')
 export default class WhatsappPopup extends Component {
   constructor(props) {
     super(props);
@@ -34,10 +36,8 @@ export default class WhatsappPopup extends Component {
     this.setState({markDescription: !this.state.markDescription});
   };
   shareImageToWhatsApp = async () => {
-    // Linking.openURL(`whatsapp://send?text=${text}`);
     await Share.open({
       urls: [files.image1, files.image2],
-      // message: 'I Love you',
     });
     this.setState({markImage: true});
     this.shareTextToWhatsapp();
@@ -62,7 +62,7 @@ export default class WhatsappPopup extends Component {
             Share product images and description
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
+            <View
               style={{paddingTop: 8}}
               onPress={() => this.markOptionImage()}>
               {this.state.markImage == true ? (
@@ -70,7 +70,7 @@ export default class WhatsappPopup extends Component {
               ) : (
                 <Ionicons name="ellipse-outline" size={25} />
               )}
-            </TouchableOpacity>
+            </View>
             <Text
               style={{
                 fontSize: 16,
@@ -82,7 +82,7 @@ export default class WhatsappPopup extends Component {
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
+            <View
               style={{paddingTop: 8}}
               onPress={() => this.markOptionDescription()}>
               {this.state.markDescription == true ? (
@@ -90,7 +90,7 @@ export default class WhatsappPopup extends Component {
               ) : (
                 <Ionicons name="ellipse-outline" size={25} />
               )}
-            </TouchableOpacity>
+            </View>
             <Text
               style={{
                 fontSize: 16,

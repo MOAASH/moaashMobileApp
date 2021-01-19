@@ -40,6 +40,11 @@ export default class MainLogin extends Component {
       ItemGroupDetail: {},
       ProductDetailsData: {},
       ProductDetailsImages: {},
+      price: '',
+      name: '',
+      sizes: [],
+      selectedItem: '',
+      selectedQuantity: 1,
     };
   }
   shareProduct = async () => {
@@ -53,8 +58,13 @@ export default class MainLogin extends Component {
     this.setState({addToCart: prop});
   };
   addedtoCart = async (prop) => {
-    console.log('Product added to cart' + prop);
-    this.setState({added: prop});
+    var index = this.state.sizes.indexOf(prop[1]);
+    this.setState({
+      added: prop,
+      selectedItem: this.props.navigation.state.params.details.data[index]
+        .item_id,
+      selectedQuantity: prop[2],
+    });
   };
 
   componentDidMount = async () => {
@@ -66,17 +76,20 @@ export default class MainLogin extends Component {
       ProductDetailsImages: this.props.navigation.state.params.details.images,
       loaded: false,
     });
-    console.log(
-      'product detail data is ',
-      this.props.navigation.state.params.details,
+    let result = this.props.navigation.state.params.details.data.map(
+      (a) => a.size,
     );
+    this.setState({sizes: result});
+    console.log('result is ', result);
     console.log(
       'item group is ',
       this.props.Products.currentItemGroup.attributes,
     );
-    // let getItems = await this.props.Products.getItems();
   };
 
+  loading = async (loading) => {
+    this.setState({loaded: loading});
+  };
   render() {
     const images = this.state.ProductDetailsImages;
     return (
@@ -195,13 +208,17 @@ export default class MainLogin extends Component {
         </ScrollView>
         <ShareAndCartButton
           addToCart={this.addToCart}
-          checkout={this.state.added}
+          checkout={this.state.added[0]}
           navigation={this.props.navigation}
+          quantity={this.state.selectedQuantity}
+          itemID={this.state.selectedItem}
+          loading={this.loading}
         />
         {this.state.addToCart && (
           <SelectSizePopup
             addedtoCart={this.addedtoCart}
             addToCart={this.addToCart}
+            sizes={this.state.sizes}
           />
         )}
         {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}

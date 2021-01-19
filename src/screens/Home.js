@@ -223,6 +223,7 @@ export default class Home extends Component {
                 Products={item}
                 scrollEnabled={false}
                 navigation={this.props.navigation}
+                shareProduct={this.shareProduct}
               />
             )}
           />
