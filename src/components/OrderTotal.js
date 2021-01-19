@@ -15,6 +15,10 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class QualityBanner extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      totalAmount:
+        parseInt(this.props.totalAmount) + parseInt(this.props.shippingCharges),
+    };
   }
 
   render() {
@@ -32,7 +36,7 @@ export default class QualityBanner extends Component {
             paddingVertical: 4,
           }}>
           <Text style={{fontSize: 16}}>Product Charges:</Text>
-          <Text style={{fontSize: 16}}>PKR 300</Text>
+          <Text style={{fontSize: 16}}>PKR {this.props.totalAmount}</Text>
         </View>
         <View
           style={{
@@ -41,7 +45,7 @@ export default class QualityBanner extends Component {
             paddingVertical: 4,
           }}>
           <Text style={{fontSize: 16}}>Shipping Charges:</Text>
-          <Text style={{fontSize: 16}}>PKR 30</Text>
+          <Text style={{fontSize: 16}}>PKR {this.props.shippingCharges}</Text>
         </View>
         <View
           style={{
@@ -55,7 +59,7 @@ export default class QualityBanner extends Component {
             Total Amount
           </Text>
           <Text style={{fontSize: 16, marginBottom: 12, fontWeight: '600'}}>
-            PKR 330
+            PKR {this.state.totalAmount}
           </Text>
         </View>
       </View>

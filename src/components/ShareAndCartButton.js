@@ -15,6 +15,7 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
 @inject('Products')
+@inject('Cart')
 export default class QualityBanner extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +24,20 @@ export default class QualityBanner extends Component {
     };
   }
   onButtonPress = async () => {
+    console.log('Going to checkout');
     if (this.props.checkout === true) {
       this.props.loading(true);
-      this.props.navigation.navigate('Checkout');
+      let createInvoice = await this.props.Cart.createInvoice(
+        this.props.User.userInformation.attributes.authentication_token,
+        this.props.Products.companyDetails.id,
+        this.props.selectedQuantity,
+        this.props.selectedItem,
+      );
+      if (createInvoice) {
+        console.log('checkouting jaanu');
+        this.props.loading(false);
+        this.props.navigation.navigate('Checkout');
+      }
     } else {
       this.props.addToCart(true);
     }

@@ -33,15 +33,22 @@ export default class CustomButton extends Component {
       <View style={{alignItems: 'flex-start'}}>
         <TouchableOpacity
           style={{
-            borderColor: this.state.selected ? 'green' : Colors.color2,
+            borderColor: Colors.color2,
             borderRadius: 20,
+            backgroundColor: this.state.selected ? Colors.color2 : Colors.white,
             borderWidth: 2,
             paddingVertical: 8,
             paddingHorizontal: 12,
             marginHorizontal: 8,
           }}
           onPress={() => this.select(this.state.size)}>
-          <Text style={{fontSize: 18}}>{this.state.size}</Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: this.state.selected ? Colors.white : 'black',
+            }}>
+            {this.state.size}
+          </Text>
         </TouchableOpacity>
       </View>
     );

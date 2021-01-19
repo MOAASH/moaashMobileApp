@@ -43,7 +43,7 @@ export default class MainLogin extends Component {
       price: '',
       name: '',
       sizes: [],
-      selectedItem: '',
+      selectedItem: 0,
       selectedQuantity: 1,
     };
   }
@@ -210,8 +210,8 @@ export default class MainLogin extends Component {
           addToCart={this.addToCart}
           checkout={this.state.added[0]}
           navigation={this.props.navigation}
-          quantity={this.state.selectedQuantity}
-          itemID={this.state.selectedItem}
+          selectedQuantity={this.state.selectedQuantity}
+          selectedItem={this.state.selectedItem}
           loading={this.loading}
         />
         {this.state.addToCart && (

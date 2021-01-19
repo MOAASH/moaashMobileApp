@@ -21,6 +21,9 @@ import SoldBy from '../components/SoldBy';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+@inject('User')
+@inject('Products')
+@inject('Cart')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +39,10 @@ export default class MainLogin extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <OrderTotal />
+        <OrderTotal
+          totalAmount={this.props.Cart.invoiceDetail.net_amount}
+          shippingCharges={50}
+        />
         <View
           style={{
             marginTop: 12,

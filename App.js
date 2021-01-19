@@ -70,6 +70,18 @@ const MainTabs = createBottomTabNavigator(
         ),
       },
     },
+    Cart: {
+      screen: Checkout,
+      navigationOptions: {
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="shopping-cart"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
+      },
+    },
     Profile: {
       screen: Profile,
       navigationOptions: {
