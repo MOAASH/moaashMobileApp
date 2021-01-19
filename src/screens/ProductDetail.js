@@ -21,10 +21,14 @@ import ProductDetailsDescription from '../components/ProductDetailsDescription';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
 import SoldBy from '../components/SoldBy';
+import Loader from '../components/Loader';
 import WhatsappPopup from '../components/WhatsappPopup';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+
+@inject('User')
+@inject('Products')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +36,15 @@ export default class MainLogin extends Component {
       addToCart: false,
       added: false,
       sharing: false,
+      loaded: true,
+      ItemGroupDetail: {},
+      ProductDetailsData: {},
+      ProductDetailsImages: {},
+      price: '',
+      name: '',
+      sizes: [],
+      selectedItem: '',
+      selectedQuantity: 1,
     };
   }
   shareProduct = async () => {
@@ -45,13 +58,40 @@ export default class MainLogin extends Component {
     this.setState({addToCart: prop});
   };
   addedtoCart = async (prop) => {
-    console.log('Product added to cart' + prop);
-    this.setState({added: prop});
+    var index = this.state.sizes.indexOf(prop[1]);
+    this.setState({
+      added: prop,
+      selectedItem: this.props.navigation.state.params.details.data[index]
+        .item_id,
+      selectedQuantity: prop[2],
+    });
   };
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    this.setState({
+      ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
+      name: this.props.navigation.state.params.details.name,
+      ProductDetailsData: this.props.navigation.state.params.details.data,
+      price: this.props.navigation.state.params.details.data[0].price,
+      ProductDetailsImages: this.props.navigation.state.params.details.images,
+      loaded: false,
+    });
+    let result = this.props.navigation.state.params.details.data.map(
+      (a) => a.size,
+    );
+    this.setState({sizes: result});
+    console.log('result is ', result);
+    console.log(
+      'item group is ',
+      this.props.Products.currentItemGroup.attributes,
+    );
+  };
 
+  loading = async (loading) => {
+    this.setState({loaded: loading});
+  };
   render() {
+    const images = this.state.ProductDetailsImages;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: Colors.lightGray}}>
         <ScrollView style={{marginBottom: SCREEN_HEIGHT / 30}}>
@@ -64,12 +104,12 @@ export default class MainLogin extends Component {
                   marginTop: 20,
                   alignSelf: 'center',
                 }}
-                source={require('../../assets/shirt1.jpg')}
+                source={{uri: images[0]}}
               />
             </View>
             <View style={{marginTop: 20, paddingHorizontal: 16}}>
-              <Text style={{fontSize: 18}}>Fancy Men Shirt</Text>
-              <Text style={{fontSize: 16}}>PKR 300</Text>
+              <Text style={{fontSize: 18}}>{this.state.name}</Text>
+              <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
               <Text style={{fontSize: 10, marginTop: 8, marginBottom: 8}}>
                 Price includes GST
               </Text>
@@ -149,7 +189,9 @@ export default class MainLogin extends Component {
             style={{
               marginTop: 4,
             }}>
-            <ProductDetailsDescription />
+            <ProductDetailsDescription
+              description={this.state.ItemGroupDetail.description}
+            />
           </View>
           <View
             style={{
@@ -161,21 +203,26 @@ export default class MainLogin extends Component {
             style={{
               marginTop: 8,
             }}>
-            <SoldBy />
+            <SoldBy companyName={this.state.ItemGroupDetail.company} />
           </View>
         </ScrollView>
         <ShareAndCartButton
           addToCart={this.addToCart}
-          checkout={this.state.added}
+          checkout={this.state.added[0]}
           navigation={this.props.navigation}
+          quantity={this.state.selectedQuantity}
+          itemID={this.state.selectedItem}
+          loading={this.loading}
         />
         {this.state.addToCart && (
           <SelectSizePopup
             addedtoCart={this.addedtoCart}
             addToCart={this.addToCart}
+            sizes={this.state.sizes}
           />
         )}
         {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
+        {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
   }

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 import Loader from '../components/Loader';
@@ -22,17 +23,23 @@ export default class MainLogin extends Component {
       phone: '',
       password: '',
       loaded: false,
+      showPassword: true,
     };
   }
 
   componentDidMount = async () => {
     console.log('Starting the app');
   };
+  showPassword = async () => {
+    this.setState({showPassword: !this.state.showPassword});
+  };
   loginUser = async () => {
     this.setState({loaded: true});
     let loginUser = await this.props.User.loginUser(
-      this.state.phone,
-      this.state.password,
+      // this.state.phone,
+      '03218449409',
+      'Hamza123',
+      // this.state.password,
     );
     if (loginUser === true) {
       this.setState({loaded: false});
@@ -66,10 +73,16 @@ export default class MainLogin extends Component {
             style={[styles.inputStyle, {marginTop: 10}]}
             placeholder="Password"
             placeholderTextColor="black"
+            secureTextEntry={this.state.showPassword}
             keyboardType="default"
             returnKeyType="next"
             onChangeText={(text) => this.setState({password: text})}
           />
+          <TouchableOpacity
+            onPress={() => this.showPassword()}
+            style={{position: 'absolute', right: 30, top: 180, zIndex: 2}}>
+            <Ionicons name="ios-eye" size={25} color={Colors.darkGray} />
+          </TouchableOpacity>
           <TouchableOpacity
             style={{
               alignItems: 'center',

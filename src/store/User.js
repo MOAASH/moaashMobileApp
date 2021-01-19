@@ -59,7 +59,7 @@ class User {
         },
       })
       .then((response) => {
-        console.log('signin Response-> ' + JSON.stringify(response.data));
+        console.log('signin Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
 
         k = true;
@@ -77,7 +77,7 @@ class User {
     await axios
       .patch('/users/sign_in', {
         headers: {
-          Authorization: `Basic ${token}`,
+          Authorization: `Token ${token}`,
         },
       })
       .then((response) => {

@@ -12,6 +12,9 @@ import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+
+@inject('User')
+@inject('Products')
 export default class QualityBanner extends Component {
   constructor(props) {
     super(props);
@@ -20,9 +23,12 @@ export default class QualityBanner extends Component {
     };
   }
   onButtonPress = async () => {
-    this.props.checkout
-      ? this.props.navigation.navigate('Checkout')
-      : this.props.addToCart(true);
+    if (this.props.checkout === true) {
+      this.props.loading(true);
+      this.props.navigation.navigate('Checkout');
+    } else {
+      this.props.addToCart(true);
+    }
   };
   render() {
     return (
