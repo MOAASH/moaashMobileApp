@@ -43,6 +43,7 @@ export default class Home extends Component {
     this.getItemGroups();
   };
   getItemGroups = async () => {
+    console.log("thisssssss"+JSON.stringify(this.props.User.userInformation.attributes))
     let gettingItemGroup = await this.props.Products.getItemGroups(
       this.props.User.userInformation.attributes.authentication_token,
     );
