@@ -6,6 +6,7 @@ class Products {
   @observable itemGroups = {};
   @observable currentItemGroup = {};
   @observable items = {};
+  @observable companyDetails = {};
 
   @observable userToken = '';
 
@@ -50,7 +51,9 @@ class Products {
         this.items = response.data.items_data;
         items = response.data.items_data;
         this.currentItemGroup = response.data.item_group_data.data;
+        this.companyDetails = response.data.company.data;
         currentItemGroup = response.data.item_group_data.data;
+
         k = true;
         return [k, currentItemGroup, items];
       })

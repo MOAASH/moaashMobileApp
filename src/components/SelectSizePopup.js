@@ -65,7 +65,7 @@ export default class WhatsappPopup extends Component {
                 fontWeight: '600',
                 paddingVertical: 20,
               }}>
-              Select Size
+              Select 1 size only:
             </Text>
             <FlatList
               numColumns={8}
