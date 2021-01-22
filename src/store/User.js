@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 
 class User {
   @observable Name = '';
-  @observable phoneNumber = '';
+  @observable phoneNumber = "100000";
   @observable password = '';
   @observable userInformation = {};
 

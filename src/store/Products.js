@@ -13,7 +13,7 @@ class Products {
   constructor() {}
   @action
   getItemGroups = async (token) => {
-    let k = false;
+    let response_fetched = false;
     console.log('my token is ', token);
     this.userToken = token;
     await axios
@@ -25,17 +25,17 @@ class Products {
       .then((response) => {
         console.log('itemgroup Response-> ' + JSON.stringify(response.data));
         this.itemGroups = response.data.data;
-        k = true;
-        return k;
+        response_fetched = true;
+        return response_fetched;
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai itemgroups per ' + error);
       });
-    return k;
+    return response_fetched;
   };
   @action
   getItems = async (ID) => {
-    let k = false;
+    let response_fetched = false;
     let currentItemGroup = {};
     let items = {};
 
@@ -54,13 +54,13 @@ class Products {
         this.companyDetails = response.data.company.data;
         currentItemGroup = response.data.item_group_data.data;
 
-        k = true;
+        response_fetched = true;
         return [k, currentItemGroup, items];
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai items per ' + error);
       });
-    return [k, currentItemGroup, items];
+    return [response_fetched, currentItemGroup, items];
   };
 }
 

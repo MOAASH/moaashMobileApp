@@ -12,10 +12,13 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
+
 import {inject} from 'mobx-react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomButton from '../components/CustomButton';
 import FacebookLogo from '../utils/Constants';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ShareAndCartButton from '../components/ShareAndCartButton';
 import ProductDetailsDescription from '../components/ProductDetailsDescription';
 import IconBanner from '../components/IconBanner';
@@ -55,16 +58,22 @@ export default class MainLogin extends Component {
   };
   addToCart = async (prop) => {
     console.log('adding' + prop);
-    this.setState({addToCart: prop});
+    this.setState({addToCart: prop, added: prop});
   };
+  
   addedtoCart = async (prop) => {
-    var index = this.state.sizes.indexOf(prop[1]);
-    this.setState({
-      added: prop,
-      selectedItem: this.props.navigation.state.params.details.data[index]
-        .item_id,
-      selectedQuantity: prop[2],
-    });
+    if (prop == null){
+      this.setState({ added: false })
+    } else {
+      var index = this.state.sizes.indexOf(prop[1]);
+      console.log("--------->",prop)
+      this.setState({
+        added: prop,
+        selectedItem: this.props.navigation.state.params.details.data[index]
+          .item_id,
+        selectedQuantity: prop[2],
+      });
+    }
   };
 
   componentDidMount = async () => {
@@ -97,92 +106,66 @@ export default class MainLogin extends Component {
         <ScrollView style={{marginBottom: SCREEN_HEIGHT / 30}}>
           <View style={styles.productCard}>
             <View>
-              <Image
-                style={{
-                  width: Dimensions.get('screen').width / 2,
-                  height: 210,
-                  marginTop: 20,
-                  alignSelf: 'center',
-                }}
-                source={{uri: images[0]}}
-              />
-            </View>
-            <View style={{marginTop: 20, paddingHorizontal: 16}}>
-              <Text style={{fontSize: 18}}>{this.state.name}</Text>
-              <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
-              <Text style={{fontSize: 10, marginTop: 8, marginBottom: 8}}>
-                Price includes GST
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.lightGray,
-                  padding: 4,
-                  width: 150,
-                }}>
-                <FontAwesome
-                  name="truck"
-                  size={28}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    paddingLeft: 4,
-                    fontWeight: '600',
-                  }}>
-                  Free Delivery
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.lightGray,
-                  padding: 4,
-                  width: 200,
-                  marginTop: 8,
-                }}>
-                <FontAwesome
-                  name="calendar"
-                  size={12}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    paddingLeft: 4,
-                    fontWeight: '600',
-                  }}>
-                  Delivered in 2 - 3 Days
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: Colors.white,
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: Colors.color2,
-                  marginTop: 20,
-                  flexDirection: 'row',
-                  padding: 8,
-                }}
-                onPress={() => this.shareProduct()}>
-                <FontAwesome
-                  name="share-square"
-                  size={20}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{fontSize: 18, color: Colors.color2, paddingLeft: 12}}>
-                  Share Now
-                </Text>
-              </TouchableOpacity>
+            <View
+          style={{
+            flexDirection: 'row',
+            height: 220,
+            justifyContent: 'space-evenly',
+          }}>
+          <Image
+            resizeMode="contain"
+            style={{
+              width: Dimensions.get('screen').width,
+              height: 210,
+              marginTop: 20,
+            }}
+            source={{uri: images[0]}}
+          />
+        </View>
+        <View style={{marginTop: 20, paddingHorizontal: 12 }}>
+          <Text style={{fontSize: 16, paddingVertical: 6, color: Colors.black, fontFamily: Fonts.regular }}>{this.state.name}</Text>
+          <Text style={{fontSize: 12, paddingVertical: 6, fontFamily: Fonts.light }}>PKR {this.state.price}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: Colors.white,
+            }}>
+            <MaterialCommunityIcons
+              name="truck-outline"
+              size={20}
+              color={Colors.color3}
+            />
+            <Text
+              style={{
+                paddingLeft: 4,
+                color: Colors.color3
+              }}>
+              Free Delivery
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              alignContent: 'center',
+              justifyContent: 'center',
+              borderColor: Colors.color3,
+              borderRadius: 5,
+              borderWidth: 1,
+              marginTop: 20,
+              flexDirection: 'row',
+              padding: 12,
+            }}
+            onPress={() => this.shareProduct()}>
+            <FontAwesome
+              name="share-square-o"
+              size={20}
+              color={Colors.color3}
+            />
+            <Text style={{fontSize: 18, color: Colors.color3, paddingLeft: 12, fontFamily: Fonts.regular}}>
+              Share Now
+            </Text>
+          </TouchableOpacity>
+        </View>
             </View>
           </View>
           <View
@@ -236,8 +219,6 @@ const styles = StyleSheet.create({
   },
   productCard: {
     backgroundColor: Colors.white,
-    borderBottomWidth: 1,
-    borderColor: Colors.color5,
     paddingBottom: 12,
     marginBottom: 8,
   },

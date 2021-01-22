@@ -6,6 +6,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Provider as PaperProvider} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FlashMessage from "react-native-flash-message";
 import Colors from './src/utils/colors';
 import stores from './src/store';
 import Splash from './src/screens/Splash';
@@ -369,35 +370,7 @@ const AppNavigator = createStackNavigator({
     },
   },
 });
-const testNavigator = createStackNavigator({
-  Login: {
-    screen: ProductDetail,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  // ProductDetail: {
-  //   screen: ProductDetail,
-  //   navigationOptions: {
-  //     title: 'Product Detail',
-  //     headerTintColor: 'white',
-  //     headerBackTitleVisible: false,
-  //     headerStyle: {
-  //       backgroundColor: Colors.color2,
-  //     },
-  //   },
-  // },
-  // SignupName: {
-  //   screen: ReferralEarn,
-  //   navigationOptions: {
-  //     title: 'Refer and Earn',
-  //     headerTintColor: 'white',
-  //     headerStyle: {
-  //       backgroundColor: Colors.color2,
-  //     },
-  //   },
-  // },
-});
+
 export default class MainApp extends Component {
   render() {
     const App = createAppContainer(AppNavigator);
@@ -405,6 +378,7 @@ export default class MainApp extends Component {
       <Provider {...stores}>
         <PaperProvider>
           <App />
+          <FlashMessage position="bottom" />
         </PaperProvider>
       </Provider>
     );

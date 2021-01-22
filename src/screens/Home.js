@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
   TextInput,
+  Icon,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -38,10 +39,11 @@ export default class Home extends Component {
     };
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     console.log('Home page of the app');
     this.getItemGroups();
   };
+  
   getItemGroups = async () => {
     console.log("thisssssss"+JSON.stringify(this.props.User.userInformation.attributes))
     let gettingItemGroup = await this.props.Products.getItemGroups(
@@ -49,9 +51,11 @@ export default class Home extends Component {
     );
     this.setState({loaded: false});
   };
+  
   shareProduct = async () => {
     this.setState({sharing: true});
   };
+  
   hidePopup = async () => {
     this.setState({sharing: false});
   };
@@ -60,175 +64,68 @@ export default class Home extends Component {
     const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView style={{marginBottom: SCREEN_HEIGHT / 18}}>
-          <View style={styles.header}>
+        <View style={styles.header}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Image
               style={{
                 width: 150,
                 height: 60,
-                alignSelf: 'center',
               }}
-              source={require('../../assets/Logo.png')}
+              source={require('../../assets/logo_english.png')}
             />
-            <TouchableOpacity>
-              <TextInput
-                style={[styles.inputStyle]}
-                placeholder="Search by Keyword or Product ID"
-                placeholderTextColor="black"
-                keyboardType="default"
-                returnKeyType="next"
-                onChangeText={(text) => this.setState({email: text})}
-              />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <ScrollView
-              horizontal={true}
-              style={{paddingHorizontal: 12, marginTop: 10}}>
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="male"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Men
-                </Text>
-              </View>
-
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="female"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Women
-                </Text>
-              </View>
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="child"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Kids
-                </Text>
-              </View>
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="shopping-bag"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Shoes & Bags
-                </Text>
-              </View>
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="bed"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Home
-                </Text>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Accessories
-                </Text>
-              </View>
-              <View style={{alignItems: 'center', width: 80}}>
-                <FontAwesome
-                  name="soccer-ball-o"
-                  size={30}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color1}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontSize: 11,
-                    color: Colors.color2,
-                  }}>
-                  {' '}
-                  Sports
-                </Text>
-              </View>
-            </ScrollView>
-          </View>
-          <View>
-            <FlatList
-              keyExtractor={(item) => item.id}
-              data={data}
-              horizontal
-              pagingEnabled={true}
-              showsHorizontalScrollIndicator={false}
-              renderItem={(item) => (
-                <AdSlider
-                  AdImage={item}
-                  scrollEnabled={true}
-                  navigation={this.props.navigation}
-                />
-              )}
+            <Ionicons
+              name="cart-outline"
+              size={24}
+              style={{paddingRight: 12}}
+              color={Colors.color5}
             />
           </View>
-          <QualityBanner />
+          <TouchableOpacity>
+            <TextInput
+              style={[styles.inputStyle]}
+              placeholder="Search by Keyword or Product ID"
+              placeholderTextColor="black"
+              keyboardType="default"
+              returnKeyType="next"
+              onChangeText={(text) => this.setState({email: text})}
+            />
+          </TouchableOpacity>
+        </View>
+        { !this.state.loaded && (
           <FlatList
-            keyExtractor={(item) => item.id}
-            data={this.props.Products.itemGroups}
-            renderItem={(item) => (
-              <ItemGroupList
-                Products={item}
-                scrollEnabled={false}
-                navigation={this.props.navigation}
-                shareProduct={this.shareProduct}
-              />
-            )}
-          />
-        </ScrollView>
+          ListHeaderComponent={
+            <>
+              <View>
+                <FlatList
+                  keyExtractor={(item) => item.id}
+                  data={data}
+                  horizontal
+                  pagingEnabled={true}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={(item) => (
+                    <AdSlider
+                      AdImage={item}
+                      scrollEnabled={true}
+                      navigation={this.props.navigation}
+                    />
+                  )}
+                />
+              </View>
+              <QualityBanner />
+            </>
+          }
+          keyExtractor={(item) => item.id}
+          data={this.props.Products.itemGroups}
+          renderItem={(item) => (
+            <ItemGroupList
+              Products={item}
+              scrollEnabled={false}
+              navigation={this.props.navigation}
+              shareProduct={this.shareProduct}
+            />
+          )}
+        />
+        )}
         {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
         {this.state.loaded && <Loader />}
       </SafeAreaView>

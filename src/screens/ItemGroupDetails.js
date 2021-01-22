@@ -12,11 +12,13 @@ import {
   FlatList,
   ImageBackground,
 } from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HTML from 'react-native-render-html';
 
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 import CategoriesList from '../components/CategoriesList';
@@ -25,6 +27,7 @@ import QualityBanner from '../components/QualityBanner';
 import WhatsappPopup from '../components/WhatsappPopup';
 import Loader from '../components/Loader';
 import ItemsList from '../components/ItemsList';
+import { showMessage } from "react-native-flash-message";
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -38,6 +41,7 @@ export default class ItemGroupDetails extends Component {
       sharing: false,
       itemsData: {},
       itemGroupData: {},
+      copied_text: ''
     };
   }
 
@@ -48,8 +52,9 @@ export default class ItemGroupDetails extends Component {
       this.props.navigation.state.params.groupID,
     );
 
-    this.getItemGroups();
+    await this.getItemGroups();
   };
+  
   getItemGroups = async () => {
     let [
       gettingItem,
@@ -66,40 +71,71 @@ export default class ItemGroupDetails extends Component {
     this.setState({loaded: false});
     console.log('items data ', this.state.itemsData);
   };
+  
   shareProduct = async () => {
     this.setState({sharing: true});
   };
+  
   hidePopup = async () => {
     this.setState({sharing: false});
   };
+  
+  copyToClipboard = () => {
+    Clipboard.setString(this.state.itemGroupData.description.replace(/<[^>]+>/g, '\n'))
+    showMessage({
+      message: "The description has been copied.",
+      type: "success",
+      icon: "success"
+    });
+  }
+
 
   render() {
     return (
-      <SafeAreaView style={styles.container}>
-        <ScrollView>
-          <View style={{paddingHorizontal: 12, paddingTop: 12}}>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>
-              {this.state.itemGroupData.name}
-            </Text>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>
-              <HTML
-                source={{
-                  html: this.state.itemGroupData.description,
-                }}
-                contentWidth={SCREEN_WIDTH}
-                style={{fontSize: 18, fontWeight: '600'}}
-                containerStyle={{paddingTop: 12}}
-                tagsStyles={
-                  (div = {
-                    textAlign: 'center',
-                    fontStyle: 'italic',
-                    color: 'grey',
-                  })
-                }
-              />
-            </Text>
-          </View>
-          <FlatList
+      <View style={styles.container}>
+        {
+          !this.state.loaded && (
+            <FlatList
+            ListHeaderComponent={
+              <>
+                <View style={{ paddingTop: 12, backgroundColor: Colors.white, margin: 8, borderRadius: 10 }}>
+                  <View style={{ paddingHorizontal: 12 }}>              
+                    <Text style={{fontSize: 18, color: Colors.black, fontFamily: Fonts.regular }}>
+                      {this.state.itemGroupData.name}
+                    </Text>
+                  </View>
+                  <View style={{ paddingHorizontal: 12 }}>
+                    <HTML
+                      source={{
+                        html: this.state.itemGroupData.description ? this.state.itemGroupData.description : " ",
+                      }}
+                      style={{fontSize: 18, color: Colors.Gray }}
+                      containerStyle={{paddingTop: 12}}
+                      tagsStyles={
+                        {div: {
+                          fontFamily: Fonts.extraLight,
+                          color: Colors.black,
+                        }}
+                      }
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', flex: 2 }}>
+                    <View style={{ borderWidth: 1, borderColor: Colors.lightGray, flex: 1, padding: 8, alignItems: 'center' }}>
+                      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => this.copyToClipboard()}>
+                        <FontAwesome name="copy" size={12} color={Colors.color2}/>
+                        <Text style={{ paddingLeft: 4, fontSize: 12, color: Colors.color2, fontFamily: Fonts.regular }}>Copy Details</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <View style={{ borderWidth: 1, borderColor: Colors.lightGray, flex: 1, padding: 8, alignItems: 'center' }}>
+                      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <FontAwesome name="heart-o" size={12} color={Colors.color2}/>
+                        <Text style={{ paddingLeft: 4, fontSize: 12, color: Colors.color2, fontFamily: Fonts.regular }}>Wishlist</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </>
+            }
             keyExtractor={(item) => item.id}
             data={this.state.itemsData}
             renderItem={(item) => (
@@ -110,10 +146,13 @@ export default class ItemGroupDetails extends Component {
               />
             )}
           />
-        </ScrollView>
+          )
+        }
+          
+          
         {this.state.loaded && <Loader />}
         {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
-      </SafeAreaView>
+      </View>
     );
   }
 }
@@ -121,7 +160,7 @@ export default class ItemGroupDetails extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.lightGray,
   },
   inputStyle: {
     paddingHorizontal: 10,

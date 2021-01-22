@@ -9,36 +9,50 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
+import { showMessage } from "react-native-flash-message";
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
 @inject('Products')
 @inject('Cart')
-export default class QualityBanner extends Component {
+export default class ShareAndCardButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
       addToCart: false,
+      checkout: props.checkout
     };
   }
   onButtonPress = async () => {
     console.log('Going to checkout');
     if (this.props.checkout === true) {
       this.props.loading(true);
-      let createInvoice = await this.props.Cart.createInvoice(
+      let [createInvoice, errorMessage] = await this.props.Cart.addToInvoice(
         this.props.User.userInformation.attributes.authentication_token,
         this.props.Products.companyDetails.id,
         this.props.selectedQuantity,
         this.props.selectedItem,
       );
+      this.props.loading(false);
       if (createInvoice) {
         console.log('checkouting jaanu');
-        this.props.loading(false);
         this.props.navigation.navigate('Checkout');
+      } else {
+        if ('quantity' in errorMessage) {
+          console.log("============> YEahh fuck");
+          showMessage({
+            message: `Quantity ${errorMessage['quantity']}`,
+            type: "danger",
+            icon: "danger"
+          });
+        }
+        this.props.addToCart(false);
       }
     } else {
+      console.log("===================")
       this.props.addToCart(true);
     }
   };
@@ -77,6 +91,7 @@ export default class QualityBanner extends Component {
                 alignSelf: 'center',
                 color: Colors.white,
                 paddingLeft: 12,
+                fontFamily: Fonts.bold
               }}>
               Proceed To Checkout
             </Text>
@@ -87,6 +102,7 @@ export default class QualityBanner extends Component {
                 alignSelf: 'center',
                 color: Colors.white,
                 paddingLeft: 12,
+                fontFamily: Fonts.bold
               }}>
               ADD TO CART
             </Text>

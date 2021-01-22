@@ -6,9 +6,12 @@ let Colors = {
   color5: '#b589d6',
   blue: '#4267B2',
   white: 'white',
+  silver: '#C0C0C0',
   lightGray: '#F5F5F5',
+  lightGray2: '#E8E8E8',
   borderGray: '#d3d3d3',
   Gray: 'gray',
+  black: 'black'
 };
 
 export default Colors;

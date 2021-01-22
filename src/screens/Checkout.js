@@ -24,7 +24,7 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 @inject('Products')
 @inject('Cart')
-export default class MainLogin extends Component {
+export default class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {

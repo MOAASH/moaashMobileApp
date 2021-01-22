@@ -93,7 +93,7 @@ export default class MainLogin extends Component {
               padding: 16,
             }}
             onPress={() => this.loginUser()}>
-            <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
+            <Text style={{fontSize: 20, color: Colors.white}}>Login</Text>
           </TouchableOpacity>
         </ScrollView>
         {this.state.loaded && <Loader />}

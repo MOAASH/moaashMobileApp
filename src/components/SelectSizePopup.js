@@ -14,6 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import axios from '../utils/axios';
 import Share from 'react-native-share';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import {inject} from 'mobx-react';
 import files from '../components/imageFile64';
 import SizeCard from '../components/SizeCard';
@@ -23,28 +24,35 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
 @inject('Products')
-export default class WhatsappPopup extends Component {
+export default class SelectSizePopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
       quantity: 1,
       choosenSize: '',
       selected: false,
+      isSizeSelected: {}
     };
   }
   componentDidMount = async () => {
     console.log('size is  ', this.props.sizes);
+    const container = {};
+    let isSizeSelected = this.props.sizes.map( size => {
+      container[size] = false;
+    });
+    await this.setState({ isSizeSelected: container });
+    
   };
   subtract = async () => {
-    if (this.state.quantity < 1) {
-      this.setState({quantity: 0});
-    } else {
+    if (this.state.quantity > 1) {
       this.setState({quantity: this.state.quantity - 1});
     }
   };
   sizeChoosen = async (item) => {
-    console.log('Done baby ', item);
-    this.setState({selected: true, choosenSize: item});
+    var isSizeSelected = this.state.isSizeSelected;
+    isSizeSelected[this.state.choosenSize] = false;
+    isSizeSelected[item] = true;
+    this.setState({selected: true, choosenSize: item, isSizeSelected: isSizeSelected});
   };
   render() {
     return (
@@ -54,7 +62,7 @@ export default class WhatsappPopup extends Component {
         <View
           style={{
             backgroundColor: Colors.white,
-            paddingVertical: 24,
+            paddingBottom: 12,
             width: SCREEN_WIDTH / 1.2,
             paddingHorizontal: 16,
           }}>
@@ -62,52 +70,48 @@ export default class WhatsappPopup extends Component {
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: '600',
+                fontFamily: Fonts.regular,
                 paddingVertical: 20,
               }}>
               Select 1 size only:
             </Text>
-            <FlatList
-              numColumns={8}
-              data={this.props.sizes}
-              renderItem={({item}) => (
-                <SizeCard
-                  size={item}
-                  scrollEnabled={false}
-                  navigation={this.props.navigation}
-                  sizeChoosen={this.sizeChoosen}
-                />
-              )}
-              keyExtractor={(item) => item.id}
-            />
+            {Object.keys(this.state.isSizeSelected).length > 0 && 
+              <FlatList
+                numColumns={8}
+                data={this.props.sizes}
+                renderItem={({item}) => (
+                  <SizeCard
+                    size={item}
+                    scrollEnabled={false}
+                    selected={this.state.isSizeSelected[item]}
+                    navigation={this.props.navigation}
+                    sizeChoosen={this.sizeChoosen}
+                  />
+                )}
+                keyExtractor={(item) => item.id}
+              />
+            }
+            
           </View>
           <View
             style={{
               flexDirection: 'row',
+              alignItems: 'center',
               justifyContent: 'space-between',
               marginTop: 12,
             }}>
-            {this.state.quantity < 0 ? (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: 12,
                   alignSelf: 'center',
-                  fontWeight: '600',
-                  paddingTop: 4,
+                  paddingRight: 10,
+                  fontFamily: Fonts.regular
                 }}>
-                Quantity : 0
+                Quantity
               </Text>
-            ) : (
-              <Text
-                style={{
-                  fontSize: 18,
-                  alignSelf: 'center',
-                  fontWeight: '600',
-                  paddingTop: 4,
-                }}>
-                Quantity : {this.state.quantity}
-              </Text>
-            )}
+              <Text style={{ fontFamily: Fonts.regular }}>{this.state.quantity}</Text>
+            </View>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
                 style={{
@@ -149,7 +153,7 @@ export default class WhatsappPopup extends Component {
                 this.state.quantity,
               ]);
             }}>
-            <Text style={{fontSize: 18, color: Colors.white}}>ADD TO CART</Text>
+            <Text style={{fontSize: 16, color: Colors.white, fontFamily: Fonts.light }}>ADD TO CART</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -161,7 +165,8 @@ export default class WhatsappPopup extends Component {
             <Text
               style={{
                 fontSize: 18,
-                color: Colors.color3,
+                color: Colors.color2,
+                fontFamily: Fonts.light,
                 textDecorationLine: 'underline',
                 alignSelf: 'center',
               }}>
