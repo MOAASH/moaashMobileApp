@@ -8,6 +8,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FlashMessage from "react-native-flash-message";
 import Colors from './src/utils/colors';
+import Fonts from './src/utils/fonts';
 import stores from './src/store';
 import Splash from './src/screens/Splash';
 import StartScreen from './src/screens/StartScreen';
@@ -26,7 +27,7 @@ import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
 import MySharedProducts from './src/screens/MySharedProducts';
-import Checkout from './src/screens/Checkout';
+import Invoice from './src/screens/Invoice';
 import AddMargin from './src/screens/AddMargin';
 import AddShippingAddress from './src/screens/AddShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
@@ -72,7 +73,7 @@ const MainTabs = createBottomTabNavigator(
       },
     },
     Cart: {
-      screen: Checkout,
+      screen: Invoice,
       navigationOptions: {
         tabBarIcon: ({focused}) => (
           <FontAwesome
@@ -192,6 +193,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Login to your account',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -203,6 +207,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Create your account',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -214,6 +221,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Create your account',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -225,6 +235,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Create your account',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -236,6 +249,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Create your account',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -246,6 +262,9 @@ const AppNavigator = createStackNavigator({
     screen: ItemGroupDetails,
     navigationOptions: {
       title: 'Catalogue',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
       headerStyle: {
@@ -257,6 +276,9 @@ const AppNavigator = createStackNavigator({
     screen: BankDetails,
     navigationOptions: {
       title: 'Enter Your Bank Details',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
       headerStyle: {
@@ -268,6 +290,9 @@ const AppNavigator = createStackNavigator({
     screen: Payments,
     navigationOptions: {
       title: 'My Payments',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
       headerStyle: {
@@ -279,6 +304,9 @@ const AppNavigator = createStackNavigator({
     screen: MySharedProducts,
     navigationOptions: {
       title: 'My Shared Products',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
       headerStyle: {
@@ -286,7 +314,7 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
-  ReferralEarn: {
+ReferralEarn: {
     screen: ReferralEarn,
     navigationOptions: {
       title: 'Refer & Earn',
@@ -299,20 +327,15 @@ const AppNavigator = createStackNavigator({
   },
   ProductDetail: {
     screen: ProductDetail,
-    navigationOptions: {
-      title: 'Product Detail',
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
-    },
   },
-  Checkout: {
-    screen: Checkout,
+  Invoice: {
+    screen: Invoice,
     navigationOptions: {
-      title: 'Checkout',
+      title: 'Cart',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -322,8 +345,11 @@ const AppNavigator = createStackNavigator({
   AddMargin: {
     screen: AddMargin,
     navigationOptions: {
-      title: 'Add your profit',
+      title: 'Add your Margin',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -335,6 +361,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Add Shipping Address',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -346,6 +375,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Order Summary',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,
@@ -357,6 +389,9 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Order Placed',
       headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: Colors.color2,

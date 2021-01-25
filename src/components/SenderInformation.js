@@ -12,7 +12,7 @@ import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class QualityBanner extends Component {
+export default class SenderInformation extends Component {
   constructor(props) {
     super(props);
   }

@@ -18,7 +18,7 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 @inject('Products')
 @inject('Cart')
-export default class ShareAndCardButton extends Component {
+export default class AddToCartButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +39,8 @@ export default class ShareAndCardButton extends Component {
       this.props.loading(false);
       if (createInvoice) {
         console.log('checkouting jaanu');
-        this.props.navigation.navigate('Checkout');
+        this.props.addToCart(true);
+
       } else {
         if ('quantity' in errorMessage) {
           console.log("============> YEahh fuck");

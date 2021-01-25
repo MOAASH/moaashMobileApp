@@ -7,12 +7,9 @@ import {
   TouchableOpacity,
   Text,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {inject} from 'mobx-react';
-const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class ItemGroupList extends Component {
+export default class ItemGroupCard extends Component {
   constructor(props) {
     super(props);
     const {Products} = this.props;

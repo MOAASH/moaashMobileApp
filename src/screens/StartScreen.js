@@ -31,12 +31,13 @@ export default class MainLogin extends Component {
             fontSize: 18,
             color: Colors.color1,
             marginBottom: 40,
+            fontFamily: 'Poppins-bold',
             fontWeight: '600',
           }}>
           Pakistan's #1 Online Reselling Platform
         </Text>
         <CustomButton
-          text="Sign up"
+          text="SIGN UP"
           onPress="Signup"
           buttonStyle={{
             alignItems: 'center',
@@ -45,12 +46,12 @@ export default class MainLogin extends Component {
             borderRadius: 10,
             padding: 16,
           }}
-          textStyle={{fontSize: 20, color: Colors.white}}
+          textStyle={{fontSize: 20, color: Colors.white, fontFamily: 'Poppins-Medium'}}
           navigation={this.props.navigation}
           onPress="SignupName"
         />
         <CustomButton
-          text="Log in"
+          text="LOGIN"
           onPress="Login"
           buttonStyle={{
             alignItems: 'center',
@@ -61,7 +62,7 @@ export default class MainLogin extends Component {
             marginTop: 40,
             padding: 16,
           }}
-          textStyle={{fontSize: 20}}
+          textStyle={{fontSize: 20, fontFamily: 'Poppins-Medium'}}
           navigation={this.props.navigation}
           onPress="Login"
         />

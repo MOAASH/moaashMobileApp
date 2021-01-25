@@ -20,7 +20,7 @@ import CategoriesType from '../components/CategoriesType';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class MainLogin extends Component {
+export default class Categories extends Component {
   constructor(props) {
     super(props);
   }

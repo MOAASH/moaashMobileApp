@@ -4,6 +4,7 @@ let Colors = {
   color3: '#804fb3',
   color4: '#9969c7',
   color5: '#b589d6',
+  color6: '#f0e7f6',
   blue: '#4267B2',
   white: 'white',
   silver: '#C0C0C0',

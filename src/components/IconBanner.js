@@ -8,12 +8,9 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {inject} from 'mobx-react';
-const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class IconBanner extends Component {
   constructor(props) {
     super(props);

@@ -8,6 +8,27 @@ class Cart {
   @observable invoiceDetail = '';
 
   constructor() {}
+
+  @action
+  fetchInvoice = async (token) => {
+    let response_fetched = false;
+    let error_message    = {};
+    const fetchInvoiceIdFromStorage = await AsyncStorage.getItem('APP:CurrentInvoiceId');;
+    if (fetchInvoiceIdFromStorage != null){
+      await axios
+        .get(`/invoices/${fetchInvoiceIdFromStorage}`, { headers: { Authorization: `Token ${token}` } }
+        ).then((response) => {
+          this.invoiceID = response.data.data.id;
+          this.invoiceDetail = response.data.data.attributes;
+          response_fetched = true;
+        }).catch((error) => {
+          error_message = error.response;
+        })
+    } else {
+      error_message = { error: 'Invoice not found.' }
+    }
+    return [response_fetched, error_message];    
+  };
   
   @action
   addToInvoice = async (token, companyId, quantity, itemId) => {
@@ -28,7 +49,6 @@ class Cart {
     }
   
   };
-  
   
   createInvoice = async (token, companyID, quantity, itemID) => {
     let response_fetched = false;
@@ -107,6 +127,7 @@ class Cart {
       });
     return [response_fetched, error_message];
   };
+
 }
 
 export default Cart;

@@ -23,7 +23,7 @@ import CategoriesList from '../components/CategoriesList';
 import AdSlider from '../components/AdSlider';
 import QualityBanner from '../components/QualityBanner';
 import WhatsappPopup from '../components/WhatsappPopup';
-import ItemGroupList from '../components/ItemGroupList';
+import ItemGroupCard from '../components/ItemGroupCard';
 import Loader from '../components/Loader';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
@@ -76,6 +76,7 @@ export default class Home extends Component {
             <Ionicons
               name="cart-outline"
               size={24}
+              onPress={() => this.props.navigation.navigate('Invoice')}
               style={{paddingRight: 12}}
               color={Colors.color5}
             />
@@ -117,7 +118,7 @@ export default class Home extends Component {
           keyExtractor={(item) => item.id}
           data={this.props.Products.itemGroups}
           renderItem={(item) => (
-            <ItemGroupList
+            <ItemGroupCard
               Products={item}
               scrollEnabled={false}
               navigation={this.props.navigation}

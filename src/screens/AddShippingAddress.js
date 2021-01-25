@@ -19,7 +19,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class MainLogin extends Component {
+export default class AddShippingAddress extends Component {
   constructor(props) {
     super(props);
     this.state = {

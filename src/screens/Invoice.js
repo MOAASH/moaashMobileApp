@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  FlatList,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -17,13 +18,17 @@ import CustomButton from '../components/CustomButton';
 import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import OrderTotal from '../components/OrderTotal';
-import CartProductCard from '../components/CartProductCard';
-import Margin from '../components/Margin';
 import SoldBy from '../components/SoldBy';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CartProductCard from '../components/CartProductCard';
+import Fonts from '../utils/fonts';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class AddMargin extends Component {
+@inject('User')
+@inject('Products')
+@inject('Cart')
+export default class Invoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,14 +37,18 @@ export default class AddMargin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
-    this.setState({ invoiceDetails: this.props.navigation.state.params.invoiceDetails });
+    const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
+    let [result_fetched, error_message] = await this.props.Cart.fetchInvoice(this.props.User.userInformation.attributes.authentication_token);
+    if (result_fetched) {
+      await this.setState({ invoiceDetails: this.props.Cart.invoiceDetail });
+      console.log('-------------',this.state.invoiceDetails.invoice_line_items)
+    }
+    // console.log('--------> res',res);
   };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Margin />
         <ScrollView>
           {
             this.state.invoiceDetails && 
@@ -52,7 +61,7 @@ export default class AddMargin extends Component {
             {
               this.state.invoiceDetails && 
               this.state.invoiceDetails.invoice_line_items.map((invoice_line_item) => {
-                return <CartProductCard invoiceLineItem={invoice_line_item} destroy={false} />
+                return <CartProductCard invoiceLineItem={invoice_line_item} destroy={true} />
               })
             }          
           </View>
@@ -67,9 +76,10 @@ export default class AddMargin extends Component {
             bottom: 20,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('AddShippingAddress')}>
+          onPress={() => this.props.navigation.navigate('AddMargin', { invoiceDetails: this.state.invoiceDetails })}>
           <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
         </TouchableOpacity>
+        
       </SafeAreaView>
     );
   }

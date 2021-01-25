@@ -10,16 +10,11 @@ import {
   FlatList,
   Linking,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import axios from '../utils/axios';
-import Share from 'react-native-share';
 import Colors from '../utils/colors';
 import Fonts from '../utils/fonts';
 import {inject} from 'mobx-react';
-import files from '../components/imageFile64';
 import SizeCard from '../components/SizeCard';
 
-const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')

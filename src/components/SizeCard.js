@@ -11,7 +11,7 @@ import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 
-export default class CustomButton extends Component {
+export default class SizeCard extends Component {
   constructor(props) {
     super(props);
     const {size, selected} = this.props;

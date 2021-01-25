@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  Button,
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
@@ -16,11 +17,10 @@ import Fonts from '../utils/fonts';
 
 import {inject} from 'mobx-react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import CustomButton from '../components/CustomButton';
-import FacebookLogo from '../utils/Constants';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ShareAndCartButton from '../components/ShareAndCartButton';
-import ProductDetailsDescription from '../components/ProductDetailsDescription';
+import AddToCartButton from '../components/AddToCartButton';
+import ProductDetailsDescriptionCard from '../components/ProductDetailsDescriptionCard';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
 import SoldBy from '../components/SoldBy';
@@ -32,7 +32,54 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
 @inject('Products')
-export default class MainLogin extends Component {
+export default class ProductDetail extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation    
+    if (state.params.addedToCart) {
+      return {
+        title: 'Product Detail',
+        headerTintColor: 'white',
+        headerRight: (
+          <FontAwesome
+            name={"shopping-cart"}
+            size={20}
+            onPress={() => navigation.navigate('Invoice')}
+            style={{paddingRight: 12}}
+            color={Colors.white}
+          />
+        ),
+        headerTitleStyle: {
+          fontFamily: Fonts.medium
+        },
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: Colors.color2,
+        },
+      }
+    } else {
+      return {
+        title: 'Product Detail',
+        headerTintColor: 'white',
+        headerRight: (
+          <EvilIcons
+            name={"cart"}
+            size={20}
+            style={{paddingRight: 12}}
+            color={Colors.white}
+          />
+        ),
+        headerTitleStyle: {
+          fontFamily: Fonts.medium
+        },
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: Colors.color2,
+        },
+      }
+    }
+
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -73,10 +120,20 @@ export default class MainLogin extends Component {
           .item_id,
         selectedQuantity: prop[2],
       });
+      this.props.navigation.setParams({ addedToCart: true });
+      console.log("==================> LFOR",this.props.navigation);
+
     }
+  };
+  
+  cartState = () => {
+    return this.state.loaded
   };
 
   componentDidMount = async () => {
+    this.props.navigation.setParams({ addedToCart: false });
+    // this.props.navigation.setParams({isHeaderShow: true});
+    console.log("==================> ROFL",this.props.navigation);
     this.setState({
       ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
       name: this.props.navigation.state.params.details.name,
@@ -172,7 +229,7 @@ export default class MainLogin extends Component {
             style={{
               marginTop: 4,
             }}>
-            <ProductDetailsDescription
+            <ProductDetailsDescriptionCard
               description={this.state.ItemGroupDetail.description}
             />
           </View>
@@ -189,7 +246,7 @@ export default class MainLogin extends Component {
             <SoldBy companyName={this.state.ItemGroupDetail.company} />
           </View>
         </ScrollView>
-        <ShareAndCartButton
+        <AddToCartButton
           addToCart={this.addToCart}
           checkout={this.state.added[0]}
           navigation={this.props.navigation}
