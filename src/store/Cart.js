@@ -31,16 +31,16 @@ class Cart {
   };
   
   @action
-  addToInvoice = async (token, companyId, quantity, itemId) => {
+  addToInvoice = async (token, invoice_params) => {
     try {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
       let response_fetched = false;
       console.log('=====InvoiceID', invoiceId);
       if (invoiceId == null){
-        response_fetched = await this.createInvoice(token, companyId, quantity, itemId);
+        response_fetched = await this.createInvoice(token, invoice_params);
       } else {
         console.log('=====LOLOLOLOLOL');
-        response_fetched = await this.updateInvoice(token, companyId, quantity, itemId, invoiceId);
+        response_fetched = await this.updateInvoice(token, invoice_params, invoiceId);
       }
       return response_fetched;
     } catch(e) {
@@ -50,23 +50,29 @@ class Cart {
   
   };
   
-  createInvoice = async (token, companyID, quantity, itemID) => {
+  @action
+  invoiceParams = (companyID, invoice_line_items_attributes = [], margin = undefined ) => {
+    invoice_params = {};
+    invoice_params.company_id = companyID;
+    if (invoice_line_items_attributes.length != 0){
+      invoice_params.invoice_line_items_attributes = invoice_line_items_attributes;
+    };
+    if (margin){
+     invoice_params.margin = margin;
+    };
+    console.log('Invoice Params ------> ', JSON.stringify(invoice_params));
+    return invoice_params;
+  };
+  
+  createInvoice = async (token, invoiceParams) => {
     let response_fetched = false;
     let error_message    = {};
-    console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
+    // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .post(
         '/invoices',
         {
-          invoice: {
-            company_id: companyID,
-            invoice_line_items_attributes: [
-              {
-                item_id: itemID,
-                quantity: quantity,
-              },
-            ],
-          },
+          invoice: invoiceParams
         },
         {
           headers: { Authorization: `Token ${token}`,
@@ -89,23 +95,15 @@ class Cart {
       return [response_fetched, error_message];
     };
   
-  updateInvoice = async (token, companyID, quantity, itemID, invoiceID) => {
+  updateInvoice = async (token, invoiceParams, invoiceID) => {
     let response_fetched = false;
     let error_message    = {};
-    console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
+    // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
         `/invoices/${invoiceID}`,
         {
-          invoice: {
-            company_id: companyID,
-            invoice_line_items_attributes: [
-              {
-                item_id: itemID,
-                quantity: quantity,
-              },
-            ],
-          },
+          invoice: invoiceParams
         },
         {
           headers: { Authorization: `Token ${token}`,

@@ -30,11 +30,14 @@ export default class AddToCartButton extends Component {
     console.log('Going to checkout');
     if (this.props.checkout === true) {
       this.props.loading(true);
+      let invoiceParams = this.props.Cart.invoiceParams(this.props.Products.companyDetails.id, [
+        { 
+          item_id: this.props.selectedItem,
+          quantity: this.props.selectedQuantity
+        }]);
       let [createInvoice, errorMessage] = await this.props.Cart.addToInvoice(
         this.props.User.userInformation.attributes.authentication_token,
-        this.props.Products.companyDetails.id,
-        this.props.selectedQuantity,
-        this.props.selectedItem,
+        invoiceParams
       );
       this.props.loading(false);
       if (createInvoice) {

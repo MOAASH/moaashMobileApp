@@ -13,61 +13,79 @@ import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+import { RFValue } from "../utils/fontSizeStyling";
+import Fonts from '../utils/fonts';
 export default class Margin extends Component {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
+    console.log('==========> ',this.props.totalAmount());
     return (
       <View
         style={{
-          backgroundColor: Colors.lightGray,
-          paddingHorizontal: 16,
-          paddingVertical: 8,
+          backgroundColor: Colors.white,
+          margin: 12,
+          borderRadius: 10,
         }}>
-        <View
+          <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingVertical: 4,
+            paddingHorizontal: 16,
+          }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: Colors.black}}>Final Customer Price</Text>
+              <Text style={{fontSize: RFValue(8), fontFamily: Fonts.regular, color: Colors.Gray}}>(including margin)</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+              <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                
+                <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular}}>PKR {this.props.totalAmount}</Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                
+              <TextInput
+                style={{
+                  flex: 1,
+                  shadowColor: 'black',
+                  borderColor: Colors.color2,
+                  borderBottomWidth: 1,
+                  color: Colors.color1,
+                }}
+                onChangeText={value => this.props.addCustomerPriceValue(value)}
+                keyboardType="numeric"
+                returnKeyType="done"
+              />
+              </View>
+            </View>
+        </View>
+        {
+          ((this.props.customerPrice < this.props.totalAmount()) && (this.props.customerPrice > 0)) &&
+          <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingVertical: 4,
+            paddingHorizontal: 16,
           }}>
-          <Text style={{fontSize: 16}}>Your Profit Margin:</Text>
-          <TextInput
-            style={{
-              shadowOpacity: 0.2,
-              shadowColor: 'black',
-              borderColor: Colors.color2,
-              borderBottomWidth: 1,
-              paddingVertical: 4,
-              borderRadius: 6,
-              paddingHorizontal: 16,
-              color: 'black',
-            }}
-            label="Banks"
-            mode="outlined"
-            keyboardType="numeric"
-            returnKeyType="done"
-            onChangeText={(text) => this.setState({email: text})}
-          />
-        </View>
-
+            <Text style={{ fontSize: RFValue(8), color: 'red', fontFamily: Fonts.regular }}>Please enter the amount greater or equal to Order Total (PKR {this.props.totalAmount()})</Text>
+          </View>
+        }
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginTop: 12,
-            paddingVertical: 4,
-            borderTopWidth: 1,
-            borderTopColor: Colors.color1,
+            paddingVertical: 8,
+            paddingHorizontal: 16,
           }}>
-          <Text style={{fontSize: 16, marginBottom: 12, fontWeight: '600'}}>
-            Final Price
-          </Text>
-          <Text style={{fontSize: 16, marginBottom: 12, fontWeight: '600'}}>
-            PKR 430
-          </Text>
+          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: 'green'}}>Margin you Earn</Text>
+          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: 'green'}}>PKR {this.props.marginValue}</Text>
         </View>
+        
       </View>
     );
   }
