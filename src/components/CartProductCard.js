@@ -14,36 +14,36 @@ export default class CartProdcutCard extends Component {
   render() {
     return (
       <View style={{padding: 12, flexDirection: 'row' }}>
-      <View>
-        <FastImage
-          resizeMode={FastImage.resizeMode.contain}
-          style={{width: 100, height: 100}}
-          source={{uri: this.props.invoiceLineItem.data.attributes.item_details.data.attributes.images[0],
-                  priority: FastImage.priority.normal,}}
-        />
+        <View>
+          <FastImage
+            resizeMode={FastImage.resizeMode.contain}
+            style={{width: 100, height: 100}}
+            source={{uri: this.props.invoiceLineItem.data.attributes.item_details.data.attributes.images[0],
+                    priority: FastImage.priority.normal,}}
+          />
+        </View>
+        <View style={{ flex: 1, paddingLeft: 4 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{fontSize: 15, fontFamily: Fonts.regular }}>{this.props.invoiceLineItem.data.attributes.item_details.data.attributes.name}</Text>
+            {
+              this.props.destroy && 
+              <Ionicons name="trash" size={20} />
+            }
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
+            <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Price</Text>
+            <Text style={{fontSize: RFValue(10)}}>PKR {this.props.invoiceLineItem.data.attributes.sale_price}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
+            <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Size</Text>
+            <Text style={{fontSize: RFValue(10)}}>{this.props.invoiceLineItem.data.attributes.item_details.data.attributes.size}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
+            <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Quantity</Text>
+            <Text style={{fontSize: RFValue(10)}}>{this.props.invoiceLineItem.data.attributes.quantity}</Text>
+          </View>
+        </View>
       </View>
-      <View style={{ flex: 1, paddingLeft: 4 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={{fontSize: 15, fontFamily: Fonts.regular }}>{this.props.invoiceLineItem.data.attributes.item_details.data.attributes.name}</Text>
-          {
-            this.props.destroy && 
-            <Ionicons name="trash" size={20} />
-          }
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
-          <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Price</Text>
-          <Text style={{fontSize: RFValue(10)}}>PKR {this.props.invoiceLineItem.data.attributes.sale_price}</Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
-          <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Size</Text>
-          <Text style={{fontSize: RFValue(10)}}>{this.props.invoiceLineItem.data.attributes.item_details.data.attributes.size}</Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 }}>
-          <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>Quantity</Text>
-          <Text style={{fontSize: RFValue(10)}}>{this.props.invoiceLineItem.data.attributes.quantity}</Text>
-        </View>
-      </View>
-    </View>
 
     );
   }

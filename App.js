@@ -30,6 +30,7 @@ import MySharedProducts from './src/screens/MySharedProducts';
 import Invoice from './src/screens/Invoice';
 import AddMargin from './src/screens/AddMargin';
 import AddShippingAddress from './src/screens/AddShippingAddress';
+import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
 const MainTabs = createBottomTabNavigator(
@@ -359,7 +360,21 @@ ReferralEarn: {
   AddShippingAddress: {
     screen: AddShippingAddress,
     navigationOptions: {
-      title: 'Add Shipping Address',
+      title: 'Add Customer Address',
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  SelectShippingAddress: {
+    screen: SelectShippingAddress,
+    navigationOptions: {
+      title: 'Select Customer Address',
       headerTintColor: 'white',
       headerTitleStyle: {
         fontFamily: Fonts.medium

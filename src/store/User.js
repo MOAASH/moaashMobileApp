@@ -1,6 +1,7 @@
 import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class User {
   @observable Name = '';
@@ -61,7 +62,7 @@ class User {
       .then((response) => {
         console.log('signin Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
-
+        AsyncStorage.setItem('APP:UserAuthToken', this.userInformation.attributes.authentication_token);
         response_fetched = true;
         return response_fetched;
       })

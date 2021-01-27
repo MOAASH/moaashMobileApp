@@ -63,6 +63,7 @@ export default class AddMargin extends Component {
     // this.props.loading(false);
     if (updateInvoice) {
       console.log('checkouting jaanu');
+      this.props.navigation.navigate('SelectShippingAddress');
     } else {
       console.log("============> YEahh fuck");
     }

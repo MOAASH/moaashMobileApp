@@ -30,13 +30,13 @@ export default class Margin extends Component {
           borderRadius: 10,
         }}>
           <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingVertical: 4,
-            paddingHorizontal: 16,
-          }}>
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingVertical: 4,
+              paddingHorizontal: 16,
+            }}>
             <View style={{ flex: 1 }}>
               <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: Colors.black}}>Final Customer Price</Text>
               <Text style={{fontSize: RFValue(8), fontFamily: Fonts.regular, color: Colors.Gray}}>(including margin)</Text>
