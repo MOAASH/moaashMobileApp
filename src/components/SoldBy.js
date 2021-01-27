@@ -23,11 +23,13 @@ export default class SoldBy extends Component {
       <View
         style={{
           backgroundColor: Colors.white,
-          marginBottom: 12
+          marginBottom: 50,
+          marginHorizontal: 12,
+          borderRadius: 10
         }}>
         <View style={{ backgroundColor: Colors.lightGray2, padding: 8, flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <Text style={{fontSize: 14, fontFamily: Fonts.regular }}>SOLD BY</Text>
+            <Text style={{fontSize: 14, fontFamily: Fonts.light }}>SOLD BY</Text>
           </View>
         </View>
         <View style={{ padding: 12, flex: 1, flexDirection: 'row', alignItems: 'center' }}>

@@ -24,6 +24,25 @@ class ShippingAddress {
 
     return [response_fetched, error_message];   
   };
+  
+  @action
+  createShippingAddress = async (addressParams) => {
+    let response_fetched = false;
+    let error_message    = {};
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');;
+    await axios
+      .post(`/customer_addresses`,{
+        customer_address: addressParams
+      }, { headers: { Authorization: `Token ${userAuthToken}` } }
+      ).then((response) => {
+        // this.shippingAddressesList = response.data.data;
+        response_fetched = true;
+      }).catch((error) => {
+        error_message = error.response;
+      });
+
+    return [response_fetched, error_message];   
+  };
 }
 
 export default ShippingAddress;

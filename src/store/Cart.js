@@ -51,7 +51,7 @@ class Cart {
   };
   
   @action
-  invoiceParams = (companyID, invoice_line_items_attributes = [], margin = undefined ) => {
+  invoiceParams = (companyID, invoice_line_items_attributes = [], margin = undefined, customer_address_id = undefined ) => {
     invoice_params = {};
     invoice_params.company_id = companyID;
     if (invoice_line_items_attributes.length != 0){
@@ -60,6 +60,9 @@ class Cart {
     if (margin){
      invoice_params.margin = margin;
     };
+    if (customer_address_id){
+      invoice_params.customer_address_id = customer_address_id;
+     };
     console.log('Invoice Params ------> ', JSON.stringify(invoice_params));
     return invoice_params;
   };

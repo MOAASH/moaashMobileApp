@@ -36,6 +36,12 @@ export default class SelectShippingAddress extends Component {
 
   componentDidMount = async () => {
     console.log('Starting the app');
+    this.props.navigation.addListener('didFocus', async () => {
+      let [response_fetched, error_message]= await this.props.ShippingAddress.getShippingAddresses();
+      if (response_fetched){
+        this.setState({ shippingAddressList: this.props.ShippingAddress.shippingAddressesList, selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0].id })
+      }
+    });
     let [response_fetched, error_message]= await this.props.ShippingAddress.getShippingAddresses();
     if (response_fetched){
       this.setState({ shippingAddressList: this.props.ShippingAddress.shippingAddressesList, selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0].id })
@@ -44,6 +50,22 @@ export default class SelectShippingAddress extends Component {
   
   changeSelectedAddress = async (index, id) => {
     this.setState({ selectedAddressId: id, selectedAddressIndex: index })
+  };
+  
+  updateInvoice = async () => {
+    let invoiceParams = this.props.Cart.invoiceParams(this.props.Cart.invoiceDetail.company.data.id, [], undefined, this.state.selectedAddressId);
+    console.log(invoiceParams)
+    let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
+      this.props.User.userInformation.attributes.authentication_token,
+      invoiceParams
+    );
+    // this.props.loading(false);
+    if (updateInvoice) {
+      console.log('checkouting jaanu');
+      this.props.navigation.navigate('OrderSummary');
+    } else {
+      console.log("============> YEahh fuck");
+    }
   };
 
   render() {
@@ -115,7 +137,7 @@ export default class SelectShippingAddress extends Component {
               flex: 1,
               padding: 16,
             }}
-            onPress={() => this.props.navigation.navigate('OrderSummary')}>
+            onPress={() => this.updateInvoice()}>
             <Text style={{fontSize: RFValue(12), fontFamily: Fonts.regular, color: Colors.white}}>Continue</Text>
           </TouchableOpacity>
         </View>

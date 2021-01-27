@@ -45,15 +45,15 @@ export default class OrderTotal extends Component {
           borderBottomWidth: 1,
           borderBottomColor: Colors.lightGray2
         }}>
-          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: Colors.balck}}>Payment Method</Text>
           <View style={{ paddingTop: 8, flexDirection: 'row' }}>
           <Image
             resizeMode="contain"
             source={require('../../assets/currencyI_icon.png')}
             style={{ width: 20, height: 20, alignSelf: 'center'}}
           />
-          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: Colors.Gray, paddingLeft: 4}}>Cash On Delivery</Text>
+          <Text style={{fontSize: RFValue(10), paddingLeft: 4, fontFamily: Fonts.regular, color: Colors.balck}}>Payment Method</Text>
           </View>
+          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: Colors.Gray}}>Cash On Delivery</Text>
         </View>
         <View
           style={{
@@ -80,9 +80,10 @@ export default class OrderTotal extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: 16,
-            paddingVertical: 12,
-            borderBottomLeftRadius: 10, 
-            borderBottomRightRadius: 10,
+            paddingBottom: (this.props.orderSummary ? 0 : 12),
+            paddingTop: 12,
+            borderBottomLeftRadius: (this.props.orderSummary ? 0 : 10), 
+            borderBottomRightRadius: (this.props.orderSummary ? 0 : 10),
             alignItems: 'center',
             backgroundColor: Colors.color6
           }}>
@@ -93,6 +94,49 @@ export default class OrderTotal extends Component {
             PKR {this.calculateTotalAmount()}
           </Text>
         </View>
+        {
+          this.props.orderSummary && 
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            alignItems: '',
+            flex: 3,
+            backgroundColor: Colors.color6
+          }}>
+          <Text style={{fontSize: RFValue(10), flex: 2, fontFamily: Fonts.regular, color: Colors.color1 }}>
+          Final Customer Price
+          </Text>
+          <View style={{ flex: 1, alignItems: 'flex-end' }}>   
+            <Text style={{fontSize: RFValue(10), flex: 1, fontFamily: Fonts.regular, color: Colors.color1 }}>
+              PKR {this.props.totalCustomerPrice}
+            </Text>
+          </View>
+          </View>
+        }
+        {
+          this.props.orderSummary && 
+          <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            alignItems: 'center',
+            borderBottomLeftRadius: 10, 
+            borderBottomRightRadius: 10,
+            backgroundColor: Colors.white
+          }}>
+          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: 'green' }}>
+            Margin You Earn
+          </Text>
+          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular, color: 'green' }}>
+            PKR {this.props.totalCustomerPrice - this.calculateTotalAmount()}
+          </Text>
+          </View>
+        }
       </View>
     );
   }
