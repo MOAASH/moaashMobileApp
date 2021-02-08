@@ -17,129 +17,84 @@ import CustomButton from '../components/CustomButton';
 import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import OrderTotal from '../components/OrderTotal';
+import CartProductCard from '../components/CartProductCard';
 import Margin from '../components/Margin';
 import SoldBy from '../components/SoldBy';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class MainLogin extends Component {
+
+@inject('User')
+@inject('Cart')
+export default class AddMargin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1,
+      invoiceDetails: null,
+      customerPrice: null,
     };
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    this.setState({ invoiceDetails: this.props.navigation.state.params.invoiceDetails });
+  };
+  
+  addCustomerPriceValue = (value) => {
+    this.setState({ customerPrice: (value > 0) ? value : null });
+  }
+  
+  totalAmount = () => {
+    return parseInt(this.state.invoiceDetails.net_amount);
+  }
+  
+  marginValue = () => {
+    if (this.state.customerPrice == null){
+      return 0;
+    };
+    return this.state.customerPrice - this.totalAmount();
+  }
+  
+  updateInvoice = async () => {
+    let invoiceParams = this.props.Cart.invoiceParams(this.state.invoiceDetails.company.data.id, [], this.state.customerPrice);
+    let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
+      this.props.User.userInformation.attributes.authentication_token,
+      invoiceParams
+    );
+    // this.props.loading(false);
+    if (updateInvoice) {
+      console.log('checkouting jaanu');
+      this.props.navigation.navigate('SelectShippingAddress');
+    } else {
+      console.log("============> YEahh fuck");
+    }
   };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Margin />
-        <View style={{marginTop: 20}}>
-          <OrderTotal />
-        </View>
-        <View
-          style={{
-            marginTop: 12,
-          }}>
-          <Text
-            style={{
-              fontSize: 16,
-              paddingHorizontal: 16,
-              marginBottom: 12,
-              fontWeight: '600',
-            }}>
-            Cart Details
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingHorizontal: 16,
-              paddingVertical: 24,
-              borderBottomColor: Colors.color2,
-              borderBottomWidth: 1,
-            }}>
-            <Image
-              style={{width: Dimensions.get('screen').width / 4, height: 100}}
-              source={require('../../assets/shirt1.jpg')}
+        <ScrollView>
+          {
+            this.state.invoiceDetails && (
+              <Margin addCustomerPriceValue={this.addCustomerPriceValue} customerPrice={this.state.customerPrice} totalAmount={this.totalAmount} marginValue={this.marginValue()} />
+          )}
+          {
+            this.state.invoiceDetails && (
+            <OrderTotal
+              totalAmount={this.state.invoiceDetails.net_amount}
+              shippingCharges={0}
             />
-            <View
-              style={{
-                width: Dimensions.get('screen').width / 1.5,
-                height: 100,
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingVertical: 4,
-                }}>
-                <Text style={{fontSize: 15, fontWeight: '600'}}>
-                  Fancy Men Shirt
-                </Text>
-                <Ionicons name="trash" size={20} />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingVertical: 4,
-                }}>
-                <Text style={{fontSize: 15}}>Price</Text>
-                <Text style={{fontSize: 15}}>PKR 300</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  paddingVertical: 4,
-                }}>
-                <Text style={{fontSize: 15}}>Size</Text>
-                <Text style={{fontSize: 15}}>L</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={{fontSize: 15}}>
-                  Quantity : {this.state.quantity}
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: Colors.borderGray,
-                      justifyContent: 'space-around',
-                      paddingHorizontal: 12,
-                      paddingVertical: 8,
-                    }}
-                    onPress={() =>
-                      this.setState({quantity: this.state.quantity - 1})
-                    }>
-                    <Text>-</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: Colors.borderGray,
-                      justifyContent: 'space-around',
-                      paddingHorizontal: 12,
-                      paddingVertical: 8,
-                    }}
-                    onPress={() =>
-                      this.setState({quantity: this.state.quantity + 1})
-                    }>
-                    <Text>+</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
+          )}
+          <View style={{margin: 12, borderRadius: 10, backgroundColor: Colors.white, paddingBottom: 20 }}>
+            {
+              this.state.invoiceDetails && 
+              this.state.invoiceDetails.invoice_line_items.map((invoice_line_item) => {
+                return <CartProductCard invoiceLineItem={invoice_line_item} destroy={false} />
+              })
+            }          
           </View>
-          <SoldBy />
-        </View>
+        </ScrollView>
         <TouchableOpacity
+          disabled={((this.marginValue() < 0) ||  this.state.customerPrice == null)}
           style={{
             alignItems: 'center',
             backgroundColor: Colors.color2,
@@ -149,7 +104,7 @@ export default class MainLogin extends Component {
             bottom: 20,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('AddShippingAddress')}>
+          onPress={() => this.updateInvoice() }>
           <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
         </TouchableOpacity>
       </SafeAreaView>
@@ -160,7 +115,7 @@ export default class MainLogin extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.lightGray,
   },
 
   inputStyle: {
@@ -174,3 +129,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
+
+
+// this.props.navigation.navigate('AddShippingAddress')

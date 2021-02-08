@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {inject} from 'mobx-react';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
-export default class ItemGroupList extends Component {
+export default class ItemGroupCard extends Component {
   constructor(props) {
     super(props);
     const {Products} = this.props;
@@ -32,6 +35,7 @@ export default class ItemGroupList extends Component {
     return (
       <TouchableOpacity
         style={styles.productCard}
+        activeOpacity={1}
         onPress={() =>
           this.props.navigation.navigate('ProductDetail', {
             details: this.props.Products.item,
@@ -52,27 +56,23 @@ export default class ItemGroupList extends Component {
             source={{uri: images[0]}}
           />
         </View>
-        <View style={{marginTop: 20, paddingHorizontal: 16}}>
-          <Text style={{fontSize: 18}}>{this.state.name}</Text>
-          <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
+        <View style={{marginTop: 20, paddingHorizontal: 12 }}>
+          <Text style={{fontSize: 16, paddingVertical: 6, fontFamily: Fonts.regular }}>{this.state.name}</Text>
+          <Text style={{fontSize: 12, paddingVertical: 6, fontFamily: Fonts.light }}>PKR {this.state.price}</Text>
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: Colors.lightGray,
-              padding: 4,
-              width: 150,
+              backgroundColor: Colors.white,
             }}>
-            <FontAwesome
-              name="truck"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color2}
+            <MaterialCommunityIcons
+              name="truck-outline"
+              size={20}
+              color={Colors.color3}
             />
             <Text
               style={{
-                alignSelf: 'center',
                 paddingLeft: 4,
-                fontWeight: '600',
+                color: Colors.color3
               }}>
               Free Delivery
             </Text>
@@ -82,20 +82,20 @@ export default class ItemGroupList extends Component {
               alignItems: 'center',
               alignContent: 'center',
               justifyContent: 'center',
-              backgroundColor: Colors.color3,
+              borderColor: Colors.color3,
               borderRadius: 5,
+              borderWidth: 1,
               marginTop: 20,
               flexDirection: 'row',
               padding: 12,
             }}
             onPress={() => this.shareProduct()}>
             <FontAwesome
-              name="share-square"
+              name="share-square-o"
               size={20}
-              style={{fontWeight: '700'}}
-              color={Colors.white}
+              color={Colors.color3}
             />
-            <Text style={{fontSize: 18, color: Colors.white, paddingLeft: 12}}>
+            <Text style={{fontSize: 18, color: Colors.color3, fontFamily: Fonts.regular, paddingLeft: 12}}>
               Share Now
             </Text>
           </TouchableOpacity>
@@ -132,7 +132,6 @@ const styles = StyleSheet.create({
   },
   productCard: {
     backgroundColor: Colors.white,
-    borderTopWidth: 1,
     borderColor: Colors.color5,
     paddingVertical: 8,
     marginBottom: 8,

@@ -1,10 +1,11 @@
 import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class User {
   @observable Name = '';
-  @observable phoneNumber = '';
+  @observable phoneNumber = "100000";
   @observable password = '';
   @observable userInformation = {};
 
@@ -25,7 +26,7 @@ class User {
 
   @action
   registerUser = async () => {
-    let k = false;
+    let response_fetched = false;
     console.log('registering user');
     await axios
       .post('/users', {
@@ -38,18 +39,18 @@ class User {
       })
       .then((response) => {
         console.log('signup Response-> ' + JSON.stringify(response.data));
-
-        k = true;
-        return k;
+        this.userInformation = response.data.data;
+        response_fetched = true;
+        return response_fetched;
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai signup per ' + error);
       });
-    return k;
+    return response_fetched;
   };
   @action
   loginUser = async (phone, password) => {
-    let k = false;
+    let response_fetched = false;
     console.log('sign in');
     await axios
       .post('/users/sign_in', {
@@ -61,18 +62,18 @@ class User {
       .then((response) => {
         console.log('signin Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
-
-        k = true;
-        return k;
+        AsyncStorage.setItem('APP:UserAuthToken', this.userInformation.attributes.authentication_token);
+        response_fetched = true;
+        return response_fetched;
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai signin per ' + error);
       });
-    return k;
+    return response_fetched;
   };
   @action
   updateBankDetails = async () => {
-    let k = false;
+    let response_fetched = false;
     console.log('Updating Bank Details');
     await axios
       .patch('/users/sign_in', {
@@ -83,8 +84,8 @@ class User {
       .then((response) => {
         console.log('signin Response-> ' + JSON.stringify(response.data));
 
-        k = true;
-        return k;
+        response_fetched = true;
+        return response_fetched;
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai signin per ' + error);

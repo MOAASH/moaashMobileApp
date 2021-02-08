@@ -6,18 +6,21 @@ import {
   Image,
   Dimensions,
   TextInput,
+  Button,
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
+
 import {inject} from 'mobx-react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import CustomButton from '../components/CustomButton';
-import FacebookLogo from '../utils/Constants';
-import ShareAndCartButton from '../components/ShareAndCartButton';
-import ProductDetailsDescription from '../components/ProductDetailsDescription';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AddToCartButton from '../components/AddToCartButton';
+import ProductDetailsDescriptionCard from '../components/ProductDetailsDescriptionCard';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
 import SoldBy from '../components/SoldBy';
@@ -29,7 +32,54 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
 @inject('Products')
-export default class MainLogin extends Component {
+export default class ProductDetail extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation    
+    if (state.params.addedToCart) {
+      return {
+        title: 'Product Detail',
+        headerTintColor: 'white',
+        headerRight: (
+          <FontAwesome
+            name={"shopping-cart"}
+            size={20}
+            onPress={() => navigation.navigate('Invoice')}
+            style={{paddingRight: 12}}
+            color={Colors.white}
+          />
+        ),
+        headerTitleStyle: {
+          fontFamily: Fonts.medium
+        },
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: Colors.color2,
+        },
+      }
+    } else {
+      return {
+        title: 'Product Detail',
+        headerTintColor: 'white',
+        headerRight: (
+          <EvilIcons
+            name={"cart"}
+            size={20}
+            style={{paddingRight: 12}}
+            color={Colors.white}
+          />
+        ),
+        headerTitleStyle: {
+          fontFamily: Fonts.medium
+        },
+        headerBackTitleVisible: false,
+        headerStyle: {
+          backgroundColor: Colors.color2,
+        },
+      }
+    }
+
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -55,19 +105,35 @@ export default class MainLogin extends Component {
   };
   addToCart = async (prop) => {
     console.log('adding' + prop);
-    this.setState({addToCart: prop});
+    this.setState({addToCart: prop, added: prop});
   };
+  
   addedtoCart = async (prop) => {
-    var index = this.state.sizes.indexOf(prop[1]);
-    this.setState({
-      added: prop,
-      selectedItem: this.props.navigation.state.params.details.data[index]
-        .item_id,
-      selectedQuantity: prop[2],
-    });
+    if (prop == null){
+      this.setState({ added: false })
+    } else {
+      var index = this.state.sizes.indexOf(prop[1]);
+      console.log("--------->",prop)
+      this.setState({
+        added: prop,
+        selectedItem: this.props.navigation.state.params.details.data[index]
+          .item_id,
+        selectedQuantity: prop[2],
+      });
+      this.props.navigation.setParams({ addedToCart: true });
+      console.log("==================> LFOR",this.props.navigation);
+
+    }
+  };
+  
+  cartState = () => {
+    return this.state.loaded
   };
 
   componentDidMount = async () => {
+    this.props.navigation.setParams({ addedToCart: false });
+    // this.props.navigation.setParams({isHeaderShow: true});
+    console.log("==================> ROFL",this.props.navigation);
     this.setState({
       ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
       name: this.props.navigation.state.params.details.name,
@@ -97,99 +163,73 @@ export default class MainLogin extends Component {
         <ScrollView style={{marginBottom: SCREEN_HEIGHT / 30}}>
           <View style={styles.productCard}>
             <View>
-              <Image
-                style={{
-                  width: Dimensions.get('screen').width / 2,
-                  height: 210,
-                  marginTop: 20,
-                  alignSelf: 'center',
-                }}
-                source={{uri: images[0]}}
-              />
-            </View>
-            <View style={{marginTop: 20, paddingHorizontal: 16}}>
-              <Text style={{fontSize: 18}}>{this.state.name}</Text>
-              <Text style={{fontSize: 16}}>PKR {this.state.price}</Text>
-              <Text style={{fontSize: 10, marginTop: 8, marginBottom: 8}}>
-                Price includes GST
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.lightGray,
-                  padding: 4,
-                  width: 150,
-                }}>
-                <FontAwesome
-                  name="truck"
-                  size={28}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    paddingLeft: 4,
-                    fontWeight: '600',
-                  }}>
-                  Free Delivery
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  backgroundColor: Colors.lightGray,
-                  padding: 4,
-                  width: 200,
-                  marginTop: 8,
-                }}>
-                <FontAwesome
-                  name="calendar"
-                  size={12}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    paddingLeft: 4,
-                    fontWeight: '600',
-                  }}>
-                  Delivered in 2 - 3 Days
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: Colors.white,
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: Colors.color2,
-                  marginTop: 20,
-                  flexDirection: 'row',
-                  padding: 8,
-                }}
-                onPress={() => this.shareProduct()}>
-                <FontAwesome
-                  name="share-square"
-                  size={20}
-                  style={{fontWeight: '700'}}
-                  color={Colors.color2}
-                />
-                <Text
-                  style={{fontSize: 18, color: Colors.color2, paddingLeft: 12}}>
-                  Share Now
-                </Text>
-              </TouchableOpacity>
+            <View
+          style={{
+            flexDirection: 'row',
+            height: 220,
+            justifyContent: 'space-evenly',
+          }}>
+          <Image
+            resizeMode="contain"
+            style={{
+              width: Dimensions.get('screen').width,
+              height: 210,
+              marginTop: 20,
+            }}
+            source={{uri: images[0]}}
+          />
+        </View>
+        <View style={{marginTop: 20, paddingHorizontal: 12 }}>
+          <Text style={{fontSize: 16, paddingVertical: 6, color: Colors.black, fontFamily: Fonts.regular }}>{this.state.name}</Text>
+          <Text style={{fontSize: 12, paddingVertical: 6, fontFamily: Fonts.light }}>PKR {this.state.price}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              backgroundColor: Colors.white,
+            }}>
+            <MaterialCommunityIcons
+              name="truck-outline"
+              size={20}
+              color={Colors.color3}
+            />
+            <Text
+              style={{
+                paddingLeft: 4,
+                color: Colors.color3
+              }}>
+              Free Delivery
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              alignContent: 'center',
+              justifyContent: 'center',
+              borderColor: Colors.color3,
+              borderRadius: 5,
+              borderWidth: 1,
+              marginTop: 20,
+              flexDirection: 'row',
+              padding: 12,
+            }}
+            onPress={() => this.shareProduct()}>
+            <FontAwesome
+              name="share-square-o"
+              size={20}
+              color={Colors.color3}
+            />
+            <Text style={{fontSize: 18, color: Colors.color3, paddingLeft: 12, fontFamily: Fonts.regular}}>
+              Share Now
+            </Text>
+          </TouchableOpacity>
+        </View>
             </View>
           </View>
           <View
             style={{
               marginTop: 4,
             }}>
-            <ProductDetailsDescription
+            <ProductDetailsDescriptionCard
               description={this.state.ItemGroupDetail.description}
             />
           </View>
@@ -206,7 +246,7 @@ export default class MainLogin extends Component {
             <SoldBy companyName={this.state.ItemGroupDetail.company} />
           </View>
         </ScrollView>
-        <ShareAndCartButton
+        <AddToCartButton
           addToCart={this.addToCart}
           checkout={this.state.added[0]}
           navigation={this.props.navigation}
@@ -236,8 +276,6 @@ const styles = StyleSheet.create({
   },
   productCard: {
     backgroundColor: Colors.white,
-    borderBottomWidth: 1,
-    borderColor: Colors.color5,
     paddingBottom: 12,
     marginBottom: 8,
   },

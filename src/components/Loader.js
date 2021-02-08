@@ -4,7 +4,7 @@ import Colors from '../utils/colors';
 
 const Loader = ({style}) => (
   <View style={styles.container}>
-    <ActivityIndicator size="large" color={'#0ff'} />
+    <ActivityIndicator size="small" color={Colors.color4} />
   </View>
 );
 
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'white',
   },
 });
 

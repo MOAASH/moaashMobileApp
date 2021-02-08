@@ -11,21 +11,22 @@ import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 
-export default class CustomButton extends Component {
+export default class SizeCard extends Component {
   constructor(props) {
     super(props);
-    const {size} = this.props;
+    const {size, selected} = this.props;
     this.state = {
-      selected: false,
       size: size,
     };
   }
   componentDidMount = async () => {
     console.log('Sizes of items are ', this.props.size);
   };
+  
   select = async (item) => {
-    this.setState({selected: !this.state.selected});
-    this.props.sizeChoosen(item);
+    if (!this.state.selected){
+      this.props.sizeChoosen(item);
+    }
   };
 
   render() {
@@ -33,9 +34,9 @@ export default class CustomButton extends Component {
       <View style={{alignItems: 'flex-start'}}>
         <TouchableOpacity
           style={{
-            borderColor: Colors.color2,
+            borderColor: Colors.color5,
             borderRadius: 20,
-            backgroundColor: this.state.selected ? Colors.color2 : Colors.white,
+            backgroundColor: this.props.selected ? Colors.color5 : Colors.white,
             borderWidth: 2,
             paddingVertical: 8,
             paddingHorizontal: 12,
@@ -44,8 +45,8 @@ export default class CustomButton extends Component {
           onPress={() => this.select(this.state.size)}>
           <Text
             style={{
-              fontSize: 18,
-              color: this.state.selected ? Colors.white : 'black',
+              fontSize: 12,
+              color: this.props.selected ? Colors.white : Colors.color1,
             }}>
             {this.state.size}
           </Text>

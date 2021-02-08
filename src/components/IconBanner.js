@@ -8,11 +8,9 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {inject} from 'mobx-react';
-const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 export default class IconBanner extends Component {
   constructor(props) {
     super(props);
@@ -38,10 +36,10 @@ export default class IconBanner extends Component {
               name="history"
               size={32}
               style={{marginBottom: 12}}
-              color={Colors.color2}
+              color={Colors.color4}
             />
-            <Text>7 Days Easy </Text>
-            <Text>Return</Text>
+            <Text style={{ fontFamily: Fonts.regular, fontSize: 12 }}>7 Days Easy </Text>
+            <Text style={{ fontFamily: Fonts.regular, fontSize: 12 }}>Return</Text>
           </View>
           <View
             style={{
@@ -53,10 +51,10 @@ export default class IconBanner extends Component {
               name="truck"
               size={32}
               style={{marginBottom: 12}}
-              color={Colors.color2}
+              color={Colors.color4}
             />
-            <Text>Direct Delivery</Text>
-            <Text>To Customer</Text>
+            <Text style={{ fontFamily: Fonts.regular, fontSize: 12 }}>Direct Delivery</Text>
+            <Text style={{ fontFamily: Fonts.regular, fontSize: 12 }}>To Customer</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -78,7 +76,7 @@ export default class IconBanner extends Component {
               {cancelable: false},
             )
           }>
-          <Text style={{fontSize: 12, color: Colors.color2}}>
+          <Text style={{fontSize: 12, color: Colors.color2, fontFamily: Fonts.extraLight}}>
             More Information
           </Text>
         </TouchableOpacity>
