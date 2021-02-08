@@ -18,6 +18,8 @@ import CustomButton from '../components/CustomButton';
 import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import OrderTotal from '../components/OrderTotal';
+import LottieView from 'lottie-react-native';
+import { RFValue } from "../utils/fontSizeStyling";
 import SoldBy from '../components/SoldBy';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartProductCard from '../components/CartProductCard';
@@ -32,7 +34,8 @@ export default class Invoice extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      invoiceDetails: null
+      invoiceDetails: null,
+      cartEmpty: false
     };
   }
 
@@ -42,14 +45,36 @@ export default class Invoice extends Component {
     if (result_fetched) {
       await this.setState({ invoiceDetails: this.props.Cart.invoiceDetail });
       console.log('-------------',this.state.invoiceDetails.invoice_line_items)
+    } else {
+      this.setState({ cartEmpty: true });
     }
     // console.log('--------> res',res);
   };
+  
+  invoiceLineItemsData = () => {
+    return (
+      <View style={{margin: 12, borderRadius: 10, backgroundColor: Colors.white, paddingBottom: 20 }}>
+        {this.state.invoiceDetails.invoice_line_items.map((invoice_line_item) => {
+          return <CartProductCard invoiceLineItem={invoice_line_item} destroy={true} />
+        })}
+      </View>
+    )
+  }
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView>
+        <ScrollView contentContainerStyle={this.state.cartEmpty ? { flexGrow: 1, justifyContent: 'center' } : {}}>
+          { this.state.cartEmpty && (
+            <View style={{ alignItems: 'center' }}>
+              <LottieView source={require('../../assets/empty_cart.json')} autoPlay loop={true} style={{ width: SCREEN_WIDTH/1.5, height: SCREEN_WIDTH/1.5 }} />
+              <Text style={{fontSize: RFValue(12), fontFamily: Fonts.medium }}>Your Cart is Empty</Text>
+              <TouchableOpacity activeOpacity={0.5} style={{ padding: 8, backgroundColor: Colors.color3, borderRadius: 5 }} onPress={() => this.props.navigation.navigate('Home')}>
+                <Text style={{fontSize: RFValue(12), fontFamily: Fonts.regular, color: Colors.white }}>BROWSE PRODUCTS</Text>   
+              </TouchableOpacity>
+            </View>
+          )}
+        
           {
             this.state.invoiceDetails && 
             <OrderTotal
@@ -57,28 +82,27 @@ export default class Invoice extends Component {
               shippingCharges={50}
             />
           }
-          <View style={{margin: 12, borderRadius: 10, backgroundColor: Colors.white, paddingBottom: 20 }}>
-            {
-              this.state.invoiceDetails && 
-              this.state.invoiceDetails.invoice_line_items.map((invoice_line_item) => {
-                return <CartProductCard invoiceLineItem={invoice_line_item} destroy={true} />
-              })
-            }          
-          </View>
+          {
+            this.state.invoiceDetails &&
+            this.invoiceLineItemsData()
+          }
         </ScrollView>
-        <TouchableOpacity
-          style={{
-            alignItems: 'center',
-            backgroundColor: Colors.color2,
-            width: SCREEN_WIDTH,
-            borderRadius: 5,
-            position: 'absolute',
-            bottom: 20,
-            padding: 16,
-          }}
-          onPress={() => this.props.navigation.navigate('AddMargin', { invoiceDetails: this.state.invoiceDetails })}>
-          <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
-        </TouchableOpacity>
+        {
+            this.state.invoiceDetails &&
+            <TouchableOpacity
+              style={{
+                alignItems: 'center',
+                backgroundColor: Colors.color2,
+                width: SCREEN_WIDTH,
+                borderRadius: 5,
+                position: 'absolute',
+                bottom: 20,
+                padding: 16,
+              }}
+              onPress={() => this.props.navigation.navigate('AddMargin', { invoiceDetails: this.state.invoiceDetails })}>
+              <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
+            </TouchableOpacity>
+        }
         
       </SafeAreaView>
     );

@@ -13,7 +13,7 @@ class Cart {
   fetchInvoice = async (token) => {
     let response_fetched = false;
     let error_message    = {};
-    const fetchInvoiceIdFromStorage = await AsyncStorage.getItem('APP:CurrentInvoiceId');;
+    const fetchInvoiceIdFromStorage = await AsyncStorage.getItem('APP:CurrentInvoiceId');
     if (fetchInvoiceIdFromStorage != null){
       await axios
         .get(`/invoices/${fetchInvoiceIdFromStorage}`, { headers: { Authorization: `Token ${token}` } }
@@ -123,6 +123,37 @@ class Cart {
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai update invoicd per ', error.response.data);
+        error_message = error.response.data;
+        console.log('ERROR ====> ',error_message);
+      });
+    return [response_fetched, error_message];
+  };
+  
+  @action
+  placeOrder = async (token) => {
+    let response_fetched = false;
+    let error_message    = {};
+    const invoiceID = await AsyncStorage.getItem('APP:CurrentInvoiceId');
+    // console.log('invoice user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
+    await axios
+      .patch(
+        `/invoices/${invoiceID}/place_order`, {},
+        {
+          headers: { Authorization: `Token ${token}`,
+          },
+        },
+      )
+      .then((response) => {
+        console.log('Place Order invoce Response-> ' + JSON.stringify(response.data.data));
+        this.invoiceID = response.data.data.id;
+        this.invoiceDetail = response.data.data.attributes;
+        console.log('details ', this.invoiceDetail.net_amount);
+        AsyncStorage.removeItem('APP:CurrentInvoiceId');
+
+        response_fetched = true;
+      })
+      .catch((error) => {
+        console.log('bari zor ka error wajja hai place order invoicd per ', error.response.data);
         error_message = error.response.data;
         console.log('ERROR ====> ',error_message);
       });

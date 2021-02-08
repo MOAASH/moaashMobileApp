@@ -22,6 +22,7 @@ import Orders from './src/screens/Orders';
 import Categories from './src/screens/Categories';
 import Profile from './src/screens/Profile';
 import BankDetails from './src/screens/BankDetails';
+import UserBankAccounts from './src/screens/UserBankAccounts';
 import ItemGroupDetails from './src/screens/ItemGroupDetails';
 import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
@@ -165,16 +166,16 @@ Orders.navigationOptions = ({navigation}) => {
     tabBarVisible,
   };
 };
-Profile.navigationOptions = ({navigation}) => {
-  console.log(navigation.state);
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
-  return {
-    tabBarVisible,
-  };
-};
+// Profile.navigationOptions = ({navigation}) => {
+//   console.log(navigation.state);
+//   let tabBarVisible = true;
+//   if (navigation.state.index > 0) {
+//     tabBarVisible = false;
+//   }
+//   return {
+//     tabBarVisible,
+//   };
+// };
 // const SwitchNavigation = createSwitchNavigator({});
 const AppNavigator = createStackNavigator({
   // Start: {
@@ -259,6 +260,20 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  BankDetails: {
+    screen: BankDetails,
+    navigationOptions: {
+      title: 'Enter Your Bank Account Details',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
   ItemGroupDetails: {
     screen: ItemGroupDetails,
     navigationOptions: {
@@ -273,10 +288,10 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
-  BankDetails: {
-    screen: BankDetails,
+  UserBankAccounts: {
+    screen: UserBankAccounts,
     navigationOptions: {
-      title: 'Enter Your Bank Details',
+      title: 'Registered Bank Accounts',
       headerTitleStyle: {
         fontFamily: Fonts.medium
       },

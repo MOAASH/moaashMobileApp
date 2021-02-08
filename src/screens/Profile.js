@@ -75,7 +75,7 @@ export default class MainLogin extends Component {
             paddingVertical: 20,
             justifyContent: 'space-between',
           }}
-          onPress={() => this.props.navigation.navigate('BankDetails')}>
+          onPress={() => this.props.navigation.navigate('UserBankAccounts')}>
           <View style={{flexDirection: 'row'}}>
             <FontAwesome name="bank" size={20} style={{fontWeight: '700'}} />
             <Text

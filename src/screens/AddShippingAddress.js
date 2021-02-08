@@ -171,7 +171,7 @@ export default class AddShippingAddress extends Component {
             </TouchableOpacity>
           </SafeAreaView>
         )}
-        </Formik>    
+        </Formik>
     );
   }
 }

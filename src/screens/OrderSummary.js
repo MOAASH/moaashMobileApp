@@ -21,6 +21,7 @@ import OrderTotal from '../components/OrderTotal';
 import CartProductCard from '../components/CartProductCard';
 import { RFValue } from "../utils/fontSizeStyling";
 import SoldBy from '../components/SoldBy';
+import LottieView from 'lottie-react-native';
 import SenderInformation from '../components/SenderInformation';
 import ReceiversInformation from '../components/ReceiversInformation';
 
@@ -34,6 +35,7 @@ export default class OrderSummary extends Component {
     super(props);
     this.state = {
       invoiceDetails: null,
+      orderplaced: false
     };
   }
 
@@ -43,8 +45,16 @@ export default class OrderSummary extends Component {
     
   };
   
-  palceOrder = async () => {
-    console.log('order placed')
+  placeOrder = async () => {
+    console.log('order placed');
+    console.log('lol',this.props.User.userInformation.attributes.authentication_token);
+    let [placeOrder, errorMessage] = await this.props.Cart.placeOrder(
+      this.props.User.userInformation.attributes.authentication_token
+    );
+    
+    if (placeOrder){
+      this.props.navigation.navigate('OrderPlaced');
+    }
   };
 
   render() {
@@ -52,6 +62,15 @@ export default class OrderSummary extends Component {
       <SafeAreaView style={styles.container}>
         <ScrollView>
         {
+            this.state.orderplaced && (
+            <View style={{margin: 12, borderRadius: 10, paddingVertical: 24, backgroundColor: Colors.white, alignItems: 'center' }}>
+              <LottieView source={require('../../assets/tick.json')} autoPlay loop={false} style={{ width: 50, height: 50 }} />
+              <Text style={{fontSize: RFValue(10), fontFamily: Fonts.bold }}>ORDER CONFIRMED</Text>   
+              <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular }}>Your ORDER #1 has been placed.</Text>   
+            </View>
+            
+          )}
+          {
             this.state.invoiceDetails && (
             <View style={{margin: 12, borderRadius: 10, backgroundColor: Colors.white }}>
               <View style={{ flex: 1, paddingVertical: 8, paddingHorizontal: 16, backgroundColor: Colors.lightGray2 }}>
