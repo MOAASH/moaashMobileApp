@@ -6,7 +6,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Provider as PaperProvider} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FlashMessage from "react-native-flash-message";
+import FlashMessage from 'react-native-flash-message';
 import Colors from './src/utils/colors';
 import Fonts from './src/utils/fonts';
 import stores from './src/store';
@@ -34,6 +34,7 @@ import AddShippingAddress from './src/screens/AddShippingAddress';
 import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const MainTabs = createBottomTabNavigator(
   {
     Home: {
@@ -49,31 +50,31 @@ const MainTabs = createBottomTabNavigator(
         ),
       },
     },
-    Categories: {
-      screen: Categories,
-      navigationOptions: {
-        tabBarIcon: ({focused}) => (
-          <FontAwesome
-            name="list-alt"
-            size={28}
-            color={focused ? Colors.color1 : Colors.color5}
-          />
-        ),
-        headerTitle: 'Categories',
-      },
-    },
-    Orders: {
-      screen: Orders,
-      navigationOptions: {
-        tabBarIcon: ({focused}) => (
-          <FontAwesome
-            name="gift"
-            size={28}
-            color={focused ? Colors.color1 : Colors.color5}
-          />
-        ),
-      },
-    },
+    // Categories: {
+    //   screen: Categories,
+    //   navigationOptions: {
+    //     tabBarIcon: ({focused}) => (
+    //       <FontAwesome
+    //         name="list-alt"
+    //         size={28}
+    //         color={focused ? Colors.color1 : Colors.color5}
+    //       />
+    //     ),
+    //     headerTitle: 'Categories',
+    //   },
+    // },
+    // Orders: {
+    //   screen: Orders,
+    //   navigationOptions: {
+    //     tabBarIcon: ({focused}) => (
+    //       <FontAwesome
+    //         name="gift"
+    //         size={28}
+    //         color={focused ? Colors.color1 : Colors.color5}
+    //       />
+    //     ),
+    //   },
+    // },
     Cart: {
       screen: Invoice,
       navigationOptions: {
@@ -196,7 +197,7 @@ const AppNavigator = createStackNavigator({
       title: 'Login to your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -210,7 +211,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -224,7 +225,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -238,7 +239,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -252,7 +253,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -265,7 +266,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Enter Your Bank Account Details',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -279,7 +280,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Catalogue',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -293,7 +294,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Registered Bank Accounts',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -307,7 +308,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'My Payments',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -321,7 +322,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'My Shared Products',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -330,7 +331,7 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
-ReferralEarn: {
+  ReferralEarn: {
     screen: ReferralEarn,
     navigationOptions: {
       title: 'Refer & Earn',
@@ -350,7 +351,7 @@ ReferralEarn: {
       title: 'Cart',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -364,7 +365,7 @@ ReferralEarn: {
       title: 'Add your Margin',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -378,7 +379,7 @@ ReferralEarn: {
       title: 'Add Customer Address',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -392,7 +393,7 @@ ReferralEarn: {
       title: 'Select Customer Address',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -406,7 +407,7 @@ ReferralEarn: {
       title: 'Order Summary',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -420,7 +421,7 @@ ReferralEarn: {
       title: 'Order Placed',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -439,6 +440,7 @@ ReferralEarn: {
 export default class MainApp extends Component {
   render() {
     const App = createAppContainer(AppNavigator);
+    AsyncStorage.clear();
     return (
       <Provider {...stores}>
         <PaperProvider>

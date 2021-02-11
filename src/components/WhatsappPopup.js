@@ -14,6 +14,7 @@ import axios from '../utils/axios';
 import Share from 'react-native-share';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
+import ImgToBase64 from 'react-native-image-base64';
 import files from '../components/imageFile64';
 
 @inject('User')
@@ -27,7 +28,7 @@ export default class WhatsappPopup extends Component {
     };
   }
   componentDidMount = async () => {
-    // console.log('Image is  ', files.image1);
+    console.log('Image is  ', this.props.images);
   };
   markOptionImage = async () => {
     this.setState({markImage: !this.state.markImage});
@@ -35,9 +36,26 @@ export default class WhatsappPopup extends Component {
   markOptionDescription = async () => {
     this.setState({markDescription: !this.state.markDescription});
   };
+  convertTo64 = async () => {
+    let myImages = [];
+
+    for (const item of this.props.images) {
+      // console.log('item' + item);
+      await ImgToBase64.getBase64String(item)
+        .then((base64String) => {
+          // console.log('Converting' + base64String);
+          base64String = 'data:image/png;base64,' + base64String;
+          myImages.push(base64String);
+        })
+        .catch((err) => console.log('My error is ', err));
+    }
+
+    return myImages;
+  };
   shareImageToWhatsApp = async () => {
+    var myImages = await this.convertTo64();
     await Share.open({
-      urls: [files.image1, files.image2],
+      urls: myImages,
     });
     this.setState({markImage: true});
     this.shareTextToWhatsapp();

@@ -36,6 +36,7 @@ export default class Home extends Component {
     this.state = {
       sharing: false,
       loaded: true,
+      images: [],
     };
   }
 
@@ -43,19 +44,25 @@ export default class Home extends Component {
     console.log('Home page of the app');
     this.getItemGroups();
   };
-  
+
   getItemGroups = async () => {
-    console.log("thisssssss"+JSON.stringify(this.props.User.userInformation.attributes))
+    console.log(
+      'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
+    );
     let gettingItemGroup = await this.props.Products.getItemGroups(
       this.props.User.userInformation.attributes.authentication_token,
     );
     this.setState({loaded: false});
   };
-  
+
   shareProduct = async () => {
     this.setState({sharing: true});
   };
-  
+  productImages = async (productImages) => {
+    console.log('My images are: ', productImages);
+    this.setState({images: productImages});
+  };
+
   hidePopup = async () => {
     this.setState({sharing: false});
   };
@@ -65,7 +72,12 @@ export default class Home extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
             <Image
               style={{
                 width: 150,
@@ -92,42 +104,48 @@ export default class Home extends Component {
             />
           </TouchableOpacity>
         </View>
-        { !this.state.loaded && (
+        {!this.state.loaded && (
           <FlatList
-          ListHeaderComponent={
-            <>
-              <View>
-                <FlatList
-                  keyExtractor={(item) => item.id}
-                  data={data}
-                  horizontal
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={(item) => (
-                    <AdSlider
-                      AdImage={item}
-                      scrollEnabled={true}
-                      navigation={this.props.navigation}
-                    />
-                  )}
-                />
-              </View>
-              <QualityBanner />
-            </>
-          }
-          keyExtractor={(item) => item.id}
-          data={this.props.Products.itemGroups}
-          renderItem={(item) => (
-            <ItemGroupCard
-              Products={item}
-              scrollEnabled={false}
-              navigation={this.props.navigation}
-              shareProduct={this.shareProduct}
-            />
-          )}
-        />
+            ListHeaderComponent={
+              <>
+                <View>
+                  <FlatList
+                    keyExtractor={(item) => item.id}
+                    data={data}
+                    horizontal
+                    pagingEnabled={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={(item) => (
+                      <AdSlider
+                        AdImage={item}
+                        scrollEnabled={true}
+                        navigation={this.props.navigation}
+                      />
+                    )}
+                  />
+                </View>
+                <QualityBanner />
+              </>
+            }
+            keyExtractor={(item) => item.id}
+            data={this.props.Products.itemGroups}
+            renderItem={(item) => (
+              <ItemGroupCard
+                Products={item}
+                scrollEnabled={false}
+                navigation={this.props.navigation}
+                shareProduct={this.shareProduct}
+                productImages={this.productImages}
+              />
+            )}
+          />
         )}
-        {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
+        {this.state.sharing && (
+          <WhatsappPopup
+            hidePopup={this.hidePopup}
+            images={this.state.images}
+          />
+        )}
         {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
@@ -138,6 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+    marginBottom: 75,
   },
   inputStyle: {
     paddingHorizontal: 10,
