@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import ImgToBase64 from 'react-native-image-base64';
 export default class ItemGroupCard extends Component {
   constructor(props) {
     super(props);
@@ -21,11 +22,29 @@ export default class ItemGroupCard extends Component {
   }
   shareProduct = async () => {
     this.props.shareProduct(true);
+    this.props.loading(true);
+    var myImages = await this.convertTo64();
     console.log(
       'The images of this product are ',
-      this.state.attributes.items_images,
+      // this.state.attributes.items_images,
     );
-    this.props.productImages(this.state.attributes.items_images);
+    this.props.productImages(myImages);
+  };
+  convertTo64 = async () => {
+    let myImages = [];
+
+    for (const item of this.props.images) {
+      // console.log('item' + item);
+      await ImgToBase64.getBase64String(item)
+        .then((base64String) => {
+          // console.log('Converting' + base64String);
+          base64String = 'data:image/png;base64,' + base64String;
+          myImages.push(base64String);
+        })
+        .catch((err) => console.log('My error is ', err));
+    }
+
+    return myImages;
   };
   componentDidMount = async () => {
     console.log('item group description is ', this.state.attributes);
@@ -195,7 +214,7 @@ export default class ItemGroupCard extends Component {
               color={Colors.white}
             />
             <Text style={{fontSize: 18, color: Colors.white, paddingLeft: 12}}>
-              Share Now
+              Share Catalogue
             </Text>
           </TouchableOpacity>
         </View>

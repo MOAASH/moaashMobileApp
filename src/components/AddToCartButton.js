@@ -12,7 +12,7 @@ import Colors from '../utils/colors';
 import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
-import { showMessage } from "react-native-flash-message";
+import {showMessage} from 'react-native-flash-message';
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 
 @inject('User')
@@ -23,40 +23,44 @@ export default class AddToCartButton extends Component {
     super(props);
     this.state = {
       addToCart: false,
-      checkout: props.checkout
+      checkout: props.checkout,
     };
   }
   onButtonPress = async () => {
     console.log('Going to checkout');
     if (this.props.checkout === true) {
       this.props.loading(true);
-      let invoiceParams = this.props.Cart.invoiceParams(this.props.Products.companyDetails.id, [
-        { 
-          item_id: this.props.selectedItem,
-          quantity: this.props.selectedQuantity
-        }]);
+      let invoiceParams = this.props.Cart.invoiceParams(
+        this.props.Products.companyDetails.id,
+        [
+          {
+            item_id: this.props.selectedItem,
+            quantity: this.props.selectedQuantity,
+          },
+        ],
+      );
       let [createInvoice, errorMessage] = await this.props.Cart.addToInvoice(
         this.props.User.userInformation.attributes.authentication_token,
-        invoiceParams
+        invoiceParams,
       );
       this.props.loading(false);
       if (createInvoice) {
         console.log('checkouting jaanu');
         this.props.addToCart(true);
-
+        this.props.navigation.navigate('Invoice');
       } else {
         if ('quantity' in errorMessage) {
-          console.log("============> YEahh fuck");
+          console.log('============> YEahh fuck');
           showMessage({
             message: `Quantity ${errorMessage['quantity']}`,
-            type: "danger",
-            icon: "danger"
+            type: 'danger',
+            icon: 'danger',
           });
         }
         this.props.addToCart(false);
       }
     } else {
-      console.log("===================")
+      console.log('===================');
       this.props.addToCart(true);
     }
   };
@@ -95,7 +99,7 @@ export default class AddToCartButton extends Component {
                 alignSelf: 'center',
                 color: Colors.white,
                 paddingLeft: 12,
-                fontFamily: Fonts.bold
+                fontFamily: Fonts.bold,
               }}>
               Proceed To Checkout
             </Text>
@@ -106,7 +110,7 @@ export default class AddToCartButton extends Component {
                 alignSelf: 'center',
                 color: Colors.white,
                 paddingLeft: 12,
-                fontFamily: Fonts.bold
+                fontFamily: Fonts.bold,
               }}>
               ADD TO CART
             </Text>

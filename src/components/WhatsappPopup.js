@@ -36,27 +36,30 @@ export default class WhatsappPopup extends Component {
   markOptionDescription = async () => {
     this.setState({markDescription: !this.state.markDescription});
   };
-  convertTo64 = async () => {
-    let myImages = [];
+  // convertTo64 = async () => {
+  //   let myImages = [];
 
-    for (const item of this.props.images) {
-      // console.log('item' + item);
-      await ImgToBase64.getBase64String(item)
-        .then((base64String) => {
-          // console.log('Converting' + base64String);
-          base64String = 'data:image/png;base64,' + base64String;
-          myImages.push(base64String);
-        })
-        .catch((err) => console.log('My error is ', err));
-    }
+  //   for (const item of this.props.images) {
+  //     // console.log('item' + item);
+  //     await ImgToBase64.getBase64String(item)
+  //       .then((base64String) => {
+  //         // console.log('Converting' + base64String);
+  //         base64String = 'data:image/png;base64,' + base64String;
+  //         myImages.push(base64String);
+  //       })
+  //       .catch((err) => console.log('My error is ', err));
+  //   }
 
-    return myImages;
-  };
+  //   return myImages;
+  // };
   shareImageToWhatsApp = async () => {
-    var myImages = await this.convertTo64();
+    console.log('Sharing');
+    // this.props.loading(true);
+    // var myImages = await this.convertTo64();
     await Share.open({
-      urls: myImages,
+      urls: this.props.images,
     });
+    // this.props.loading(false);
     this.setState({markImage: true});
     this.shareTextToWhatsapp();
   };
@@ -100,9 +103,7 @@ export default class WhatsappPopup extends Component {
             </Text>
           </View>
           <View style={{flexDirection: 'row'}}>
-            <View
-              style={{paddingTop: 8}}
-              onPress={() => this.markOptionDescription()}>
+            <View style={{paddingTop: 8}}>
               {this.state.markDescription == true ? (
                 <Ionicons name="checkmark-circle" size={25} />
               ) : (

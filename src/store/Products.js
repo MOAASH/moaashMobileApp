@@ -55,7 +55,7 @@ class Products {
         currentItemGroup = response.data.item_group_data.data;
 
         response_fetched = true;
-        return [k, currentItemGroup, items];
+        return [response_fetched, currentItemGroup, items];
       })
       .catch((error) => {
         console.log('bari zor ka error wajja hai items per ' + error);

@@ -179,12 +179,12 @@ Orders.navigationOptions = ({navigation}) => {
 // };
 // const SwitchNavigation = createSwitchNavigator({});
 const AppNavigator = createStackNavigator({
-  // Start: {
-  //   screen: SwitchNavigation,
-  //   navigationOptions: {
-  //     headerShown: false,
-  //   },
-  // },
+  Start: {
+    screen: Splash,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
   StartScreen: {
     screen: StartScreen,
     navigationOptions: {
@@ -440,7 +440,7 @@ const AppNavigator = createStackNavigator({
 export default class MainApp extends Component {
   render() {
     const App = createAppContainer(AppNavigator);
-    AsyncStorage.clear();
+    // AsyncStorage.clear();
     return (
       <Provider {...stores}>
         <PaperProvider>

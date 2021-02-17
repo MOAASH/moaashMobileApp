@@ -22,7 +22,7 @@ export default class AdSlider extends Component {
   }
 
   render() {
-    console.log('Ad data is ', this.state.image);
+    // console.log('Ad data is ', this.state.image);
     return (
       <View style={{alignItems: 'center'}}>
         <Image

@@ -66,6 +66,9 @@ export default class Home extends Component {
   hidePopup = async () => {
     this.setState({sharing: false});
   };
+  loading = async (loading) => {
+    this.setState({loaded: loading});
+  };
 
   render() {
     const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
@@ -136,6 +139,7 @@ export default class Home extends Component {
                 navigation={this.props.navigation}
                 shareProduct={this.shareProduct}
                 productImages={this.productImages}
+                // loading={this.loading()}
               />
             )}
           />
@@ -144,6 +148,7 @@ export default class Home extends Component {
           <WhatsappPopup
             hidePopup={this.hidePopup}
             images={this.state.images}
+            // loading={this.loading()}
           />
         )}
         {this.state.loaded && <Loader />}
