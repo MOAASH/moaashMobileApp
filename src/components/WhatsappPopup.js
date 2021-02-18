@@ -59,15 +59,17 @@ export default class WhatsappPopup extends Component {
     await Share.open({
       urls: this.props.images,
     });
-    // this.props.loading(false);
     this.setState({markImage: true});
     this.shareTextToWhatsapp();
   };
   shareTextToWhatsapp = async () => {
     await Share.open({
-      message: 'I Love you',
+      message: this.props.message,
     });
     this.setState({markDescription: true});
+    let [response_fetched, errors] = await this.props.Products.itemGroupShared(
+      this.props.itemGroup,
+    );
     this.props.hidePopup(false);
   };
   render() {

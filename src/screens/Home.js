@@ -37,6 +37,7 @@ export default class Home extends Component {
       sharing: false,
       loaded: true,
       images: [],
+      message: '',
     };
   }
 
@@ -69,7 +70,9 @@ export default class Home extends Component {
   loading = async (loading) => {
     this.setState({loaded: loading});
   };
-
+  message = async (message) => {
+    this.setState({message: message});
+  };
   render() {
     const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
     return (
@@ -139,7 +142,8 @@ export default class Home extends Component {
                 navigation={this.props.navigation}
                 shareProduct={this.shareProduct}
                 productImages={this.productImages}
-                // loading={this.loading()}
+                message={this.message}
+                // loading={this.loading}
               />
             )}
           />
@@ -148,6 +152,7 @@ export default class Home extends Component {
           <WhatsappPopup
             hidePopup={this.hidePopup}
             images={this.state.images}
+            message={this.state.message}
             // loading={this.loading()}
           />
         )}

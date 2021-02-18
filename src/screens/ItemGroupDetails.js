@@ -43,6 +43,7 @@ export default class ItemGroupDetails extends Component {
       itemGroupData: {},
       copied_text: '',
       image: [],
+      message: '',
     };
   }
 
@@ -84,7 +85,9 @@ export default class ItemGroupDetails extends Component {
     console.log('My images are: ', productImages);
     this.setState({images: productImages});
   };
-
+  message = async (message) => {
+    this.setState({message: message});
+  };
   copyToClipboard = () => {
     Clipboard.setString(
       this.state.itemGroupData.description.replace(/<[^>]+>/g, '\n'),
@@ -209,6 +212,7 @@ export default class ItemGroupDetails extends Component {
                 navigation={this.props.navigation}
                 shareProduct={this.shareProduct}
                 productImages={this.productImages}
+                message={this.message}
               />
             )}
           />
@@ -219,6 +223,7 @@ export default class ItemGroupDetails extends Component {
           <WhatsappPopup
             hidePopup={this.hidePopup}
             images={this.state.images}
+            message={this.state.message}
           />
         )}
       </View>

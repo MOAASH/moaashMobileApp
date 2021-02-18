@@ -169,6 +169,7 @@ export default class ProductDetail extends Component {
       'item group is ',
       this.props.Products.currentItemGroup.attributes,
     );
+    this.setState({loaded: false});
   };
 
   loading = async (loading) => {

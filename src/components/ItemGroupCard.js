@@ -21,29 +21,29 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
-    this.props.shareProduct(true);
-    this.props.loading(true);
-    var myImages = await this.convertTo64();
-    console.log(
-      'The images of this product are ',
-      // this.state.attributes.items_images,
-    );
+    console.log('Lets share');
+    // this.props.loading(true);
+    // console.log('The images of this product are ', this.props.images[0]);
+    var myImages = await this.convertImage();
     this.props.productImages(myImages);
+    this.props.message(this.state.attributes.shareable_message);
+    this.props.shareProduct(true);
   };
-  convertTo64 = async () => {
+  convertImage = async () => {
     let myImages = [];
+    console.log('Hello world ' + this.state.attributes.items_images);
 
-    for (const item of this.props.images) {
-      // console.log('item' + item);
+    for (const item of this.state.attributes.items_images) {
+      console.log('convert');
       await ImgToBase64.getBase64String(item)
         .then((base64String) => {
-          // console.log('Converting' + base64String);
+          console.log('Converting' + base64String);
           base64String = 'data:image/png;base64,' + base64String;
           myImages.push(base64String);
         })
         .catch((err) => console.log('My error is ', err));
     }
-
+    console.log('Bye world');
     return myImages;
   };
   componentDidMount = async () => {

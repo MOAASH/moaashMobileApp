@@ -51,7 +51,7 @@ export default class ItemGroupCard extends Component {
     return myImages;
   };
   componentDidMount = async () => {
-    console.log('item group name ', this.props.Products.item.name);
+    console.log('item group product details ', this.props.Products);
     console.log('item group price ', this.props.Products.item.images[0]);
   };
   render() {

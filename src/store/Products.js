@@ -12,6 +12,24 @@ class Products {
 
   constructor() {}
   @action
+  itemGroupShared = async (itemgroup) => {
+    let response_fetched = false;
+    let error_message = {};
+    await axios
+      .post(`/item_groups/${itemgroup}/add_to_shared`, {
+        headers: {Authorization: `Token ${userAuthenticationToken}`},
+      })
+      .then((response) => {
+        console.log('shared response --------> ', response.data.data);
+        response_fetched = true;
+      })
+      .catch((error) => {
+        error_message = error.response;
+      });
+
+    return [response_fetched, error_message];
+  };
+  @action
   getItemGroups = async (token) => {
     let response_fetched = false;
     console.log('my token is ', token);

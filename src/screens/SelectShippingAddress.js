@@ -13,6 +13,7 @@ import Colors from '../utils/colors';
 import Fonts from '../utils/fonts';
 import {inject} from 'mobx-react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Loader from '../components/Loader';
 import CustomButton from '../components/CustomButton';
 import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -31,6 +32,7 @@ export default class SelectShippingAddress extends Component {
       shippingAddressList: null,
       selectedAddressIndex: 0,
       selectedAddressId: null,
+      loaded: false,
     };
   }
 
@@ -67,6 +69,7 @@ export default class SelectShippingAddress extends Component {
   };
 
   updateInvoice = async () => {
+    this.setState({loaded: true});
     let invoiceParams = this.props.Cart.invoiceParams(
       this.props.Cart.invoiceDetail.company.data.id,
       [],
@@ -212,6 +215,7 @@ export default class SelectShippingAddress extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+        {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
   }
