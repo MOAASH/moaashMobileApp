@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
@@ -23,6 +24,7 @@ import AddToCartButton from '../components/AddToCartButton';
 import ProductDetailsDescriptionCard from '../components/ProductDetailsDescriptionCard';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
+import AdSlider from '../components/AdSlider';
 import SoldBy from '../components/SoldBy';
 import Loader from '../components/Loader';
 import WhatsappPopup from '../components/WhatsappPopup';
@@ -188,7 +190,20 @@ export default class ProductDetail extends Component {
                   height: 220,
                   justifyContent: 'space-evenly',
                 }}>
-                <Image
+                <FlatList
+                  keyExtractor={(item) => item.id}
+                  data={images}
+                  horizontal
+                  pagingEnabled={true}
+                  renderItem={(item) => (
+                    <AdSlider
+                      AdImage={item}
+                      scrollEnabled={true}
+                      navigation={this.props.navigation}
+                    />
+                  )}
+                />
+                {/* <Image
                   resizeMode="contain"
                   style={{
                     width: Dimensions.get('screen').width,
@@ -196,7 +211,7 @@ export default class ProductDetail extends Component {
                     marginTop: 20,
                   }}
                   source={{uri: images[0]}}
-                />
+                /> */}
               </View>
               <View style={{marginTop: 20, paddingHorizontal: 12}}>
                 <Text

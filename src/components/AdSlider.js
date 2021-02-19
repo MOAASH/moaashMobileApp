@@ -22,7 +22,8 @@ export default class AdSlider extends Component {
   }
 
   render() {
-    // console.log('Ad data is ', this.state.image);
+    console.log('Ad data is ', this.state.image);
+    const image = this.state.image;
     return (
       <View style={{alignItems: 'center'}}>
         <Image
@@ -30,7 +31,7 @@ export default class AdSlider extends Component {
             width: Dimensions.get('screen').width,
             height: 240,
           }}
-          source={require('../../assets/MoaashBanner.png')}
+          source={{uri: image}}
           resizeMode="contain"
         />
       </View>
