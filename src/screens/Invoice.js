@@ -40,20 +40,25 @@ export default class Invoice extends Component {
   }
 
   componentDidMount = async () => {
-    const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
-    let [result_fetched, error_message] = await this.props.Cart.fetchInvoice(
-      this.props.User.userInformation.attributes.authentication_token,
-    );
-    if (result_fetched) {
-      await this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
-      console.log(
-        'invoice line item-------------' +
-          JSON.stringify(this.state.invoiceDetails.invoice_line_items),
+    if (this.props.navigation.state.params && this.props.navigation.state.params.invoiceDetails){
+      this.setState({invoiceDetails: this.props.navigation.state.params.invoiceDetails});
+      await AsyncStorage.setItem('APP:CurrentInvoiceId', this.props.navigation.state.params.invoiceId);
+    } else {      
+      const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
+      let [result_fetched, error_message] = await this.props.Cart.fetchInvoice(
+        this.props.User.userInformation.attributes.authentication_token,
       );
-    } else {
-      this.setState({cartEmpty: true});
+      if (result_fetched) {
+        await this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
+        console.log(
+          'invoice line item-------------' +
+            JSON.stringify(this.state.invoiceDetails.invoice_line_items),
+        );
+      } else {
+        this.setState({cartEmpty: true});
+      }
+      // console.log('--------> res',res);
     }
-    // console.log('--------> res',res);
   };
 
   invoiceLineItemsData = () => {

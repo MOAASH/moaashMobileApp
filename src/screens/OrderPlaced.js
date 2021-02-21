@@ -32,7 +32,13 @@ export default class OrderPlaced extends Component {
     headerLeft:  <HeaderBackButton
         tintColor={'white'}
         labelVisible={false}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => {
+          if (!navigation.state.params){
+          navigation.navigate('Home')
+          } else {
+            navigation.goBack();
+          }
+        }}
      />
  });
  
@@ -46,7 +52,12 @@ export default class OrderPlaced extends Component {
 
   componentDidMount = async () => {
     console.log('Starting the app');
-    this.setState({ invoiceDetails: this.props.Cart.invoiceDetail })
+    if (this.props.navigation.state.params && this.props.navigation.state.params.invoiceDetails){
+      await this.setState({invoiceDetails: this.props.navigation.state.params.invoiceDetails});
+      console.log("Invoice Details: ", this.state.invoiceDetails)
+    } else {   
+      this.setState({ invoiceDetails: this.props.Cart.invoiceDetail })
+    }
   };
 
   render() {

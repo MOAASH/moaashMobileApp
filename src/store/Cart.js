@@ -6,6 +6,7 @@ class Cart {
   @observable userToken = '';
   @observable invoiceID = '';
   @observable invoiceDetail = '';
+  @observable invoicesList = [];
 
   constructor() {}
 
@@ -182,6 +183,45 @@ class Cart {
       });
     return [response_fetched, error_message];
   };
+  
+  @action
+  fetchInvoicesList = async () => {
+    let response_fetched = false;
+    let error_message    = {};
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    await axios
+    .get(`/invoices`, {
+      headers: {Authorization: `Token ${userAuthToken}`},
+    })
+    .then((response) => {
+      this.invoicesList = response.data.data;
+      response_fetched = true;
+    })
+    .catch((error) => {
+      error_message = error.response;
+    });
+    return [response_fetched, error_message];
+  }
+  
+  @action
+  fetchInvoiceDetail = async (invoice_id) => {
+    let response_fetched = false;
+    let error_message    = {};
+    let invoiceDetails = null;
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    await axios
+    .get(`/invoices/${invoice_id}`, {
+      headers: {Authorization: `Token ${userAuthToken}`},
+    })
+    .then((response) => {
+      invoiceDetails= response.data.data.attributes;
+      response_fetched = true;
+    })
+    .catch((error) => {
+      error_message = error.response;
+    });
+    return [response_fetched, error_message, invoiceDetails];
+  }
 }
 
 export default Cart;

@@ -3,11 +3,11 @@ import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 
 class Products {
-  @observable itemGroups = {};
+  @observable itemGroups = [];
   @observable currentItemGroup = {};
   @observable items = {};
   @observable companyDetails = {};
-
+  @observable itemGroupLinks = {};
   @observable userToken = '';
 
   constructor() {}
@@ -30,12 +30,12 @@ class Products {
     return [response_fetched, error_message];
   };
   @action
-  getItemGroups = async (token) => {
+  getItemGroups = async (token, page) => {
     let response_fetched = false;
     console.log('my token is ', token);
     this.userToken = token;
     await axios
-      .get('/item_groups/', {
+      .get(`/item_groups?page=${[page]}`, {
         headers: {
           Authorization: `Token ${this.userToken}`,
         },
@@ -43,6 +43,7 @@ class Products {
       .then((response) => {
         console.log('itemgroup Response-> ' + JSON.stringify(response.data));
         this.itemGroups = response.data.data;
+        this.itemGroupLinks = response.data.links;
         response_fetched = true;
         return response_fetched;
       })

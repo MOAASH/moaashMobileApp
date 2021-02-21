@@ -38,21 +38,36 @@ export default class Home extends Component {
       loaded: true,
       images: [],
       message: '',
+      itemGroups: []
     };
   }
 
   componentDidMount = () => {
-    console.log('Home page of the app');
+    // this.props.navigation.addListener('tabPress', async (e) => {
+    //   e.preventDefault();
+    //   console.log('Home page of the app');
+    //   // this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
+    // });
     this.getItemGroups();
   };
 
-  getItemGroups = async () => {
+  getItemGroups = async (page = 1) => {
     console.log(
       'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
     );
-    let gettingItemGroup = await this.props.Products.getItemGroups(
-      this.props.User.userInformation.attributes.authentication_token,
-    );
+    console.log('Pagee -----------------> ', page);
+    if (page != null){
+      let gettingItemGroup = await this.props.Products.getItemGroups(
+        this.props.User.userInformation.attributes.authentication_token,
+        page
+      );
+      var stateItemGroups = this.state.itemGroups;
+      stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups)
+      await this.setState({ itemGroups: stateItemGroups });
+      console.log(stateItemGroups)
+    }
+    
+    console.log('--------------------->',this.props.Products.itemGroupLinks.next)
     this.setState({loaded: false});
   };
 
@@ -112,6 +127,8 @@ export default class Home extends Component {
         </View>
         {!this.state.loaded && (
           <FlatList
+            onEndReachedThreshold={0.75}
+            onEndReached={() =>  this.getItemGroups(this.props.Products.itemGroupLinks.next)}
             ListHeaderComponent={
               <>
                 <View>
@@ -134,7 +151,8 @@ export default class Home extends Component {
               </>
             }
             keyExtractor={(item) => item.id}
-            data={this.props.Products.itemGroups}
+            data={this.state.itemGroups}
+            ref={(ref) => { this.flatListRef = ref; }}
             renderItem={(item) => (
               <ItemGroupCard
                 Products={item}

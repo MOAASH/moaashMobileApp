@@ -35,6 +35,27 @@ import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const CartNavigator = createStackNavigator({
+  Cart: {
+    screen: Orders,
+    navigationOptions: {
+      title: 'Your Orders',
+      headerTintColor: 'white',
+      headerLeft: () => {
+        return null;
+      },
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  }
+});
+
 const MainTabs = createBottomTabNavigator(
   {
     Home: {
@@ -76,8 +97,9 @@ const MainTabs = createBottomTabNavigator(
     //   },
     // },
     Cart: {
-      screen: Invoice,
+      screen: CartNavigator,
       navigationOptions: {
+        tabBarLabel: 'Orders',
         tabBarIcon: ({focused}) => (
           <FontAwesome
             name="shopping-cart"
@@ -178,6 +200,7 @@ Orders.navigationOptions = ({navigation}) => {
 //   };
 // };
 // const SwitchNavigation = createSwitchNavigator({});
+
 const AppNavigator = createStackNavigator({
   Start: {
     screen: Splash,
