@@ -40,13 +40,13 @@ export default class MainLogin extends Component {
     console.log('confirming sign in the app');
     this.setState({loaded: true});
     let loginUser = await this.props.User.loginUser(
-      // this.state.phone,
-      // this.state.password,
-      '03218449409',
-      'Hamza123',
+      this.state.phone,
+      this.state.password,
+      // '03218449409',
+      // 'Hamza123',
     );
-    // let value = {phone: this.state.email, password: this.state.password};
-    let value = {phone: '03218449409', password: 'Hamza123'};
+    let value = {phone: this.state.email, password: this.state.password};
+    // let value = {phone: '03218449409', password: 'Hamza123'};
     if (loginUser === true) {
       this.setState({loaded: false});
       let newlogin = await this.storeData(value);

@@ -20,6 +20,9 @@ export default class AdSlider extends Component {
       image: AdImage.item,
     };
   }
+  componentDidMount = async() =>{
+    console.log("Hello world")
+  }
 
   render() {
     console.log('Ad data is ', this.state.image);
@@ -31,7 +34,7 @@ export default class AdSlider extends Component {
             width: Dimensions.get('screen').width,
             height: 240,
           }}
-          source={{uri: image}}
+          source={image}
           resizeMode="contain"
         />
       </View>

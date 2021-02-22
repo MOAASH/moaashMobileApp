@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {inject} from 'mobx-react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CustomButton from '../components/CustomButton';
@@ -37,9 +38,26 @@ export default class MainLogin extends Component {
     } else {
       let registerUser = await this.props.User.registerUser();
       this.setState({loaded: false});
-      registerUser === true
-        ? this.props.navigation.navigate('Home')
-        : this.props.navigation.navigate('StartScreen');
+      if (registerUser === true){
+        let value = {phone: this.props.User.phoneNumber, password: this.props.User.password};
+        let newlogin = await this.storeData(value);
+        this.props.navigation.navigate('Home');
+      }
+      else{
+        Alert.alert("Unable to create account")
+        this.props.navigation.navigate('StartScreen');
+      }
+    }
+  };
+  storeData = async (value) => {
+    console.log('MY value is ', value);
+    try {
+      const login = JSON.stringify(value);
+      await AsyncStorage.setItem('@storage_Key', login);
+      return true;
+    } catch (e) {
+      // saving error
+      return false;
     }
   };
   showPassword = async () => {

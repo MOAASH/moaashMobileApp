@@ -89,7 +89,7 @@ export default class Home extends Component {
     this.setState({message: message});
   };
   render() {
-    const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
+    const data = [require('../../assets/MoaashBanner.png'), require('../../assets/Logo.png')];
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>

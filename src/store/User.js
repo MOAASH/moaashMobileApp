@@ -27,7 +27,7 @@ class User {
   @action
   registerUser = async () => {
     let response_fetched = false;
-    console.log('registering user');
+    console.log('registering user new', this.Name, this.phoneNumber, this.password);
     await axios
       .post('/users', {
         sign_up: {
