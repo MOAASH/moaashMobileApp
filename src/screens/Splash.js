@@ -11,8 +11,8 @@ export default class Splash extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      count: 3,
-      loaded: false,
+      count: 1,
+      loaded: true,
     };
   }
 
@@ -26,7 +26,6 @@ export default class Splash extends Component {
           this.inc();
         }, 1000);
       } else {
-        this.setState({loaded: true});
         const value = JSON.parse(jsonValue);
         console.log('My username is ', value.phone);
         console.log('My password is ', value.password);
@@ -49,10 +48,14 @@ export default class Splash extends Component {
       clearInterval(this.interval);
       this.props.navigation.navigate('StartScreen');
     } else {
+      console.log('Decreaseing');
       this.setState((prevState) => ({
         count: prevState.count - 1,
       }));
     }
+  };
+  componentWillUnmount = async () => {
+    clearInterval(this.interval);
   };
   render() {
     return (

@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TextInput,
   Icon,
+  AppState,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -38,14 +39,19 @@ export default class Home extends Component {
       loaded: true,
       images: [],
       message: '',
-      itemGroups: []
+      itemGroups: [],
+      itemGroupNumber: 0,
     };
   }
 
   componentDidMount = () => {
-    // this.props.navigation.addListener('tabPress', async (e) => {
-    //   e.preventDefault();
+    // AppState.addEventListener('change', () => {
+    //   console.log('trying');
+    //   console.log(AppState.currentState);
+    // });
+    // this.props.navigation.addListener('didFocus', async () => {
     //   console.log('Home page of the app');
+
     //   // this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
     // });
     this.getItemGroups();
@@ -56,18 +62,21 @@ export default class Home extends Component {
       'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
     );
     console.log('Pagee -----------------> ', page);
-    if (page != null){
+    if (page != null) {
       let gettingItemGroup = await this.props.Products.getItemGroups(
         this.props.User.userInformation.attributes.authentication_token,
-        page
+        page,
       );
       var stateItemGroups = this.state.itemGroups;
-      stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups)
-      await this.setState({ itemGroups: stateItemGroups });
-      console.log(stateItemGroups)
+      stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups);
+      await this.setState({itemGroups: stateItemGroups});
+      console.log(stateItemGroups);
     }
-    
-    console.log('--------------------->',this.props.Products.itemGroupLinks.next)
+
+    console.log(
+      '--------------------->',
+      this.props.Products.itemGroupLinks.next,
+    );
     this.setState({loaded: false});
   };
 
@@ -75,12 +84,17 @@ export default class Home extends Component {
     this.setState({sharing: true});
   };
   productImages = async (productImages) => {
-    console.log('My images are: ', productImages);
+    // console.log('My images are: ', productImages);
     this.setState({images: productImages});
   };
 
   hidePopup = async () => {
     this.setState({sharing: false});
+  };
+
+  number = async (number) => {
+    console.log('setting item group number to ', number);
+    this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {
     this.setState({loaded: loading});
@@ -89,7 +103,10 @@ export default class Home extends Component {
     this.setState({message: message});
   };
   render() {
-    const data = [require('../../assets/MoaashBanner.png'), require('../../assets/Logo.png')];
+    const data = [
+      require('../../assets/MoaashBanner.png'),
+      require('../../assets/Logo.png'),
+    ];
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -128,7 +145,9 @@ export default class Home extends Component {
         {!this.state.loaded && (
           <FlatList
             onEndReachedThreshold={0.75}
-            onEndReached={() =>  this.getItemGroups(this.props.Products.itemGroupLinks.next)}
+            onEndReached={() =>
+              this.getItemGroups(this.props.Products.itemGroupLinks.next)
+            }
             ListHeaderComponent={
               <>
                 <View>
@@ -152,7 +171,9 @@ export default class Home extends Component {
             }
             keyExtractor={(item) => item.id}
             data={this.state.itemGroups}
-            ref={(ref) => { this.flatListRef = ref; }}
+            ref={(ref) => {
+              this.flatListRef = ref;
+            }}
             renderItem={(item) => (
               <ItemGroupCard
                 Products={item}
@@ -161,6 +182,7 @@ export default class Home extends Component {
                 shareProduct={this.shareProduct}
                 productImages={this.productImages}
                 message={this.message}
+                number={this.number}
                 // loading={this.loading}
               />
             )}
@@ -171,6 +193,7 @@ export default class Home extends Component {
             hidePopup={this.hidePopup}
             images={this.state.images}
             message={this.state.message}
+            number={this.state.itemGroupNumber}
             // loading={this.loading()}
           />
         )}

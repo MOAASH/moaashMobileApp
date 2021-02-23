@@ -45,15 +45,14 @@ export default class MainLogin extends Component {
       // '03218449409',
       // 'Hamza123',
     );
-    let value = {phone: this.state.email, password: this.state.password};
+    let value = {phone: this.state.phone, password: this.state.password};
     // let value = {phone: '03218449409', password: 'Hamza123'};
     if (loginUser === true) {
-      this.setState({loaded: false});
       let newlogin = await this.storeData(value);
       this.props.navigation.navigate('Home');
     } else {
-      Alert.alert('Invalid Credentials');
       this.setState({loaded: false});
+      Alert.alert('Invalid Credentials');
       this.props.navigation.navigate('Login');
     }
   };

@@ -82,7 +82,7 @@ export default class ItemGroupDetails extends Component {
     this.setState({sharing: false});
   };
   productImages = async (productImages) => {
-    console.log('My images are: ', productImages);
+    // console.log('My images are: ', productImages);
     this.setState({images: productImages});
   };
   message = async (message) => {
@@ -224,6 +224,7 @@ export default class ItemGroupDetails extends Component {
             hidePopup={this.hidePopup}
             images={this.state.images}
             message={this.state.message}
+            number={this.props.navigation.state.params.groupID}
           />
         )}
       </View>

@@ -16,6 +16,7 @@ import {inject} from 'mobx-react';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+@inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +55,7 @@ export default class MainLogin extends Component {
                 fontSize: 16,
                 fontWeight: '600',
               }}>
-              Hamza
+              {this.props.User.userInformation.attributes.name}
             </Text>
             <Text
               style={{
@@ -62,7 +63,7 @@ export default class MainLogin extends Component {
                 paddingLeft: 12,
                 fontSize: 16,
               }}>
-              +92 333 1473395
+              {this.props.User.userInformation.attributes.phone_number}
             </Text>
           </View>
         </TouchableOpacity>
@@ -95,7 +96,7 @@ export default class MainLogin extends Component {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             flexDirection: 'row',
             backgroundColor: Colors.lightGray,
@@ -121,7 +122,7 @@ export default class MainLogin extends Component {
             }}>
             <Ionicons name="ios-chevron-forward-outline" size={20} style={{}} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={{

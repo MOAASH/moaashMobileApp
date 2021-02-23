@@ -24,8 +24,9 @@ import AddToCartButton from '../components/AddToCartButton';
 import ProductDetailsDescriptionCard from '../components/ProductDetailsDescriptionCard';
 import IconBanner from '../components/IconBanner';
 import SelectSizePopup from '../components/SelectSizePopup';
-import AdSlider from '../components/AdSlider';
+import ProductImages from '../components/ProductImages';
 import SoldBy from '../components/SoldBy';
+import ImgToBase64 from 'react-native-image-base64';
 import Loader from '../components/Loader';
 import WhatsappPopup from '../components/WhatsappPopup';
 
@@ -196,7 +197,7 @@ export default class ProductDetail extends Component {
                   horizontal
                   pagingEnabled={true}
                   renderItem={(item) => (
-                    <AdSlider
+                    <ProductImages
                       AdImage={item}
                       scrollEnabled={true}
                       navigation={this.props.navigation}

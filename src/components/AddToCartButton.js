@@ -76,7 +76,6 @@ export default class AddToCartButton extends Component {
           style={{
             backgroundColor: Colors.color3,
             flexDirection: 'row',
-            paddingBottom: 30,
             padding: 8,
             alignItems: 'center',
             alignContent: 'center',

@@ -10,6 +10,8 @@ import {
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ImgToBase64 from 'react-native-image-base64';
+import {inject} from 'mobx-react';
+@inject('Products')
 export default class ItemGroupCard extends Component {
   constructor(props) {
     super(props);
@@ -21,9 +23,8 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
-    console.log('Lets share');
-    // this.props.loading(true);
-    // console.log('The images of this product are ', this.props.images[0]);
+    console.log('Lets share ', this.state.id);
+    this.props.number(this.state.id);
     var myImages = await this.convertImage();
     this.props.productImages(myImages);
     this.props.message(this.state.attributes.shareable_message);
@@ -31,19 +32,15 @@ export default class ItemGroupCard extends Component {
   };
   convertImage = async () => {
     let myImages = [];
-    console.log('Hello world ' + this.state.attributes.items_images);
 
     for (const item of this.state.attributes.items_images) {
-      console.log('convert');
       await ImgToBase64.getBase64String(item)
         .then((base64String) => {
-          console.log('Converting' + base64String);
           base64String = 'data:image/png;base64,' + base64String;
           myImages.push(base64String);
         })
         .catch((err) => console.log('My error is ', err));
     }
-    console.log('Bye world');
     return myImages;
   };
   componentDidMount = async () => {

@@ -53,7 +53,7 @@ const CartNavigator = createStackNavigator({
         backgroundColor: Colors.color2,
       },
     },
-  }
+  },
 });
 
 const MainTabs = createBottomTabNavigator(
@@ -312,34 +312,6 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
-  UserBankAccounts: {
-    screen: UserBankAccounts,
-    navigationOptions: {
-      title: 'Registered Bank Accounts',
-      headerTitleStyle: {
-        fontFamily: Fonts.medium,
-      },
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
-    },
-  },
-  Payments: {
-    screen: Payments,
-    navigationOptions: {
-      title: 'My Payments',
-      headerTitleStyle: {
-        fontFamily: Fonts.medium,
-      },
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
-    },
-  },
   MySharedProducts: {
     screen: MySharedProducts,
     navigationOptions: {
@@ -354,6 +326,21 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  UserBankAccounts: {
+    screen: UserBankAccounts,
+    navigationOptions: {
+      title: 'Registered Bank Accounts',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+
   ReferralEarn: {
     screen: ReferralEarn,
     navigationOptions: {
@@ -456,6 +443,20 @@ const AppNavigator = createStackNavigator({
     screen: MainTabs,
     navigationOptions: {
       headerShown: false,
+    },
+  },
+  Payments: {
+    screen: Payments,
+    navigationOptions: {
+      title: 'My Payments',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
     },
   },
 });

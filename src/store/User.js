@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class User {
   @observable Name = '';
-  @observable phoneNumber = "100000";
+  @observable phoneNumber = '100000';
   @observable password = '';
   @observable userInformation = {};
 
@@ -19,15 +19,33 @@ class User {
     console.log('password is set to  ', password);
     this.password = password;
   };
-  setPhone = (phoneNumber) => {
+  @action
+  setPhone = async (phoneNumber) => {
+    let response_fetched = false;
     console.log('phoneNumber is set to  ', phoneNumber);
-    this.phoneNumber = phoneNumber;
+    await axios
+      .get(`/users/find_phone_number?phone_number=${phoneNumber}`)
+      .then((response) => {
+        console.log('My response is hello ' + JSON.stringify(response.data));
+        this.phoneNumber = phoneNumber;
+      })
+      .catch((error) => {
+        console.log('error ', error);
+        response_fetched = true;
+      });
+
+    return response_fetched;
   };
 
   @action
   registerUser = async () => {
     let response_fetched = false;
-    console.log('registering user new', this.Name, this.phoneNumber, this.password);
+    console.log(
+      'registering user new',
+      this.Name,
+      this.phoneNumber,
+      this.password,
+    );
     await axios
       .post('/users', {
         sign_up: {
@@ -62,7 +80,10 @@ class User {
       .then((response) => {
         console.log('signin Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
-        AsyncStorage.setItem('APP:UserAuthToken', this.userInformation.attributes.authentication_token);
+        AsyncStorage.setItem(
+          'APP:UserAuthToken',
+          this.userInformation.attributes.authentication_token,
+        );
         response_fetched = true;
         return response_fetched;
       })

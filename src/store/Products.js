@@ -9,25 +9,34 @@ class Products {
   @observable companyDetails = {};
   @observable itemGroupLinks = {};
   @observable userToken = '';
+  @observable sharedGroups = [];
+  @observable sharedItemGroupLinks = {};
+  @observable itemgroupNumber;
 
   constructor() {}
+
   @action
-  itemGroupShared = async (itemgroup) => {
+  getShareItemGroups = async (token) => {
     let response_fetched = false;
-    let error_message = {};
+    console.log('my token is ', token);
+    this.userToken = token;
     await axios
-      .post(`/item_groups/${itemgroup}/add_to_shared`, {
-        headers: {Authorization: `Token ${userAuthenticationToken}`},
+      .get('/item_groups/shared', {
+        headers: {
+          Authorization: `Token ${this.userToken}`,
+        },
       })
       .then((response) => {
-        console.log('shared response --------> ', response.data.data);
+        console.log('itemgroup Response-> ' + JSON.stringify(response.data));
+        this.sharedGroups = response.data.data;
+        this.sharedItemGroupLinks = response.data.links;
         response_fetched = true;
+        return response_fetched;
       })
       .catch((error) => {
-        error_message = error.response;
+        console.log('bari zor ka error wajja hai itemgroups per ' + error);
       });
-
-    return [response_fetched, error_message];
+    return response_fetched;
   };
   @action
   getItemGroups = async (token, page) => {
@@ -56,6 +65,7 @@ class Products {
   getItems = async (ID) => {
     let response_fetched = false;
     let currentItemGroup = {};
+    this.itemgroupNumber = ID;
     let items = {};
 
     console.log('my item id is ', ID);
@@ -80,6 +90,38 @@ class Products {
         console.log('bari zor ka error wajja hai items per ' + error);
       });
     return [response_fetched, currentItemGroup, items];
+  };
+  @action
+  itemGroupShared = async (itemgroupNumber) => {
+    this.itemgroupNumber = itemgroupNumber;
+    let response_fetched = false;
+    let error_message = {};
+    console.log(
+      'Itemgroup number is ',
+      itemgroupNumber,
+      ' and token is ',
+      this.userToken,
+    );
+    await axios
+      .post(
+        `/item_groups/${itemgroupNumber}/add_to_shared`,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${this.userToken}`,
+          },
+        },
+      )
+      .then((response) => {
+        console.log('shared response --------> ', response.data.data);
+        response_fetched = true;
+      })
+      .catch((error) => {
+        error_message = error.response;
+      });
+    console.log('done');
+
+    return [response_fetched, error_message];
   };
 }
 
