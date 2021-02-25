@@ -127,7 +127,7 @@ export default class SelectShippingAddress extends Component {
                       style={{width: RFPercentage(2), height: RFPercentage(2)}}
                     />
                   </View>
-                  <View style={{flex: 1, paddingLeft: 12}}>
+                  <View style={{flex: 1, marginLeft: 20}}>
                     <View
                       style={{
                         flexDirection: 'row',

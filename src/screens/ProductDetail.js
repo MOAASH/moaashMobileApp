@@ -158,9 +158,11 @@ export default class ProductDetail extends Component {
     this.setState({
       ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
       name: this.props.navigation.state.params.details.name,
+      message: this.props.navigation.state.params.details.shareable_message,
       ProductDetailsData: this.props.navigation.state.params.details.data,
       price: this.props.navigation.state.params.details.data[0].price,
       ProductDetailsImages: this.props.navigation.state.params.details.images,
+
       loaded: false,
     });
     let result = this.props.navigation.state.params.details.data.map(
@@ -320,7 +322,8 @@ export default class ProductDetail extends Component {
         {this.state.sharing && (
           <WhatsappPopup
             hidePopup={this.hidePopup}
-            images={this.state.images}
+            images={this.state.myImages}
+            message={this.state.message}
           />
         )}
         {this.state.loaded && <Loader />}

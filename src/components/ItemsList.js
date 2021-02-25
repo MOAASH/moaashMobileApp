@@ -24,6 +24,7 @@ export default class ItemGroupCard extends Component {
       name: Products.item.name,
       data: Products.item.data,
       images: Products.item.images,
+      message: Products.item.shareable_message,
       price: Products.item.data[0].price,
     };
   }
@@ -33,6 +34,7 @@ export default class ItemGroupCard extends Component {
     var myImages = await this.convertTo64();
     console.log('The images of this product are ');
     this.props.productImages(myImages);
+    this.props.message(this.state.message);
   };
   convertTo64 = async () => {
     let myImages = [];

@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   CheckBox,
+  TextInput,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -14,7 +15,7 @@ import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {TextInput} from 'react-native-paper';
+// import {TextInput} from 'react-native-paper';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -44,10 +45,16 @@ const FormInput = ({
         underlineColor={Colors.lightGray2}
         style={[
           styles.inputStyle,
-          {marginTop: 4, backgroundColor: Colors.white},
+          {
+            marginTop: 4,
+            backgroundColor: Colors.white,
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.color1,
+          },
         ]}
         label={placeholder}
         placeholder={placeholder}
+        placeholderTextColor={Colors.black}
         keyboardType={keyboard ? keyboard : 'default'}
         returnKeyType="next"
         onChangeText={handleChange}
@@ -131,40 +138,31 @@ export default class BankDetails extends Component {
                   {
                     label: 'Bank Transfer',
                     value: 'bankTransfer',
-                    selected: true,
                   },
                   {label: 'JazzCash', value: 'jazzCash'},
                   {label: 'EasyPaisa', value: 'easyPaisa'},
                 ]}
                 defaultValue={'bankTransfer'}
-                containerStyle={{
-                  marginTop: 20,
-                  fontFamily: 'Poppins-Medium',
-                  zIndex: 99,
-                }}
                 labelStyle={{
                   fontSize: 14,
                   textAlign: 'left',
                   fontFamily: 'Poppins-Regular',
                   color: '#000',
                 }}
-                style={{
-                  backgroundColor: '#fafafa',
-                  backgroundColor: Colors.white,
-                  zIndex: 99,
-                }}
+                style={{}}
                 itemStyle={{
                   justifyContent: 'flex-start',
-                  zIndex: 99,
                 }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
-                onChangeItem={(item) =>
+                dropDownStyle={{}}
+                onChangeItem={(item) => {
+                  console.log('Selecting');
                   this.setState({
                     accountType: item.value,
                     bank_name: props.setFieldValue('bank_name', item.label),
-                  })
-                }
+                  });
+                }}
               />
+
               {this.state.accountType == 'bankTransfer' && (
                 <FormInput
                   placeholder={'Bank Name'}

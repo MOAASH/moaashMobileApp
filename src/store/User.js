@@ -31,6 +31,7 @@ class User {
       })
       .catch((error) => {
         console.log('error ', error);
+        this.phoneNumber = phoneNumber;
         response_fetched = true;
       });
 

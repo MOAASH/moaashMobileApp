@@ -58,9 +58,6 @@ export default class Home extends Component {
   };
 
   getItemGroups = async (page = 1) => {
-    console.log(
-      'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
-    );
     console.log('Pagee -----------------> ', page);
     if (page != null) {
       let gettingItemGroup = await this.props.Products.getItemGroups(
