@@ -37,7 +37,7 @@ export default class SelectShippingAddress extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
     this.props.navigation.addListener('didFocus', async () => {
       let [
         response_fetched,
@@ -76,17 +76,17 @@ export default class SelectShippingAddress extends Component {
       undefined,
       this.state.selectedAddressId,
     );
-    console.log(invoiceParams);
+    // console.log(invoiceParams);
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
       this.props.User.userInformation.attributes.authentication_token,
       invoiceParams,
     );
     // this.props.loading(false);
     if (updateInvoice) {
-      console.log('checkouting jaanu');
+      // console.log('checkouting jaanu');
       this.props.navigation.navigate('OrderSummary');
     } else {
-      console.log('============> YEahh fuck');
+      // console.log('============> YEahh fuck');
     }
   };
 

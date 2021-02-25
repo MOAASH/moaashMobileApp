@@ -52,7 +52,7 @@ export default class OrderPlaced extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
     if (
       this.props.navigation.state.params &&
       this.props.navigation.state.params.invoiceDetails
@@ -60,7 +60,7 @@ export default class OrderPlaced extends Component {
       await this.setState({
         invoiceDetails: this.props.navigation.state.params.invoiceDetails,
       });
-      console.log('Invoice Details: ', this.state.invoiceDetails);
+      // console.log('Invoice Details: ', this.state.invoiceDetails);
     } else {
       this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
     }

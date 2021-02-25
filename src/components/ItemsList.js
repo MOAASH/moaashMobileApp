@@ -32,7 +32,7 @@ export default class ItemGroupCard extends Component {
     this.props.shareProduct(true);
     // this.props.loading(true);
     var myImages = await this.convertTo64();
-    console.log('The images of this product are ');
+    // console.log('The images of this product are ');
     this.props.productImages(myImages);
     this.props.message(this.state.message);
   };
@@ -53,8 +53,8 @@ export default class ItemGroupCard extends Component {
     return myImages;
   };
   componentDidMount = async () => {
-    console.log('item group product details ', this.props.Products);
-    console.log('item group price ', this.props.Products.item.images[0]);
+    // console.log('item group product details ', this.props.Products);
+    // console.log('item group price ', this.props.Products.item.images[0]);
   };
   render() {
     const images = this.state.images;

@@ -47,7 +47,7 @@ export default class WhatsappPopup extends Component {
       this.setState({markDescription: true});
     });
     if (this.state.markImage === false) {
-      console.log('text done ', this.props.number);
+      // console.log('text done ', this.props.number);
       let [
         response_fetched,
         errors,
@@ -57,14 +57,14 @@ export default class WhatsappPopup extends Component {
   };
 
   shareImageToWhatsApp = async () => {
-    console.log('Sharing');
+    // console.log('Sharing');
     await Share.open({
       urls: this.props.images,
       failOnCancel: false,
     });
     this.setState({markImage: true});
     if (this.state.markDescription === false) {
-      console.log('Images done ', this.props.number);
+      // console.log('Images done ', this.props.number);
       let [
         response_fetched,
         errors,

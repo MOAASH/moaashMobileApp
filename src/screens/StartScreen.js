@@ -12,7 +12,7 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
 
   render() {
@@ -46,7 +46,11 @@ export default class MainLogin extends Component {
             borderRadius: 10,
             padding: 16,
           }}
-          textStyle={{fontSize: 20, color: Colors.white, fontFamily: 'Poppins-Medium'}}
+          textStyle={{
+            fontSize: 20,
+            color: Colors.white,
+            fontFamily: 'Poppins-Medium',
+          }}
           navigation={this.props.navigation}
           onPress="SignupName"
         />

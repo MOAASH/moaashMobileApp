@@ -30,7 +30,7 @@ export default class SelectSizePopup extends Component {
     };
   }
   componentDidMount = async () => {
-    console.log('size is  ', this.props.sizes);
+    // console.log('size is  ', this.props.sizes);
     const container = {};
     let isSizeSelected = this.props.sizes.map((size) => {
       container[size] = false;

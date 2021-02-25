@@ -126,7 +126,7 @@ export default class ProductDetail extends Component {
     this.setState({sharing: false});
   };
   addToCart = async (prop) => {
-    console.log('adding' + prop);
+    // console.log('adding' + prop);
     this.setState({addToCart: prop, added: prop});
   };
 
@@ -135,7 +135,7 @@ export default class ProductDetail extends Component {
       this.setState({added: false});
     } else {
       var index = this.state.sizes.indexOf(prop[1]);
-      console.log('--------->', prop);
+      // console.log('--------->', prop);
       this.setState({
         added: prop,
         selectedItem: this.props.navigation.state.params.details.data[index]
@@ -143,7 +143,7 @@ export default class ProductDetail extends Component {
         selectedQuantity: prop[2],
       });
       this.props.navigation.setParams({addedToCart: true});
-      console.log('==================> LFOR', this.props.navigation);
+      // console.log(14'==================> LFOR', this.props.navigation);
     }
   };
 
@@ -154,7 +154,7 @@ export default class ProductDetail extends Component {
   componentDidMount = async () => {
     this.props.navigation.setParams({addedToCart: false});
     // this.props.navigation.setParams({isHeaderShow: true});
-    console.log('==================> ROFL', this.props.navigation);
+    // console.log('==================> ROFL', this.props.navigation);
     this.setState({
       ItemGroupDetail: this.props.Products.currentItemGroup.attributes,
       name: this.props.navigation.state.params.details.name,
@@ -169,11 +169,11 @@ export default class ProductDetail extends Component {
       (a) => a.size,
     );
     this.setState({sizes: result});
-    console.log('result is ', result);
-    console.log(
-      'item group is ',
-      this.props.Products.currentItemGroup.attributes,
-    );
+    // console.log('result is ', result);
+    // console.log(
+    //   'item group is ',
+    //   this.props.Products.currentItemGroup.attributes,
+    // );
     this.setState({loaded: false});
   };
 

@@ -2,7 +2,7 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {OrderState} from '../utils/order'
+import {OrderState} from '../utils/order';
 class Cart {
   @observable userToken = '';
   @observable invoiceID = '';
@@ -42,11 +42,11 @@ class Cart {
     try {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
       let response_fetched = false;
-      console.log('=====InvoiceID', invoiceId);
+      // console.log('=====InvoiceID', invoiceId);
       if (invoiceId == null) {
         response_fetched = await this.createInvoice(token, invoice_params);
       } else {
-        console.log('=====LOLOLOLOLOL');
+        // console.log('=====LOLOLOLOLOL');
         response_fetched = await this.updateInvoice(
           token,
           invoice_params,
@@ -78,7 +78,7 @@ class Cart {
     if (customer_address_id) {
       invoice_params.customer_address_id = customer_address_id;
     }
-    console.log('Invoice Params ------> ', JSON.stringify(invoice_params));
+    // console.log('Invoice Params ------> ', JSON.stringify(invoice_params));
     return invoice_params;
   };
 
@@ -97,18 +97,18 @@ class Cart {
         },
       )
       .then((response) => {
-        console.log(
-          'create invoce Response-> ' + JSON.stringify(response.data.data),
-        );
+        // console.log(
+        //   'create invoce Response-> ' + JSON.stringify(response.data.data),
+        // );
         this.invoiceID = response.data.data.id;
         this.invoiceDetail = response.data.data.attributes;
         AsyncStorage.setItem('APP:CurrentInvoiceId', this.invoiceID);
-        console.log('details ', this.invoiceDetail.net_amount);
+        // console.log('details ', this.invoiceDetail.net_amount);
 
         response_fetched = true;
       })
       .catch((error) => {
-        console.log('bari zor ka error wajja hai create invoicd per ' + error);
+        // console.log('bari zor ka error wajja hai create invoicd per ' + error);
         error_message = error.response.data;
       });
     return [response_fetched, error_message];
@@ -129,27 +129,27 @@ class Cart {
         },
       )
       .then((response) => {
-        console.log(
-          'Update invoce Response-> ' + JSON.stringify(response.data.data),
-        );
+        // console.log(
+        //   'Update invoce Response-> ' + JSON.stringify(response.data.data),
+        // );
         this.invoiceID = response.data.data.id;
         this.invoiceDetail = response.data.data.attributes;
 
         if (this.invoiceDetail.status == OrderState.archived.name){
           this.invoiceDetail = null;
           AsyncStorage.removeItem('APP:CurrentInvoiceId');
-        } 
-        console.log('details ', this.invoiceDetail.net_amount);
+        }
+        // console.log('details ', this.invoiceDetail.net_amount);
 
         response_fetched = true;
       })
       .catch((error) => {
-        console.log(
-          'bari zor ka error wajja hai update invoicd per ',
-          error.response.data,
-        );
+        // console.log(
+        //   'bari zor ka error wajja hai update invoicd per ',
+        //   error.response.data,
+        // );
         error_message = error.response.data;
-        console.log('ERROR ====> ', error_message);
+        // console.log('ERROR ====> ', error_message);
       });
     return [response_fetched, error_message];
   };
@@ -169,65 +169,65 @@ class Cart {
         },
       )
       .then((response) => {
-        console.log(
-          'Place Order invoce Response-> ' + JSON.stringify(response.data.data),
-        );
+        // console.log(
+        //   'Place Order invoce Response-> ' + JSON.stringify(response.data.data),
+        // );
         this.invoiceID = response.data.data.id;
         this.invoiceDetail = response.data.data.attributes;
-        console.log('details ', this.invoiceDetail.net_amount);
+        // console.log('details ', this.invoiceDetail.net_amount);
         AsyncStorage.removeItem('APP:CurrentInvoiceId');
 
         response_fetched = true;
       })
       .catch((error) => {
-        console.log(
-          'bari zor ka error wajja hai place order invoicd per ',
-          error.response.data,
-        );
+        // console.log(
+        //   'bari zor ka error wajja hai place order invoicd per ',
+        //   error.response.data,
+        // );
         error_message = error.response.data;
         console.log('ERROR ====> ', error_message);
       });
     return [response_fetched, error_message];
   };
-  
+
   @action
   fetchInvoicesList = async () => {
     let response_fetched = false;
-    let error_message    = {};
+    let error_message = {};
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     await axios
-    .get(`/invoices`, {
-      headers: {Authorization: `Token ${userAuthToken}`},
-    })
-    .then((response) => {
-      this.invoicesList = response.data.data;
-      response_fetched = true;
-    })
-    .catch((error) => {
-      error_message = error.response;
-    });
+      .get('/invoices', {
+        headers: {Authorization: `Token ${userAuthToken}`},
+      })
+      .then((response) => {
+        this.invoicesList = response.data.data;
+        response_fetched = true;
+      })
+      .catch((error) => {
+        error_message = error.response;
+      });
     return [response_fetched, error_message];
-  }
-  
+  };
+
   @action
   fetchInvoiceDetail = async (invoice_id) => {
     let response_fetched = false;
-    let error_message    = {};
+    let error_message = {};
     let invoiceDetails = null;
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     await axios
-    .get(`/invoices/${invoice_id}`, {
-      headers: {Authorization: `Token ${userAuthToken}`},
-    })
-    .then((response) => {
-      invoiceDetails= response.data.data.attributes;
-      response_fetched = true;
-    })
-    .catch((error) => {
-      error_message = error.response;
-    });
+      .get(`/invoices/${invoice_id}`, {
+        headers: {Authorization: `Token ${userAuthToken}`},
+      })
+      .then((response) => {
+        invoiceDetails = response.data.data.attributes;
+        response_fetched = true;
+      })
+      .catch((error) => {
+        error_message = error.response;
+      });
     return [response_fetched, error_message, invoiceDetails];
-  }
+  };
 }
 
 export default Cart;

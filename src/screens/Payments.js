@@ -25,7 +25,7 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
 
   render() {
