@@ -60,12 +60,12 @@ export default class MainLogin extends Component {
   fetchInvoiceDetailsFromServer = async (invoice_id, status) => {
     let [response_fetched, error_message, invoice_details] = await this.props.Cart.fetchInvoiceDetail(invoice_id)
     if (response_fetched){      
-      if ( status == OrderState.drafted){
+      if ( status == OrderState.drafted.name){
         this.props.navigation.navigate('Invoice', {
           invoiceDetails: invoice_details,
           invoiceId: invoice_id
         })
-      } else if( status == OrderState.order_placed) {
+      } else if( status == OrderState.order_placed.name) {
         this.props.navigation.navigate('OrderPlaced', {
           invoiceDetails: invoice_details,
         });
@@ -155,7 +155,7 @@ export default class MainLogin extends Component {
                         fontSize: 10,
                         fontFamily: Fonts.regular,
                         fontStyle: 'italic',
-                        color: Colors.color4,
+                        color: OrderState[item.item.attributes.state] ? OrderState[item.item.attributes.state].color : Colors.color1,
                       }}>
                       {titleize(item.item.attributes.state)}
                     </Text>
@@ -183,7 +183,7 @@ export default class MainLogin extends Component {
                     <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>
                       {item.item.attributes.updated_at}
                     </Text>
-                    {item.item.attributes.state != OrderState.archived && (  
+                    {item.item.attributes.state != OrderState.archived.name && (  
                       <TouchableOpacity onPress={() => this.fetchInvoiceDetailsFromServer(item.item.id, item.item.attributes.state)}>
                         <Text style={{fontSize: RFValue(10), color: Colors.color5}}>
                           VIEW DETAILS

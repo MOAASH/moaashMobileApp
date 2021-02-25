@@ -12,7 +12,10 @@ let Colors = {
   lightGray2: '#E8E8E8',
   borderGray: '#d3d3d3',
   Gray: 'gray',
-  black: 'black'
+  black: 'black',
+  success: '#2ecc71',
+  warning: '#f39c12',
+  error: '#e74c3c'
 };
 
 export default Colors;

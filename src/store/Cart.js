@@ -135,7 +135,7 @@ class Cart {
         this.invoiceID = response.data.data.id;
         this.invoiceDetail = response.data.data.attributes;
 
-        if (this.invoiceDetail.status == OrderState.archived){
+        if (this.invoiceDetail.status == OrderState.archived.name){
           this.invoiceDetail = null;
           AsyncStorage.removeItem('APP:CurrentInvoiceId');
         } 

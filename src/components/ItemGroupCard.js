@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImgToBase64 from 'react-native-image-base64';
 import {inject} from 'mobx-react';
 @inject('Products')
@@ -173,21 +174,17 @@ export default class ItemGroupCard extends Component {
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: Colors.lightGray,
-              padding: 4,
-              width: 150,
+              backgroundColor: Colors.white,
             }}>
-            <FontAwesome
-              name="truck"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color2}
+            <MaterialCommunityIcons
+              name="truck-outline"
+              size={20}
+              color={Colors.color3}
             />
             <Text
               style={{
-                alignSelf: 'center',
                 paddingLeft: 4,
-                fontWeight: '600',
+                color: Colors.color3,
               }}>
               Free Delivery
             </Text>
