@@ -29,10 +29,10 @@ export default class MainLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      invoicesList: [], 
+      invoicesList: [],
       cartEmtpy: true,
-      refreshing: false
-    }
+      refreshing: false,
+    };
   }
 
   componentDidMount = async () => {
@@ -41,15 +41,21 @@ export default class MainLogin extends Component {
     });
     await this.fetchInvoicesFromServer();
   };
-  
+
   fetchInvoicesFromServer = async () => {
-    this.setState({ refreshing: true })
-    let [response_fetched, error_message] = await this.props.Cart.fetchInvoicesList();
+    this.setState({refreshing: true});
+    let [
+      response_fetched,
+      error_message,
+    ] = await this.props.Cart.fetchInvoicesList();
     if (response_fetched) {
-      this.setState({ invoicesList: this.props.Cart.invoicesList, refreshing: false })
+      this.setState({
+        invoicesList: this.props.Cart.invoicesList,
+        refreshing: false,
+      });
     }
-  }
-  
+  };
+
   fetchInvoiceDetailsFromServer = async (invoice_id, status) => {
     let [response_fetched, error_message, invoice_details] = await this.props.Cart.fetchInvoiceDetail(invoice_id)
     if (response_fetched){      
@@ -61,27 +67,35 @@ export default class MainLogin extends Component {
       } else if( status == OrderState.order_placed) {
         this.props.navigation.navigate('OrderPlaced', {
           invoiceDetails: invoice_details,
-        })
+        });
       }
     }
-  }
+  };
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
-                  {true && (
-            <FlatList
-              keyExtractor={(item) => item.id}
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.fetchInvoicesFromServer()}
-              data={this.state.invoicesList}
-              ListEmptyComponent={
-                <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        {true && (
+          <FlatList
+            keyExtractor={(item) => item.id}
+            refreshing={this.state.refreshing}
+            onRefresh={() => this.fetchInvoicesFromServer()}
+            data={this.state.invoicesList}
+            ListEmptyComponent={
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1,
+                }}>
                 <LottieView
                   source={require('../../assets/empty_cart.json')}
                   autoPlay
                   loop={true}
-                  style={{width: SCREEN_WIDTH / 1.5, height: SCREEN_WIDTH / 1.5}}
+                  style={{
+                    width: SCREEN_WIDTH / 1.5,
+                    height: SCREEN_WIDTH / 1.5,
+                  }}
                 />
                 <Text style={{fontSize: RFValue(12), fontFamily: Fonts.medium}}>
                   Your Cart is Empty
@@ -104,10 +118,9 @@ export default class MainLogin extends Component {
                   </Text>
                 </TouchableOpacity>
               </View>
-                
-              }
-              renderItem={(item) => (
-                <View style={{padding: 4, flexDirection: 'row'}}>
+            }
+            renderItem={(item) => (
+              <View style={{padding: 4, flexDirection: 'row'}}>
                 {/* <View>
                   <FastImage
                     resizeMode={FastImage.resizeMode.contain}
@@ -119,12 +132,30 @@ export default class MainLogin extends Component {
                     }}
                   />
                 </View> */}
-                <View style={{flex: 1, padding: 16, borderColor: Colors.lightGray2, borderWidth: 1, backgroundColor: 'white', borderRadius: 10}}>
-                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: 16,
+                    borderColor: Colors.lightGray2,
+                    borderWidth: 1,
+                    backgroundColor: 'white',
+                    borderRadius: 10,
+                  }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
                     <Text style={{fontSize: 15, fontFamily: Fonts.regular}}>
                       Order# {item.item.id}
                     </Text>
-                    <Text style={{fontSize: 10, fontFamily: Fonts.regular, fontStyle: 'italic', color: Colors.color4}}>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        fontFamily: Fonts.regular,
+                        fontStyle: 'italic',
+                        color: Colors.color4,
+                      }}>
                       {item.item.attributes.state}
                     </Text>
                   </View>
@@ -132,20 +163,24 @@ export default class MainLogin extends Component {
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      paddingVertical: 2
+                      paddingVertical: 2,
                     }}>
                     <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>
-                      PKR {item.item.attributes.net_amount} - {item.item.attributes.shipping_address ? item.item.attributes.shipping_address.data.attributes.customer_name : null}
+                      PKR {item.item.attributes.net_amount} -{' '}
+                      {item.item.attributes.shipping_address
+                        ? item.item.attributes.shipping_address.data.attributes
+                            .customer_name
+                        : null}
                     </Text>
                   </View>
                   <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      paddingVertical: 2
+                      paddingVertical: 2,
                     }}>
                     <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>
-                    {item.item.attributes.updated_at}
+                      {item.item.attributes.updated_at}
                     </Text>
                     {item.item.attributes.state != OrderState.archived && (  
                       <TouchableOpacity onPress={() => this.fetchInvoiceDetailsFromServer(item.item.id, item.item.attributes.state)}>
@@ -158,9 +193,9 @@ export default class MainLogin extends Component {
                   </View>
                 </View>
               </View>
-              )}
-            />
-          )}
+            )}
+          />
+        )}
       </SafeAreaView>
     );
   }

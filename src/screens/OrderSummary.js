@@ -147,6 +147,7 @@ export default class OrderSummary extends Component {
               </View>
             </View>
           )}
+
           {this.state.invoiceDetails && (
             <OrderTotal
               totalAmount={this.state.invoiceDetails.net_amount}
@@ -155,7 +156,8 @@ export default class OrderSummary extends Component {
               totalCustomerPrice={this.state.invoiceDetails.margin}
             />
           )}
-          {/* <View
+
+          <View
             style={{
               margin: 12,
               borderRadius: 10,
@@ -168,7 +170,7 @@ export default class OrderSummary extends Component {
                   this.cartItems(invoice_line_item);
                 },
               )}
-          </View> */}
+          </View>
           {this.state.invoiceDetails && (
             <View
               style={{
@@ -220,6 +222,7 @@ export default class OrderSummary extends Component {
             />
           )}
         </ScrollView>
+
         <TouchableOpacity
           style={{
             alignItems: 'center',
