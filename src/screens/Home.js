@@ -115,6 +115,7 @@ export default class Home extends Component {
               }}
               source={require('../../assets/logo_english.png')}
             />
+            <View>
             <Ionicons
               name="cart-outline"
               size={24}
@@ -122,8 +123,9 @@ export default class Home extends Component {
               style={{paddingRight: 12}}
               color={Colors.color5}
             />
+            </View>
           </View>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <TextInput
               style={[styles.inputStyle]}
               placeholder="Search by Keyword or Product ID"
@@ -132,7 +134,7 @@ export default class Home extends Component {
               returnKeyType="next"
               onChangeText={(text) => this.setState({email: text})}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {!this.state.loaded && (
           <FlatList
