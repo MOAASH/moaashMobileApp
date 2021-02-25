@@ -23,7 +23,7 @@ export default class OrderTotal extends Component {
     };
   }
   componentDidMount = async () => {
-    console.log('CHECKING CUSTOMRER S LAST PRICE ', this.props.orderSummary);
+    // console.log('CHECKING CUSTOMRER S LAST PRICE ', this.props.orderSummary);
   };
 
   calculateTotalAmount = () => {

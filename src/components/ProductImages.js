@@ -21,11 +21,11 @@ export default class AdSlider extends Component {
     };
   }
   componentDidMount = async () => {
-    console.log('Hello world');
+    // console.log('Hello world');
   };
 
   render() {
-    console.log('Ad data is ', this.state.image);
+    // console.log('Ad data is ', this.state.image);
     const image = this.state.image;
     return (
       <View style={{alignItems: 'center'}}>

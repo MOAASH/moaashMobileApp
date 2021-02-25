@@ -80,7 +80,7 @@ export default class BankDetails extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
 
   validationSchema = () => {
@@ -114,7 +114,7 @@ export default class BankDetails extends Component {
     if (response_fetched) {
       this.props.navigation.goBack();
     } else {
-      console.log('Nothing Fetched');
+      // console.log('Nothing Fetched');
     }
   };
 
@@ -155,7 +155,6 @@ export default class BankDetails extends Component {
                 }}
                 dropDownStyle={{}}
                 onChangeItem={(item) => {
-                  console.log('Selecting');
                   this.setState({
                     accountType: item.value,
                     bank_name: props.setFieldValue('bank_name', item.label),

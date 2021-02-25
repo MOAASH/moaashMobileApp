@@ -22,7 +22,7 @@ export default class ProductDetailDescription extends Component {
   }
 
   copyToClipboard = () => {
-    console.log('hellor');
+    // console.log('hellor');
     Clipboard.setString(this.props.description.replace(/<[^>]+>/g, '\n'));
     showMessage({
       message: 'The description has been copied.',

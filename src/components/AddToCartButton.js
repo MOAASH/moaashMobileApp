@@ -27,7 +27,7 @@ export default class AddToCartButton extends Component {
     };
   }
   onButtonPress = async () => {
-    console.log('Going to checkout');
+    // console.log('Going to checkout');
     if (this.props.checkout === true) {
       this.props.loading(true);
       let invoiceParams = this.props.Cart.invoiceParams(
@@ -45,12 +45,12 @@ export default class AddToCartButton extends Component {
       );
       this.props.loading(false);
       if (createInvoice) {
-        console.log('checkouting jaanu');
+        // console.log('checkouting jaanu');
         this.props.addToCart(true);
         this.props.navigation.navigate('Invoice');
       } else {
         if ('quantity' in errorMessage) {
-          console.log('============> YEahh fuck');
+          // console.log('============> YEahh fuck');
           showMessage({
             message: `Quantity ${errorMessage['quantity']}`,
             type: 'danger',
@@ -60,7 +60,7 @@ export default class AddToCartButton extends Component {
         this.props.addToCart(false);
       }
     } else {
-      console.log('===================');
+      // console.log('===================');
       this.props.addToCart(true);
     }
   };

@@ -23,7 +23,7 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
-    console.log('Lets share ', this.state.id);
+    // console.log('Lets share ', this.state.id);
     this.props.number(this.state.id);
     var myImages = await this.convertImage();
     this.props.productImages(myImages);
@@ -44,7 +44,7 @@ export default class ItemGroupCard extends Component {
     return myImages;
   };
   componentDidMount = async () => {
-    console.log('item group description is ', this.state.attributes);
+    // console.log('item group description is ', this.state.attributes);
   };
   render() {
     const images = this.state.attributes.items_images;

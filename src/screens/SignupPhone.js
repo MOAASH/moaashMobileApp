@@ -26,12 +26,12 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   setPhone = async () => {
     this.setState({loaded: true});
     let available = await this.props.User.setPhone(this.state.phone);
-    console.log('phone set ', available);
+    // console.log('phone set ', available);
     this.setState({loaded: false});
 
     if (available == true) {

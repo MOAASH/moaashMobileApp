@@ -29,7 +29,7 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   registerUser = async () => {
     this.setState({loaded: true});
@@ -53,7 +53,7 @@ export default class MainLogin extends Component {
     }
   };
   storeData = async (value) => {
-    console.log('MY value is ', value);
+    // console.log('MY value is ', value);
     try {
       const login = JSON.stringify(value);
       await AsyncStorage.setItem('@storage_Key', login);

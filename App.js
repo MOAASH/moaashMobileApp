@@ -170,7 +170,7 @@ const MainTabs = createBottomTabNavigator(
 );
 
 Home.navigationOptions = ({navigation}) => {
-  console.log(navigation.state);
+  // console.log(navigation.state);
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
@@ -180,7 +180,7 @@ Home.navigationOptions = ({navigation}) => {
   };
 };
 Orders.navigationOptions = ({navigation}) => {
-  console.log(navigation.state);
+  // console.log(navigation.state);
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;

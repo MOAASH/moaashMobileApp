@@ -76,7 +76,7 @@ export default class AddShippingAddress extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
 
   validationSchema = () => {
@@ -103,9 +103,9 @@ export default class AddShippingAddress extends Component {
   };
 
   createAddress = async (values) => {
-    console.log(values);
+    // console.log(values);
     values.state = this.state.state;
-    console.log(values);
+    // console.log(values);
     let [
       response_fetched,
       error_message,

@@ -25,7 +25,7 @@ export default class Margin extends Component {
   }
 
   render() {
-    console.log('==========> ', this.props.totalAmount());
+    // console.log('==========> ', this.props.totalAmount());
     return (
       <View
         style={{

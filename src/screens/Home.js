@@ -58,7 +58,7 @@ export default class Home extends Component {
   };
 
   getItemGroups = async (page = 1) => {
-    console.log('Pagee -----------------> ', page);
+    // console.log('Pagee -----------------> ', page);
     if (page != null) {
       let gettingItemGroup = await this.props.Products.getItemGroups(
         this.props.User.userInformation.attributes.authentication_token,
@@ -67,13 +67,8 @@ export default class Home extends Component {
       var stateItemGroups = this.state.itemGroups;
       stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups);
       await this.setState({itemGroups: stateItemGroups});
-      console.log(stateItemGroups);
+      // console.log(stateItemGroups);
     }
-
-    console.log(
-      '--------------------->',
-      this.props.Products.itemGroupLinks.next,
-    );
     this.setState({loaded: false});
   };
 
@@ -90,7 +85,7 @@ export default class Home extends Component {
   };
 
   number = async (number) => {
-    console.log('setting item group number to ', number);
+    // console.log('setting item group number to ', number);
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {

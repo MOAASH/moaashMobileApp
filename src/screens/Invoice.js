@@ -40,41 +40,52 @@ export default class Invoice extends Component {
   }
 
   componentDidMount = async () => {
-    if (this.props.navigation.state.params && this.props.navigation.state.params.invoiceDetails){
-      this.setState({invoiceDetails: this.props.navigation.state.params.invoiceDetails});
-      await AsyncStorage.setItem('APP:CurrentInvoiceId', this.props.navigation.state.params.invoiceId);
-    } else {      
+    if (
+      this.props.navigation.state.params &&
+      this.props.navigation.state.params.invoiceDetails
+    ) {
+      this.setState({
+        invoiceDetails: this.props.navigation.state.params.invoiceDetails,
+      });
+      await AsyncStorage.setItem(
+        'APP:CurrentInvoiceId',
+        this.props.navigation.state.params.invoiceId,
+      );
+    } else {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
       let [result_fetched, error_message] = await this.props.Cart.fetchInvoice(
         this.props.User.userInformation.attributes.authentication_token,
       );
       if (result_fetched) {
         await this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
-        console.log(
-          'invoice line item-------------' +
-            JSON.stringify(this.state.invoiceDetails.invoice_line_items),
-        );
+        // console.log(
+        //   'invoice line item-------------' +
+        //     JSON.stringify(this.state.invoiceDetails.invoice_line_items),
+        // );
       } else {
         this.setState({cartEmpty: true});
       }
       // console.log('--------> res',res);
     }
   };
-  
+
   delete_invoice_line_item = async (id) => {
-    let invoiceParams = this.props.Cart.invoiceParams(this.state.invoiceDetails.company.data.id, [{ id: id, destroy: true}])
+    let invoiceParams = this.props.Cart.invoiceParams(
+      this.state.invoiceDetails.company.data.id,
+      [{id: id, destroy: true}],
+    );
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
       this.props.User.userInformation.attributes.authentication_token,
       invoiceParams,
     );
-    if (updateInvoice){
-      if (!this.props.Cart.invoiceDetail){
+    if (updateInvoice) {
+      if (!this.props.Cart.invoiceDetail) {
         this.setState({invoiceDetails: null, cartEmpty: true});
       } else {
         this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
       }
     }
-  }
+  };
 
   invoiceLineItemsData = () => {
     return (

@@ -30,14 +30,14 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   showPassword = async () => {
     this.setState({showPassword: !this.state.showPassword});
   };
 
   loginUser = async () => {
-    console.log('confirming sign in the app');
+    // console.log('confirming sign in the app');
     this.setState({loaded: true});
     let loginUser = await this.props.User.loginUser(
       this.state.phone,

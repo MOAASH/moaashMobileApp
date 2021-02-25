@@ -20,11 +20,11 @@ export default class SizeCard extends Component {
     };
   }
   componentDidMount = async () => {
-    console.log('Sizes of items are ', this.props.size);
+    // console.log('Sizes of items are ', this.props.size);
   };
-  
+
   select = async (item) => {
-    if (!this.state.selected){
+    if (!this.state.selected) {
       this.props.sizeChoosen(item);
     }
   };

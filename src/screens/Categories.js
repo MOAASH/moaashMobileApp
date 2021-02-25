@@ -26,7 +26,7 @@ export default class Categories extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
 
   render() {

@@ -49,10 +49,6 @@ export default class ItemGroupDetails extends Component {
 
   componentDidMount = async () => {
     this.setState({loaded: true});
-    console.log(
-      'item group details and items are ',
-      this.props.navigation.state.params.groupID,
-    );
 
     await this.getItemGroups();
   };
@@ -65,13 +61,13 @@ export default class ItemGroupDetails extends Component {
     ] = await this.props.Products.getItems(
       this.props.navigation.state.params.groupID,
     );
-    console.log('item group data ', currentItemGroup);
+    // console.log('item group data ', currentItemGroup);
     this.setState({
       itemGroupData: currentItemGroup.attributes,
       itemsData: Items,
     });
     this.setState({loaded: false});
-    console.log('items data ', this.state.itemsData);
+    // console.log('items data ', this.state.itemsData);
   };
 
   shareProduct = async () => {

@@ -57,21 +57,21 @@ export default class Home extends Component {
   };
 
   getItemGroups = async () => {
-    console.log(
-      'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
-    );
+    // console.log(
+    //   'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
+    // );
     let gettingItemGroup = await this.props.Products.getShareItemGroups(
       this.props.User.userInformation.attributes.authentication_token,
     );
     var stateItemGroups = this.state.itemGroups;
     stateItemGroups = stateItemGroups.concat(this.props.Products.sharedGroups);
     await this.setState({itemGroups: stateItemGroups});
-    console.log(stateItemGroups);
+    // console.log(stateItemGroups);
 
-    console.log(
-      '--------------------->',
-      this.props.Products.itemGroupLinks.next,
-    );
+    // console.log(
+    //   '--------------------->',
+    //   this.props.Products.itemGroupLinks.next,
+    // );
     this.setState({loaded: false});
   };
 
@@ -88,7 +88,7 @@ export default class Home extends Component {
   };
 
   number = async (number) => {
-    console.log('setting item group number to ', number);
+    // console.log('setting item group number to ', number);
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {

@@ -34,7 +34,7 @@ export default class BankDetails extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app LOLOLOLOLOL');
+    // console.log('Starting the app LOLOLOLOLOL');
     this.props.navigation.addListener('didFocus', async () => {
       await this.fetchAccountsList();
     });
@@ -51,7 +51,7 @@ export default class BankDetails extends Component {
         bankAccountsList: this.props.BankDetails.bankAccountsList,
       });
     } else {
-      console.log('Nothing Fetched');
+      // console.log('Nothing Fetched');
     }
   };
 

@@ -42,7 +42,7 @@ export default class OrderSummary extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('order summary of the app', this.props.Cart.invoiceDetail);
+    // console.log('order summary of the app', this.props.Cart.invoiceDetail);
     this.setState({
       invoiceDetails: this.props.Cart.invoiceDetail,
       loaded: false,
@@ -50,11 +50,11 @@ export default class OrderSummary extends Component {
   };
 
   placeOrder = async () => {
-    console.log('order placed');
-    console.log(
-      'lol',
-      this.props.User.userInformation.attributes.authentication_token,
-    );
+    // console.log('order placed');
+    // console.log(
+    //   'lol',
+    //   this.props.User.userInformation.attributes.authentication_token,
+    // );
     let [placeOrder, errorMessage] = await this.props.Cart.placeOrder(
       this.props.User.userInformation.attributes.authentication_token,
     );
