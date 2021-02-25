@@ -60,6 +60,21 @@ export default class Invoice extends Component {
       // console.log('--------> res',res);
     }
   };
+  
+  delete_invoice_line_item = async (id) => {
+    let invoiceParams = this.props.Cart.invoiceParams(this.state.invoiceDetails.company.data.id, [{ id: id, destroy: true}])
+    let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
+      this.props.User.userInformation.attributes.authentication_token,
+      invoiceParams,
+    );
+    if (updateInvoice){
+      if (!this.props.Cart.invoiceDetail){
+        this.setState({invoiceDetails: null, cartEmpty: true});
+      } else {
+        this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
+      }
+    }
+  }
 
   invoiceLineItemsData = () => {
     return (
@@ -76,6 +91,7 @@ export default class Invoice extends Component {
               <CartProductCard
                 invoiceLineItem={invoice_line_item}
                 destroy={true}
+                delete_invoice_line_item={this.delete_invoice_line_item}
               />
             );
           },

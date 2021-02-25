@@ -2,6 +2,7 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {OrderState} from '../utils/order'
 class Cart {
   @observable userToken = '';
   @observable invoiceID = '';
@@ -133,6 +134,11 @@ class Cart {
         );
         this.invoiceID = response.data.data.id;
         this.invoiceDetail = response.data.data.attributes;
+
+        if (this.invoiceDetail.status == OrderState.archived){
+          this.invoiceDetail = null;
+          AsyncStorage.removeItem('APP:CurrentInvoiceId');
+        } 
         console.log('details ', this.invoiceDetail.net_amount);
 
         response_fetched = true;

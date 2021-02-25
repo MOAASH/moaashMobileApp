@@ -19,6 +19,7 @@ import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 import Fonts from '../utils/fonts';
 import {RFValue} from '../utils/fontSizeStyling';
+import {OrderState} from '../utils/order';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -52,12 +53,12 @@ export default class MainLogin extends Component {
   fetchInvoiceDetailsFromServer = async (invoice_id, status) => {
     let [response_fetched, error_message, invoice_details] = await this.props.Cart.fetchInvoiceDetail(invoice_id)
     if (response_fetched){      
-      if ( status == 'drafted'){
+      if ( status == OrderState.drafted){
         this.props.navigation.navigate('Invoice', {
           invoiceDetails: invoice_details,
           invoiceId: invoice_id
         })
-      } else {
+      } else if( status == OrderState.order_placed) {
         this.props.navigation.navigate('OrderPlaced', {
           invoiceDetails: invoice_details,
         })
@@ -146,11 +147,13 @@ export default class MainLogin extends Component {
                     <Text style={{fontSize: RFValue(10), color: Colors.Gray}}>
                     {item.item.attributes.updated_at}
                     </Text>
-                    <TouchableOpacity onPress={() => this.fetchInvoiceDetailsFromServer(item.item.id, item.item.attributes.state)}>
-                      <Text style={{fontSize: RFValue(10), color: Colors.color5}}>
-                        VIEW DETAILS
-                      </Text>
-                    </TouchableOpacity>
+                    {item.item.attributes.state != OrderState.archived && (  
+                      <TouchableOpacity onPress={() => this.fetchInvoiceDetailsFromServer(item.item.id, item.item.attributes.state)}>
+                        <Text style={{fontSize: RFValue(10), color: Colors.color5}}>
+                          VIEW DETAILS
+                        </Text>
+                      </TouchableOpacity>
+                    )}
                     
                   </View>
                 </View>

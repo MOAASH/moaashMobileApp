@@ -8,6 +8,8 @@ import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default class CartProdcutCard extends Component {
+  
+  
   render() {
     return (
       <View style={{padding: 12, flexDirection: 'row'}}>
@@ -31,8 +33,8 @@ export default class CartProdcutCard extends Component {
               }
             </Text>
             {this.props.destroy && (
-              <TouchableOpacity>
-                <Ionicons name="trash" size={20} />
+              <TouchableOpacity onPress={() => this.props.delete_invoice_line_item(this.props.invoiceLineItem.data.id)}>
+                <Ionicons name="trash" size={20} color={Colors.Gray}/>
               </TouchableOpacity>
             )}
           </View>
