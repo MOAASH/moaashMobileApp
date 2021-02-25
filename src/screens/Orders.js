@@ -20,6 +20,7 @@ import CustomButton from '../components/CustomButton';
 import Fonts from '../utils/fonts';
 import {RFValue} from '../utils/fontSizeStyling';
 import {OrderState} from '../utils/order';
+import {titleize} from '../utils/Constants';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -156,7 +157,7 @@ export default class MainLogin extends Component {
                         fontStyle: 'italic',
                         color: Colors.color4,
                       }}>
-                      {item.item.attributes.state}
+                      {titleize(item.item.attributes.state)}
                     </Text>
                   </View>
                   <View
