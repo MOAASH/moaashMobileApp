@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://www.ahmedcollection.com/api/v1/',
+  baseURL: 'https://www.moaash.com/api/v1/',
 });

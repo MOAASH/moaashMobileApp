@@ -58,7 +58,6 @@ export default class Home extends Component {
   };
 
   getItemGroups = async (page = 1) => {
-    // console.log('Pagee -----------------> ', page);
     if (page != null) {
       let gettingItemGroup = await this.props.Products.getItemGroups(
         this.props.User.userInformation.attributes.authentication_token,
@@ -138,7 +137,7 @@ export default class Home extends Component {
         </View>
         {!this.state.loaded && (
           <FlatList
-            onEndReachedThreshold={0.75}
+            onEndReachedThreshold={0.5}
             onEndReached={() =>
               this.getItemGroups(this.props.Products.itemGroupLinks.next)
             }
