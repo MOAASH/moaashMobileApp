@@ -61,6 +61,12 @@ const MainTabs = createBottomTabNavigator(
     Home: {
       screen: Home,
       navigationOptions: {
+        tabBarOnPress: ({navigation}) => {
+            if (!!navigation.state.params && !!navigation.state.params.scrollToTop) {
+              navigation.state.params.scrollToTop();
+            }
+            navigation.navigate(navigation.state.key)
+        },
         tabBarLabel: 'Home',
         tabBarIcon: ({focused}) => (
           <FontAwesome

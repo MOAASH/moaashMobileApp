@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   SafeAreaView,
+  ActivityIndicator,
   TextInput,
   Icon,
   AppState,
@@ -32,33 +33,37 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 @inject('Products')
 export default class Home extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       sharing: false,
       loaded: true,
+      refreshing: false,
       images: [],
       message: '',
       itemGroups: [],
       itemGroupNumber: 0,
+      activityIndicator: false
     };
   }
 
-  componentDidMount = () => {
-    // AppState.addEventListener('change', () => {
-    //   console.log('trying');
-    //   console.log(AppState.currentState);
-    // });
-    // this.props.navigation.addListener('didFocus', async () => {
-    //   console.log('Home page of the app');
 
-    //   // this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
-    // });
+  componentDidMount = () => {
+    this.props.navigation.setParams({
+      scrollToTop: () => {
+        this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
+      }
+    })
     this.getItemGroups();
   };
 
-  getItemGroups = async (page = 1) => {
+  getItemGroups = async (page = 1, refreshing = false) => {
     if (page != null) {
+      if (refreshing){
+        this.setState({ refreshing: true, itemGroups: []})
+      }
+      this.setState({ activityIndicator: true })
       let gettingItemGroup = await this.props.Products.getItemGroups(
         this.props.User.userInformation.attributes.authentication_token,
         page,
@@ -68,7 +73,7 @@ export default class Home extends Component {
       await this.setState({itemGroups: stateItemGroups});
       // console.log(stateItemGroups);
     }
-    this.setState({loaded: false});
+    this.setState({loaded: false, refreshing: false, activityIndicator: false});
   };
 
   shareProduct = async () => {
@@ -114,11 +119,18 @@ export default class Home extends Component {
               }}
               source={require('../../assets/logo_english.png')}
             />
-            <View>
+            <View style={{ flexDirection: 'row' }}>
             <Ionicons
               name="cart-outline"
               size={24}
               onPress={() => this.props.navigation.navigate('Invoice')}
+              style={{paddingRight: 12}}
+              color={Colors.color5}
+            />
+            <Ionicons
+              name="bookmark-outline"
+              size={24}
+              onPress={() => this.props.navigation.navigate('MySharedProducts')}
               style={{paddingRight: 12}}
               color={Colors.color5}
             />
@@ -137,9 +149,18 @@ export default class Home extends Component {
         </View>
         {!this.state.loaded && (
           <FlatList
+            refreshing={this.state.refreshing}
+            onRefresh={() => this.getItemGroups(1, true)}
             onEndReachedThreshold={0.5}
             onEndReached={() =>
               this.getItemGroups(this.props.Products.itemGroupLinks.next)
+            }
+            ListFooterComponent={
+              <>
+              {this.state.activityIndicator && (
+                <ActivityIndicator />
+              )}
+              </>
             }
             ListHeaderComponent={
               <>

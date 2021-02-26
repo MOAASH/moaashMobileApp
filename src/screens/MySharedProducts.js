@@ -18,6 +18,7 @@ import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 import CategoriesList from '../components/CategoriesList';
@@ -26,6 +27,7 @@ import QualityBanner from '../components/QualityBanner';
 import WhatsappPopup from '../components/WhatsappPopup';
 import ItemGroupCard from '../components/ItemGroupCard';
 import Loader from '../components/Loader';
+import {RFValue} from '../utils/fontSizeStyling';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -106,15 +108,45 @@ export default class Home extends Component {
       <SafeAreaView style={styles.container}>
         {!this.state.loaded && (
           <FlatList
-            // onEndReachedThreshold={0.75}
-            // onEndReached={() =>
-            //   this.getItemGroups(this.props.Products.itemGroupLinks.next)
-            // }
             keyExtractor={(item) => item.id}
             data={this.state.itemGroups}
             ref={(ref) => {
               this.flatListRef = ref;
             }}
+            ListEmptyComponent={
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 1,
+                }}>
+                <Ionicons
+                  name="bookmark"
+                  size={100}
+                  color={Colors.color5}
+                />
+                <Text style={{fontSize: RFValue(12), fontFamily: Fonts.medium}}>
+                  You have no Shared Products
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  style={{
+                    padding: 8,
+                    backgroundColor: Colors.color3,
+                    borderRadius: 5,
+                  }}
+                  onPress={() => this.props.navigation.navigate('Home')}>
+                  <Text
+                    style={{
+                      fontSize: RFValue(12),
+                      fontFamily: Fonts.regular,
+                      color: Colors.white,
+                    }}>
+                    BROWSE PRODUCTS
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            }
             renderItem={(item) => (
               <ItemGroupCard
                 Products={item}
