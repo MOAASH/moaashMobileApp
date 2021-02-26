@@ -93,6 +93,7 @@ export default class Home extends Component {
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {
+    console.log('Hello loading', loading);
     this.setState({loaded: loading});
   };
   message = async (message) => {
@@ -197,7 +198,7 @@ export default class Home extends Component {
                 productImages={this.productImages}
                 message={this.message}
                 number={this.number}
-                // loading={this.loading}
+                loading={this.loading}
               />
             )}
           />

@@ -84,6 +84,9 @@ export default class ItemGroupDetails extends Component {
   message = async (message) => {
     this.setState({message: message});
   };
+  loading = async (loading) => {
+    this.setState({loaded: loading});
+  };
   copyToClipboard = () => {
     Clipboard.setString(
       this.state.itemGroupData.description.replace(/<[^>]+>/g, '\n'),
@@ -209,6 +212,7 @@ export default class ItemGroupDetails extends Component {
                 shareProduct={this.shareProduct}
                 productImages={this.productImages}
                 message={this.message}
+                loading={this.loading}
               />
             )}
           />

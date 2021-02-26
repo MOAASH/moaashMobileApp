@@ -29,12 +29,13 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
-    this.props.shareProduct(true);
-    // this.props.loading(true);
+    this.props.loading(true);
     var myImages = await this.convertTo64();
     // console.log('The images of this product are ');
     this.props.productImages(myImages);
     this.props.message(this.state.message);
+    this.props.loading(false);
+    this.props.shareProduct(true);
   };
   convertTo64 = async () => {
     let myImages = [];
