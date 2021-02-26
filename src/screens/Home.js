@@ -88,6 +88,7 @@ export default class Home extends Component {
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {
+    console.log('Hello loading', loading);
     this.setState({loaded: loading});
   };
   message = async (message) => {
@@ -115,13 +116,13 @@ export default class Home extends Component {
               source={require('../../assets/logo_english.png')}
             />
             <View>
-            <Ionicons
-              name="cart-outline"
-              size={24}
-              onPress={() => this.props.navigation.navigate('Invoice')}
-              style={{paddingRight: 12}}
-              color={Colors.color5}
-            />
+              <Ionicons
+                name="cart-outline"
+                size={24}
+                onPress={() => this.props.navigation.navigate('Invoice')}
+                style={{paddingRight: 12}}
+                color={Colors.color5}
+              />
             </View>
           </View>
           {/* <TouchableOpacity>
@@ -176,7 +177,7 @@ export default class Home extends Component {
                 productImages={this.productImages}
                 message={this.message}
                 number={this.number}
-                // loading={this.loading}
+                loading={this.loading}
               />
             )}
           />
