@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
   TextInput,
 } from 'react-native';
 import axios from '../utils/axios';
@@ -72,6 +73,7 @@ export default class AddShippingAddress extends Component {
     super(props);
     this.state = {
       state: 'Punjab',
+      loading: false
     };
   }
 
@@ -104,15 +106,18 @@ export default class AddShippingAddress extends Component {
 
   createAddress = async (values) => {
     // console.log(values);
+    this.setState({ loading: true})
     values.state = this.state.state;
     // console.log(values);
     let [
       response_fetched,
       error_message,
     ] = await this.props.ShippingAddress.createShippingAddress(values);
+    this.setState({ loading: false})
     if (response_fetched) {
       this.props.navigation.navigate('SelectShippingAddress');
     }
+
   };
 
   render() {
@@ -201,6 +206,7 @@ export default class AddShippingAddress extends Component {
               </View>
             </ScrollView>
             <TouchableOpacity
+              disabled={this.state.loading}
               style={{
                 alignItems: 'center',
                 backgroundColor: Colors.color2,
@@ -211,7 +217,12 @@ export default class AddShippingAddress extends Component {
                 padding: 16,
               }}
               onPress={props.handleSubmit}>
-              <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
+                {this.state.loading && (
+                  <ActivityIndicator/>
+                )}
+                {!this.state.loading && (
+                  <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
+                )}
             </TouchableOpacity>
           </SafeAreaView>
         )}

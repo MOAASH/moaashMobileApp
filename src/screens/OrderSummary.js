@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  ActivityIndicator,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -43,10 +44,11 @@ export default class OrderSummary extends Component {
 
   componentDidMount = async () => {
     // console.log('order summary of the app', this.props.Cart.invoiceDetail);
-    this.setState({
+    await this.setState({
       invoiceDetails: this.props.Cart.invoiceDetail,
       loaded: false,
     });
+    
   };
 
   placeOrder = async () => {
@@ -55,9 +57,11 @@ export default class OrderSummary extends Component {
     //   'lol',
     //   this.props.User.userInformation.attributes.authentication_token,
     // );
+    this.setState({ loaded: true })
     let [placeOrder, errorMessage] = await this.props.Cart.placeOrder(
       this.props.User.userInformation.attributes.authentication_token,
     );
+    this.setState({ loaded: false })
 
     if (placeOrder) {
       this.props.navigation.navigate('OrderPlaced');
@@ -167,7 +171,7 @@ export default class OrderSummary extends Component {
             {this.state.invoiceDetails &&
               this.state.invoiceDetails.invoice_line_items.map(
                 (invoice_line_item) => {
-                  this.cartItems(invoice_line_item);
+                  return this.cartItems(invoice_line_item);
                 },
               )}
           </View>

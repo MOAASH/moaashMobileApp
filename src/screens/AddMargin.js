@@ -9,18 +9,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import CustomButton from '../components/CustomButton';
-import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import OrderTotal from '../components/OrderTotal';
 import Loader from '../components/Loader';
 import CartProductCard from '../components/CartProductCard';
 import Margin from '../components/Margin';
-import SoldBy from '../components/SoldBy';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -154,5 +149,3 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
-// this.props.navigation.navigate('AddShippingAddress')
