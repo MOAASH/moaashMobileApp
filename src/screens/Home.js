@@ -33,7 +33,6 @@ const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 @inject('Products')
 export default class Home extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -44,26 +43,25 @@ export default class Home extends Component {
       message: '',
       itemGroups: [],
       itemGroupNumber: 0,
-      activityIndicator: false
+      activityIndicator: false,
     };
   }
-
 
   componentDidMount = () => {
     this.props.navigation.setParams({
       scrollToTop: () => {
         this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
-      }
-    })
+      },
+    });
     this.getItemGroups();
   };
 
   getItemGroups = async (page = 1, refreshing = false) => {
     if (page != null) {
-      if (refreshing){
-        this.setState({ refreshing: true, itemGroups: []})
+      if (refreshing) {
+        this.setState({refreshing: true, itemGroups: []});
       }
-      this.setState({ activityIndicator: true })
+      this.setState({activityIndicator: true});
       let gettingItemGroup = await this.props.Products.getItemGroups(
         this.props.User.userInformation.attributes.authentication_token,
         page,
@@ -120,21 +118,23 @@ export default class Home extends Component {
               }}
               source={require('../../assets/logo_english.png')}
             />
-            <View style={{ flexDirection: 'row' }}>
-            <Ionicons
-              name="cart-outline"
-              size={24}
-              onPress={() => this.props.navigation.navigate('Invoice')}
-              style={{paddingRight: 12}}
-              color={Colors.color5}
-            />
-            <Ionicons
-              name="bookmark-outline"
-              size={24}
-              onPress={() => this.props.navigation.navigate('MySharedProducts')}
-              style={{paddingRight: 12}}
-              color={Colors.color5}
-            />
+            <View style={{flexDirection: 'row'}}>
+              <Ionicons
+                name="cart-outline"
+                size={24}
+                onPress={() => this.props.navigation.navigate('Invoice')}
+                style={{paddingRight: 12}}
+                color={Colors.color5}
+              />
+              <Ionicons
+                name="bookmark-outline"
+                size={24}
+                onPress={() =>
+                  this.props.navigation.navigate('MySharedProducts')
+                }
+                style={{paddingRight: 12}}
+                color={Colors.color5}
+              />
             </View>
           </View>
           {/* <TouchableOpacity>
@@ -153,15 +153,12 @@ export default class Home extends Component {
             refreshing={this.state.refreshing}
             onRefresh={() => this.getItemGroups(1, true)}
             onEndReachedThreshold={0.5}
+            initialNumToRender={this.state.itemGroups.length}
             onEndReached={() =>
               this.getItemGroups(this.props.Products.itemGroupLinks.next)
             }
             ListFooterComponent={
-              <>
-              {this.state.activityIndicator && (
-                <ActivityIndicator />
-              )}
-              </>
+              <>{this.state.activityIndicator && <ActivityIndicator />}</>
             }
             ListHeaderComponent={
               <>
@@ -222,7 +219,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    marginBottom: 75,
+    marginBottom: 50,
   },
   inputStyle: {
     paddingHorizontal: 10,
