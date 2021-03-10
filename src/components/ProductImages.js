@@ -34,7 +34,7 @@ export default class AdSlider extends Component {
             width: Dimensions.get('screen').width,
             height: 240,
           }}
-          source={image}
+          source={{uri: image}}
           resizeMode="contain"
         />
       </View>

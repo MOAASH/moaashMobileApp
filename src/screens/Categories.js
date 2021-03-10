@@ -3,31 +3,58 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  TextInput,
-  Image,
+  FlatList,
   SafeAreaView,
+  TouchableOpacity,
   Dimensions,
 } from 'react-native';
 import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import CategoriesType from '../components/CategoriesType';
+import tailwind from 'tailwind-rn';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+
+@inject('Products')
 export default class Categories extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      categories_data: null
+    }
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
+    let [response_fetched, categories] = await this.props.Products.getCategories();
+    let categories_data = {}
+    if (response_fetched){
+      // categories.forEach((category) => {
+      //   if (categories_data[`${category.attributes.category_name}`]){
+      //     categories_data[`${category.attributes.category_name}`].push(category);
+      //   } else {
+      //     categories_data[`${category.attributes.category_name}`] = []
+      //     categories_data[`${category.attributes.category_name}`].push(category);
+      //   }
+      // });
+      await this.setState({ categories_data: categories });
+    }
+    // console.log('Categories ------> ', JSON.stringify(this.state.categories_data));
+
   };
+  
+  showCategorisedCatalogue = async (sub_category_id) => {
+    console.log('ExtraParams', `&sub_category_id=${sub_category_id}`)
+    this.props.navigation.navigate('CategorisedCatalogues', {
+      extra_params: `&sub_category_id=${sub_category_id}`
+    })
+  }
 
   render() {
     return (
@@ -35,86 +62,73 @@ export default class Categories extends Component {
         <View style={styles.header}>
           <Text style={styles.heading}>Categories</Text>
         </View>
-        <View style={{flexDirection: 'row'}}>
-          <CategoriesType />
-          <View style={{width: SCREEN_WIDTH / 1.3}}>
-            <Text style={{padding: 8, fontWeight: '500', fontSize: 16}}>
-              New Arrivals
-            </Text>
+          {/* <CategoriesType /> */}
+          
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                borderTopColor: Colors.color4,
-                borderTopWidth: 1,
-                paddingTop: 12,
+                flex: 1,
+                padding: 12,
+                marginBottom: 24
               }}>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  Shirts
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  Jeans
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  T-shirts
-                </Text>
-              </TouchableOpacity>
+                {this.state.categories_data && (
+                //  Object.keys(this.state.categories_data).map((category) => {
+                //    return(
+                //      this.state.categories_data[category].map((sub_category) => {
+                //        return (
+                //        <TouchableOpacity style={{paddingBottom: 12}}>
+                //        <Image
+                //          source={require('../../assets/new.png')}
+                //          style={{width: 40, height: 40, alignSelf: 'center'}}
+                //        />
+                //        <Text
+                //          style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
+                //          {sub_category.attributes.name}
+                //        </Text>
+                //      </TouchableOpacity>
+                //        )
+                //      })
+                //   )
+                // })
+                <FlatList
+                data={this.state.categories_data}
+                showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => (
+                  <View
+                    style={{
+                      height: 10,
+                      backgroundColor: Colors.white,
+                    }}
+                  />
+                )}
+                ListFooterComponent={() => (
+                  <View style={{paddingBottom: 24}} />
+                )}
+                renderItem={({item}) => (
+                  <TouchableOpacity 
+                  activeOpacity={1}
+                  onPress={ () => this.showCategorisedCatalogue(item.attributes.id)}
+                  style={{
+                    padding: 12,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    borderWidth: 1,
+                    borderColor: Colors.lightGray2,
+                    borderRadius: 10,
+                  }}>
+                    <Text>{item.attributes.category_name} - {item.attributes.name}</Text>
+                    <TouchableOpacity onPress={ () => this.showCategorisedCatalogue(item.attributes.id)}>
+                      <FontAwesome
+                        name="arrow-circle-o-right"
+                        size={28}
+                        color={Colors.color5}
+                      />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                )}
+                keyExtractor={(item) => item.id}
+              />
+              )}
             </View>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  Jackets
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  Hoodies
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={{paddingBottom: 12}}>
-                <Image
-                  source={require('../../assets/new.png')}
-                  style={{width: 40, height: 40, alignSelf: 'center'}}
-                />
-                <Text
-                  style={{alignSelf: 'center', fontSize: 12, paddingTop: 6}}>
-                  Trousers
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
       </SafeAreaView>
     );
   }

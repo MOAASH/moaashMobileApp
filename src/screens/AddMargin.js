@@ -9,17 +9,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import CustomButton from '../components/CustomButton';
-import FacebookLogo from '../utils/Constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import OrderTotal from '../components/OrderTotal';
+import Loader from '../components/Loader';
 import CartProductCard from '../components/CartProductCard';
 import Margin from '../components/Margin';
-import SoldBy from '../components/SoldBy';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -32,40 +28,49 @@ export default class AddMargin extends Component {
     this.state = {
       invoiceDetails: null,
       customerPrice: null,
+      loaded: false,
     };
   }
 
   componentDidMount = async () => {
-    this.setState({ invoiceDetails: this.props.navigation.state.params.invoiceDetails });
+    this.setState({
+      invoiceDetails: this.props.navigation.state.params.invoiceDetails,
+    });
   };
-  
+
   addCustomerPriceValue = (value) => {
-    this.setState({ customerPrice: (value > 0) ? value : null });
-  }
-  
+    this.setState({customerPrice: value > 0 ? value : null});
+  };
+
   totalAmount = () => {
     return parseInt(this.state.invoiceDetails.net_amount);
-  }
-  
+  };
+
   marginValue = () => {
-    if (this.state.customerPrice == null){
+    if (this.state.customerPrice == null) {
       return 0;
-    };
+    }
     return this.state.customerPrice - this.totalAmount();
-  }
-  
+  };
+
   updateInvoice = async () => {
-    let invoiceParams = this.props.Cart.invoiceParams(this.state.invoiceDetails.company.data.id, [], this.state.customerPrice);
+    this.setState({loaded: true});
+    let invoiceParams = this.props.Cart.invoiceParams(
+      this.state.invoiceDetails.company.data.id,
+      [],
+      this.state.customerPrice,
+    );
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
       this.props.User.userInformation.attributes.authentication_token,
-      invoiceParams
+      invoiceParams,
     );
     // this.props.loading(false);
     if (updateInvoice) {
-      console.log('checkouting jaanu');
+      // console.log('checkouting jaanu');
+      this.setState({loaded: false});
       this.props.navigation.navigate('SelectShippingAddress');
     } else {
-      console.log("============> YEahh fuck");
+      // console.log('============> YEahh fuck');
     }
   };
 
@@ -73,28 +78,42 @@ export default class AddMargin extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          {
-            this.state.invoiceDetails && (
-              <Margin addCustomerPriceValue={this.addCustomerPriceValue} customerPrice={this.state.customerPrice} totalAmount={this.totalAmount} marginValue={this.marginValue()} />
+          {this.state.invoiceDetails && (
+            <Margin
+              addCustomerPriceValue={this.addCustomerPriceValue}
+              customerPrice={this.state.customerPrice}
+              totalAmount={this.totalAmount}
+              marginValue={this.marginValue()}
+            />
           )}
-          {
-            this.state.invoiceDetails && (
+          {this.state.invoiceDetails && (
             <OrderTotal
               totalAmount={this.state.invoiceDetails.net_amount}
               shippingCharges={0}
             />
           )}
-          <View style={{margin: 12, borderRadius: 10, backgroundColor: Colors.white, paddingBottom: 20 }}>
-            {
-              this.state.invoiceDetails && 
-              this.state.invoiceDetails.invoice_line_items.map((invoice_line_item) => {
-                return <CartProductCard invoiceLineItem={invoice_line_item} destroy={false} />
-              })
-            }          
+          <View
+            style={{
+              margin: 12,
+              borderRadius: 10,
+              backgroundColor: Colors.white,
+              paddingBottom: 20,
+            }}>
+            {this.state.invoiceDetails &&
+              this.state.invoiceDetails.invoice_line_items.map(
+                (invoice_line_item) => {
+                  return (
+                    <CartProductCard
+                      invoiceLineItem={invoice_line_item}
+                      destroy={false}
+                    />
+                  );
+                },
+              )}
           </View>
         </ScrollView>
         <TouchableOpacity
-          disabled={((this.marginValue() < 0) ||  this.state.customerPrice == null)}
+          disabled={this.marginValue() < 0 || this.state.customerPrice == null}
           style={{
             alignItems: 'center',
             backgroundColor: Colors.color2,
@@ -104,9 +123,10 @@ export default class AddMargin extends Component {
             bottom: 20,
             padding: 16,
           }}
-          onPress={() => this.updateInvoice() }>
+          onPress={() => this.updateInvoice()}>
           <Text style={{fontSize: 20, color: Colors.white}}>Continue</Text>
         </TouchableOpacity>
+        {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
   }
@@ -129,6 +149,3 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 });
-
-
-// this.props.navigation.navigate('AddShippingAddress')

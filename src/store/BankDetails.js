@@ -11,39 +11,50 @@ class BankDetails {
   @action
   fetchBankDetails = async () => {
     let response_fetched = false;
-    let error_message    = {};
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    let error_message = {};
+    const userAuthenticationToken = await AsyncStorage.getItem(
+      'APP:UserAuthToken',
+    );
     await axios
-      .get(`/bank_details`, { headers: { Authorization: `Token ${userAuthenticationToken}` } }
-      ).then((response) => {
-        console.log("res --------> ", response.data.data)
+      .get('/bank_details', {
+        headers: {Authorization: `Token ${userAuthenticationToken}`},
+      })
+      .then((response) => {
+        // console.log("res --------> ", response.data.data)
         this.bankAccountsList = response.data.data;
         response_fetched = true;
-      }).catch((error) => {
-        error_message = error.response;
       })
+      .catch((error) => {
+        error_message = error.response;
+      });
 
-    return [response_fetched, error_message];    
+    return [response_fetched, error_message];
   };
-  
+
   @action
   createBankDetails = async (bank_details_params) => {
     let response_fetched = false;
-    let error_message    = {};
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    let error_message = {};
+    const userAuthenticationToken = await AsyncStorage.getItem(
+      'APP:UserAuthToken',
+    );
     await axios
-      .post(`/bank_details`, { bank_details: bank_details_params }, { headers: { Authorization: `Token ${userAuthenticationToken}` } }
-      ).then((response) => {
-        console.log("res --------> ", response.data.data)
+      .post(
+        '/bank_details',
+        {bank_details: bank_details_params},
+        {headers: {Authorization: `Token ${userAuthenticationToken}`}},
+      )
+      .then((response) => {
+        // console.log("res --------> ", response.data.data)
         this.bankAccountsList = response.data.data;
         response_fetched = true;
-      }).catch((error) => {
-        error_message = error.response;
       })
+      .catch((error) => {
+        error_message = error.response;
+      });
 
-    return [response_fetched, error_message];    
+    return [response_fetched, error_message];
   };
 }
 
 export default BankDetails;
-

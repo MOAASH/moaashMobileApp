@@ -13,6 +13,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
+
+const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   showPassword = async () => {
     this.setState({showPassword: !this.state.showPassword});
@@ -39,6 +41,7 @@ export default class MainLogin extends Component {
         <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
           What's your password?
         </Text>
+
         <TextInput
           style={[styles.inputStyle, {marginTop: 4}]}
           placeholder="Password"
@@ -51,7 +54,12 @@ export default class MainLogin extends Component {
         />
         <TouchableOpacity
           onPress={() => this.showPassword()}
-          style={{position: 'absolute', right: 30, top: 68, zIndex: 2}}>
+          style={{
+            position: 'relative',
+            top: -42,
+            right: -SCREEN_WIDTH / 1.2,
+            zIndex: 2,
+          }}>
           <Ionicons name="ios-eye" size={25} color={Colors.darkGray} />
         </TouchableOpacity>
         <TouchableOpacity

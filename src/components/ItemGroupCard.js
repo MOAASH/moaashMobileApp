@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import ImgToBase64 from 'react-native-image-base64';
+import {inject} from 'mobx-react';
+@inject('Products')
 export default class ItemGroupCard extends Component {
   constructor(props) {
     super(props);
@@ -20,10 +24,30 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
+    // console.log('Lets share ', this.state.id);
+    this.props.loading(true);
+    this.props.number(this.state.id);
+    var myImages = await this.convertImage();
+    this.props.productImages(myImages);
+    this.props.message(this.state.attributes.shareable_message);
+    this.props.loading(false);
     this.props.shareProduct(true);
   };
+  convertImage = async () => {
+    let myImages = [];
+
+    for (const item of this.state.attributes.items_images) {
+      await ImgToBase64.getBase64String(item)
+        .then((base64String) => {
+          base64String = 'data:image/png;base64,' + base64String;
+          myImages.push(base64String);
+        })
+        .catch((err) => console.log('My error is ', err));
+    }
+    return myImages;
+  };
   componentDidMount = async () => {
-    console.log('item group images ', this.state.attributes.items_images[0]);
+    // console.log('item group description is ', this.state.attributes);
   };
   render() {
     const images = this.state.attributes.items_images;
@@ -35,72 +59,115 @@ export default class ItemGroupCard extends Component {
             groupID: this.state.id,
           })
         }>
-        <View
-          style={{
-            flexDirection: 'row',
-            height: 220,
-            justifyContent: 'space-evenly',
-          }}>
-          <Image
+        {images.length === 1 && (
+          <View
             style={{
-              width: Dimensions.get('screen').width / 2,
-              height: 210,
-              marginTop: 20,
-            }}
-            source={{uri: images[0]}}
-          />
-          <View>
+              flexDirection: 'row',
+              height: 220,
+            }}>
             <Image
               style={{
-                width: Dimensions.get('screen').width / 3,
-                height: 100,
+                width: Dimensions.get('screen').width,
+                height: 210,
+                marginTop: 20,
+              }}
+              source={{uri: images[0]}}
+            />
+          </View>
+        )}
+        {images.length === 2 && (
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 220,
+              justifyContent: 'space-evenly',
+            }}>
+            <Image
+              style={{
+                width: Dimensions.get('screen').width / 2,
+                height: 210,
+                marginTop: 20,
+              }}
+              source={{uri: images[0]}}
+            />
+            <Image
+              style={{
+                width: Dimensions.get('screen').width / 2,
+                height: 210,
                 marginTop: 20,
               }}
               source={{uri: images[1]}}
             />
-            <View
+          </View>
+        )}
+        {images.length > 2 && (
+          <View
+            style={{
+              flexDirection: 'row',
+              height: 220,
+              justifyContent: 'space-evenly',
+            }}>
+            <Image
               style={{
-                justifyContent: 'space-around',
-                alignContent: 'center',
-                alignItems: 'center',
-              }}>
+                width: Dimensions.get('screen').width / 2,
+                height: 210,
+                marginTop: 20,
+              }}
+              source={{uri: images[0]}}
+            />
+            <View>
               <Image
                 style={{
                   width: Dimensions.get('screen').width / 3,
                   height: 100,
-                  marginTop: 10,
+                  marginTop: 20,
                 }}
-                source={{uri: images[2]}}
+                source={{uri: images[1]}}
               />
               <View
                 style={{
-                  ...StyleSheet.absoluteFillObject,
-                  backgroundColor: 'rgba(0,0,0,0.6)',
-                }}
-              />
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  justifyContent: 'center',
-                  alignSelf: 'center',
+                  justifyContent: 'space-around',
+                  alignContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text
+                <Image
                   style={{
-                    fontSize: 32,
-
-                    color: Colors.white,
+                    width: Dimensions.get('screen').width / 3,
+                    height: 100,
+                    marginTop: 10,
+                  }}
+                  source={{uri: images[2]}}
+                />
+                <View
+                  style={{
+                    ...StyleSheet.absoluteFillObject,
+                    backgroundColor: 'rgba(0,0,0,0.6)',
+                  }}
+                />
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                    alignItems: 'center',
                   }}>
-                  + 2
-                </Text>
+                  <Text
+                    style={{
+                      fontSize: 32,
+
+                      color: Colors.white,
+                    }}>
+                    +{images.length - 2}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
+        )}
         <View style={{marginTop: 20, paddingHorizontal: 16}}>
           <Text style={{fontSize: 18}}>{this.state.attributes.name}</Text>
           <Text style={{fontSize: 16}}>
@@ -109,21 +176,17 @@ export default class ItemGroupCard extends Component {
           <View
             style={{
               flexDirection: 'row',
-              backgroundColor: Colors.lightGray,
-              padding: 4,
-              width: 150,
+              backgroundColor: Colors.white,
             }}>
-            <FontAwesome
-              name="truck"
-              size={40}
-              style={{fontWeight: '700'}}
-              color={Colors.color2}
+            <MaterialCommunityIcons
+              name="truck-outline"
+              size={20}
+              color={Colors.color3}
             />
             <Text
               style={{
-                alignSelf: 'center',
                 paddingLeft: 4,
-                fontWeight: '600',
+                color: Colors.color3,
               }}>
               Free Delivery
             </Text>
@@ -147,7 +210,7 @@ export default class ItemGroupCard extends Component {
               color={Colors.white}
             />
             <Text style={{fontSize: 18, color: Colors.white, paddingLeft: 12}}>
-              Share Now
+              Share Catalogue
             </Text>
           </TouchableOpacity>
         </View>

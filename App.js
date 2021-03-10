@@ -6,7 +6,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Provider as PaperProvider} from 'react-native-paper';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FlashMessage from "react-native-flash-message";
+import FlashMessage from 'react-native-flash-message';
 import Colors from './src/utils/colors';
 import Fonts from './src/utils/fonts';
 import stores from './src/store';
@@ -28,17 +28,46 @@ import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
 import MySharedProducts from './src/screens/MySharedProducts';
+import CategorisedCatalogues from './src/screens/CategorisedCatalogues';
 import Invoice from './src/screens/Invoice';
 import AddMargin from './src/screens/AddMargin';
 import AddShippingAddress from './src/screens/AddShippingAddress';
 import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const CartNavigator = createStackNavigator({
+  Cart: {
+    screen: Orders,
+    navigationOptions: {
+      title: 'Your Orders',
+      headerTintColor: 'white',
+      headerLeft: () => {
+        return null;
+      },
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+});
+
 const MainTabs = createBottomTabNavigator(
   {
     Home: {
       screen: Home,
       navigationOptions: {
+        tabBarOnPress: ({navigation}) => {
+            if (!!navigation.state.params && !!navigation.state.params.scrollToTop) {
+              navigation.state.params.scrollToTop();
+            }
+            navigation.navigate(navigation.state.key)
+        },
         tabBarLabel: 'Home',
         tabBarIcon: ({focused}) => (
           <FontAwesome
@@ -62,21 +91,22 @@ const MainTabs = createBottomTabNavigator(
         headerTitle: 'Categories',
       },
     },
-    Orders: {
-      screen: Orders,
-      navigationOptions: {
-        tabBarIcon: ({focused}) => (
-          <FontAwesome
-            name="gift"
-            size={28}
-            color={focused ? Colors.color1 : Colors.color5}
-          />
-        ),
-      },
-    },
+    // Orders: {
+    //   screen: Orders,
+    //   navigationOptions: {
+    //     tabBarIcon: ({focused}) => (
+    //       <FontAwesome
+    //         name="gift"
+    //         size={28}
+    //         color={focused ? Colors.color1 : Colors.color5}
+    //       />
+    //     ),
+    //   },
+    // },
     Cart: {
-      screen: Invoice,
+      screen: CartNavigator,
       navigationOptions: {
+        tabBarLabel: 'Orders',
         tabBarIcon: ({focused}) => (
           <FontAwesome
             name="shopping-cart"
@@ -147,7 +177,7 @@ const MainTabs = createBottomTabNavigator(
 );
 
 Home.navigationOptions = ({navigation}) => {
-  console.log(navigation.state);
+  // console.log(navigation.state);
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
@@ -157,7 +187,7 @@ Home.navigationOptions = ({navigation}) => {
   };
 };
 Orders.navigationOptions = ({navigation}) => {
-  console.log(navigation.state);
+  // console.log(navigation.state);
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
     tabBarVisible = false;
@@ -177,13 +207,14 @@ Orders.navigationOptions = ({navigation}) => {
 //   };
 // };
 // const SwitchNavigation = createSwitchNavigator({});
+
 const AppNavigator = createStackNavigator({
-  // Start: {
-  //   screen: SwitchNavigation,
-  //   navigationOptions: {
-  //     headerShown: false,
-  //   },
-  // },
+  Start: {
+    screen: Splash,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
   StartScreen: {
     screen: StartScreen,
     navigationOptions: {
@@ -196,7 +227,7 @@ const AppNavigator = createStackNavigator({
       title: 'Login to your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -210,7 +241,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -224,7 +255,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -238,7 +269,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -252,7 +283,7 @@ const AppNavigator = createStackNavigator({
       title: 'Create your account',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -265,7 +296,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Enter Your Bank Account Details',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -279,35 +310,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'Catalogue',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
-      },
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
-    },
-  },
-  UserBankAccounts: {
-    screen: UserBankAccounts,
-    navigationOptions: {
-      title: 'Registered Bank Accounts',
-      headerTitleStyle: {
-        fontFamily: Fonts.medium
-      },
-      headerTintColor: 'white',
-      headerBackTitleVisible: false,
-      headerStyle: {
-        backgroundColor: Colors.color2,
-      },
-    },
-  },
-  Payments: {
-    screen: Payments,
-    navigationOptions: {
-      title: 'My Payments',
-      headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -321,7 +324,7 @@ const AppNavigator = createStackNavigator({
     navigationOptions: {
       title: 'My Shared Products',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerTintColor: 'white',
       headerBackTitleVisible: false,
@@ -330,7 +333,36 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
-ReferralEarn: {
+  CategorisedCatalogues: {
+    screen: CategorisedCatalogues,
+    navigationOptions: {
+      title: 'Catalogues',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  UserBankAccounts: {
+    screen: UserBankAccounts,
+    navigationOptions: {
+      title: 'Registered Bank Accounts',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+
+  ReferralEarn: {
     screen: ReferralEarn,
     navigationOptions: {
       title: 'Refer & Earn',
@@ -350,7 +382,7 @@ ReferralEarn: {
       title: 'Cart',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -364,7 +396,7 @@ ReferralEarn: {
       title: 'Add your Margin',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -378,7 +410,7 @@ ReferralEarn: {
       title: 'Add Customer Address',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -392,7 +424,7 @@ ReferralEarn: {
       title: 'Select Customer Address',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -406,7 +438,7 @@ ReferralEarn: {
       title: 'Order Summary',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -420,7 +452,7 @@ ReferralEarn: {
       title: 'Order Placed',
       headerTintColor: 'white',
       headerTitleStyle: {
-        fontFamily: Fonts.medium
+        fontFamily: Fonts.medium,
       },
       headerBackTitleVisible: false,
       headerStyle: {
@@ -434,11 +466,26 @@ ReferralEarn: {
       headerShown: false,
     },
   },
+  Payments: {
+    screen: Payments,
+    navigationOptions: {
+      title: 'My Payments',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
 });
 
 export default class MainApp extends Component {
   render() {
     const App = createAppContainer(AppNavigator);
+    // AsyncStorage.clear();
     return (
       <Provider {...stores}>
         <PaperProvider>

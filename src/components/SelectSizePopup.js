@@ -26,17 +26,18 @@ export default class SelectSizePopup extends Component {
       quantity: 1,
       choosenSize: '',
       selected: false,
-      isSizeSelected: {}
+      isSizeSelected: {},
     };
   }
   componentDidMount = async () => {
-    console.log('size is  ', this.props.sizes);
+    // console.log('size is  ', this.props.sizes);
     const container = {};
-    let isSizeSelected = this.props.sizes.map( size => {
+    let isSizeSelected = this.props.sizes.map((size, index) => {
+      console.log("Index: ", index)
       container[size] = false;
     });
-    await this.setState({ isSizeSelected: container });
-    
+    await this.setState({isSizeSelected: container});
+    this.sizeChoosen(this.props.sizes[0]);
   };
   subtract = async () => {
     if (this.state.quantity > 1) {
@@ -47,7 +48,11 @@ export default class SelectSizePopup extends Component {
     var isSizeSelected = this.state.isSizeSelected;
     isSizeSelected[this.state.choosenSize] = false;
     isSizeSelected[item] = true;
-    this.setState({selected: true, choosenSize: item, isSizeSelected: isSizeSelected});
+    this.setState({
+      selected: true,
+      choosenSize: item,
+      isSizeSelected: isSizeSelected,
+    });
   };
   render() {
     return (
@@ -70,7 +75,7 @@ export default class SelectSizePopup extends Component {
               }}>
               Select 1 size only:
             </Text>
-            {Object.keys(this.state.isSizeSelected).length > 0 && 
+            {Object.keys(this.state.isSizeSelected).length > 0 && (
               <FlatList
                 numColumns={8}
                 data={this.props.sizes}
@@ -85,8 +90,7 @@ export default class SelectSizePopup extends Component {
                 )}
                 keyExtractor={(item) => item.id}
               />
-            }
-            
+            )}
           </View>
           <View
             style={{
@@ -95,17 +99,19 @@ export default class SelectSizePopup extends Component {
               justifyContent: 'space-between',
               marginTop: 12,
             }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={{
                   fontSize: 12,
                   alignSelf: 'center',
                   paddingRight: 10,
-                  fontFamily: Fonts.regular
+                  fontFamily: Fonts.regular,
                 }}>
                 Quantity
               </Text>
-              <Text style={{ fontFamily: Fonts.regular }}>{this.state.quantity}</Text>
+              <Text style={{fontFamily: Fonts.regular}}>
+                {this.state.quantity}
+              </Text>
             </View>
             <View style={{flexDirection: 'row'}}>
               <TouchableOpacity
@@ -148,7 +154,14 @@ export default class SelectSizePopup extends Component {
                 this.state.quantity,
               ]);
             }}>
-            <Text style={{fontSize: 16, color: Colors.white, fontFamily: Fonts.light }}>ADD TO CART</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: Colors.white,
+                fontFamily: Fonts.light,
+              }}>
+              ADD TO CART
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{

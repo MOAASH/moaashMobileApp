@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  Alert,
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
@@ -178,7 +179,7 @@ export default class MainLogin extends Component {
             marginHorizontal: 12,
             padding: 16,
           }}
-          onPress={() => this.props.navigation.navigate('Home')}>
+          onPress={() => Alert.alert('Thank you. This feature is coming soon')}>
           <Text style={{fontSize: 20, color: Colors.white}}>
             Refer and Earn
           </Text>

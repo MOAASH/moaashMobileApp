@@ -13,16 +13,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
+@inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
+  };
+
+  logOut = async () => {
+    AsyncStorage.clear();
+    this.props.navigation.navigate('StartScreen');
   };
 
   render() {
@@ -54,7 +61,7 @@ export default class MainLogin extends Component {
                 fontSize: 16,
                 fontWeight: '600',
               }}>
-              Hamza
+              {this.props.User.userInformation.attributes.name}
             </Text>
             <Text
               style={{
@@ -62,7 +69,7 @@ export default class MainLogin extends Component {
                 paddingLeft: 12,
                 fontSize: 16,
               }}>
-              +92 333 1473395
+              {this.props.User.userInformation.attributes.phone_number}
             </Text>
           </View>
         </TouchableOpacity>
@@ -95,7 +102,7 @@ export default class MainLogin extends Component {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             flexDirection: 'row',
             backgroundColor: Colors.lightGray,
@@ -121,7 +128,7 @@ export default class MainLogin extends Component {
             }}>
             <Ionicons name="ios-chevron-forward-outline" size={20} style={{}} />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={{
@@ -172,6 +179,37 @@ export default class MainLogin extends Component {
                 fontSize: 16,
               }}>
               Refer & Earn
+            </Text>
+          </View>
+          <View
+            style={{
+              alignItems: 'flex-end',
+            }}>
+            <Ionicons name="ios-chevron-forward-outline" size={20} style={{}} />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            backgroundColor: Colors.lightGray,
+            padding: 8,
+            paddingVertical: 20,
+            justifyContent: 'space-between',
+          }}
+          onPress={() => this.logOut()}>
+          <View style={{flexDirection: 'row'}}>
+            <Ionicons
+              name="power-outline"
+              size={20}
+              style={{fontWeight: '700'}}
+            />
+            <Text
+              style={{
+                alignSelf: 'center',
+                paddingLeft: 12,
+                fontSize: 16,
+              }}>
+              Log Out
             </Text>
           </View>
           <View

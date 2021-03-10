@@ -5,29 +5,48 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class User {
   @observable Name = '';
-  @observable phoneNumber = "100000";
+  @observable phoneNumber = '100000';
   @observable password = '';
   @observable userInformation = {};
 
   constructor() {}
   setName = (name) => {
-    console.log('Name is set to  ', name);
+    // console.log('Name is set to  ', name);
     this.Name = name;
   };
 
   setPassword = (password) => {
-    console.log('password is set to  ', password);
+    // console.log('password is set to  ', password);
     this.password = password;
   };
-  setPhone = (phoneNumber) => {
-    console.log('phoneNumber is set to  ', phoneNumber);
-    this.phoneNumber = phoneNumber;
+  @action
+  setPhone = async (phoneNumber) => {
+    let response_fetched = false;
+    // console.log('phoneNumber is set to  ', phoneNumber);
+    await axios
+      .get(`/users/find_phone_number?phone_number=${phoneNumber}`)
+      .then((response) => {
+        // console.log('My response is hello ' + JSON.stringify(response.data));
+        this.phoneNumber = phoneNumber;
+      })
+      .catch((error) => {
+        // console.log('error ', error);
+        this.phoneNumber = phoneNumber;
+        response_fetched = true;
+      });
+
+    return response_fetched;
   };
 
   @action
   registerUser = async () => {
     let response_fetched = false;
-    console.log('registering user');
+    // console.log(
+    //   'registering user new',
+    //   this.Name,
+    //   this.phoneNumber,
+    //   this.password,
+    // );
     await axios
       .post('/users', {
         sign_up: {
@@ -38,20 +57,20 @@ class User {
         },
       })
       .then((response) => {
-        console.log('signup Response-> ' + JSON.stringify(response.data));
+        // console.log('signup Response-> ' + JSON.stringify(response.data));
         this.userInformation = response.data.data;
         response_fetched = true;
         return response_fetched;
       })
       .catch((error) => {
-        console.log('bari zor ka error wajja hai signup per ' + error);
+        // console.log('bari zor ka error wajja hai signup per ' + error);
       });
     return response_fetched;
   };
   @action
   loginUser = async (phone, password) => {
     let response_fetched = false;
-    console.log('sign in');
+    // console.log('sign in');
     await axios
       .post('/users/sign_in', {
         sign_in: {
@@ -60,21 +79,24 @@ class User {
         },
       })
       .then((response) => {
-        console.log('signin Response-> ' + JSON.stringify(response.data.data));
+        // console.log('signin Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
-        AsyncStorage.setItem('APP:UserAuthToken', this.userInformation.attributes.authentication_token);
+        AsyncStorage.setItem(
+          'APP:UserAuthToken',
+          this.userInformation.attributes.authentication_token,
+        );
         response_fetched = true;
         return response_fetched;
       })
       .catch((error) => {
-        console.log('bari zor ka error wajja hai signin per ' + error);
+        // console.log('bari zor ka error wajja hai signin per ' + error);
       });
     return response_fetched;
   };
   @action
   updateBankDetails = async () => {
     let response_fetched = false;
-    console.log('Updating Bank Details');
+    // console.log('Updating Bank Details');
     await axios
       .patch('/users/sign_in', {
         headers: {
@@ -82,13 +104,13 @@ class User {
         },
       })
       .then((response) => {
-        console.log('signin Response-> ' + JSON.stringify(response.data));
+        // console.log('signin Response-> ' + JSON.stringify(response.data));
 
         response_fetched = true;
         return response_fetched;
       })
       .catch((error) => {
-        console.log('bari zor ka error wajja hai signin per ' + error);
+        // console.log('bari zor ka error wajja hai signin per ' + error);
       });
   };
 }

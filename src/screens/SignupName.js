@@ -23,7 +23,7 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   setName = async () => {
     this.props.User.setName(this.state.name);

@@ -7,14 +7,16 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Dimensions,
 } from 'react-native';
 import axios from '../utils/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Colors from '../utils/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 import Loader from '../components/Loader';
-
+const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 export default class MainLogin extends Component {
   constructor(props) {
@@ -28,26 +30,41 @@ export default class MainLogin extends Component {
   }
 
   componentDidMount = async () => {
-    console.log('Starting the app');
+    // console.log('Starting the app');
   };
   showPassword = async () => {
     this.setState({showPassword: !this.state.showPassword});
   };
+
   loginUser = async () => {
+    // console.log('confirming sign in the app');
     this.setState({loaded: true});
     let loginUser = await this.props.User.loginUser(
-      // this.state.phone,
-      '03218449409',
-      'Hamza123',
-      // this.state.password,
+      this.state.phone,
+      this.state.password,
+      // '03218449409',
+      // 'Hamza123',
     );
+    let value = {phone: this.state.phone, password: this.state.password};
+    // let value = {phone: '03218449409', password: 'Hamza123'};
     if (loginUser === true) {
-      this.setState({loaded: false});
+      let newlogin = await this.storeData(value);
       this.props.navigation.navigate('Home');
     } else {
-      Alert.alert('Invalid Credentials');
       this.setState({loaded: false});
+      Alert.alert('Invalid Credentials');
       this.props.navigation.navigate('Login');
+    }
+  };
+  storeData = async (value) => {
+    console.log('MY value is ', value);
+    try {
+      const login = JSON.stringify(value);
+      await AsyncStorage.setItem('@storage_Key', login);
+      return true;
+    } catch (e) {
+      // saving error
+      return false;
     }
   };
 
@@ -80,7 +97,12 @@ export default class MainLogin extends Component {
           />
           <TouchableOpacity
             onPress={() => this.showPassword()}
-            style={{position: 'absolute', right: 30, top: 180, zIndex: 2}}>
+            style={{
+              position: 'relative',
+              right: -SCREEN_WIDTH / 1.25,
+              top: -45,
+              zIndex: 2,
+            }}>
             <Ionicons name="ios-eye" size={25} color={Colors.darkGray} />
           </TouchableOpacity>
           <TouchableOpacity

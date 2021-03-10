@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   SafeAreaView,
+  ActivityIndicator,
   TextInput,
   Icon,
   AppState,
@@ -43,6 +44,7 @@ export default class Home extends Component {
       message: '',
       itemGroups: [],
       itemGroupNumber: 0,
+      activityIndicator: false
     };
   }
 
@@ -58,21 +60,26 @@ export default class Home extends Component {
     this.getItemGroups();
   };
 
-  getItemGroups = async () => {
+  getItemGroups = async (page = 1) => {
     // console.log(
     //   'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
     // );
-    let gettingItemGroup = await this.props.Products.getShareItemGroups(
-      this.props.User.userInformation.attributes.authentication_token,
-    );
-    var stateItemGroups = this.state.itemGroups;
-    stateItemGroups = stateItemGroups.concat(this.props.Products.sharedGroups);
-    await this.setState({itemGroups: stateItemGroups});
+    if (page != null) {
+      this.setState({activityIndicator: true});
+      let gettingItemGroup = await this.props.Products.getItemGroups(
+        this.props.User.userInformation.attributes.authentication_token,
+        page,
+        this.props.navigation.state.params.extra_params
+      ); 
+      var stateItemGroups = this.state.itemGroups;
+      stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups);
+      await this.setState({itemGroups: stateItemGroups, activityIndicator: false});
+    }
     // console.log(stateItemGroups);
 
     // console.log(
     //   '--------------------->',
-    //   this.props.Products.itemGroupLinks.next,
+    //   this.state.itemGroups,
     // );
     this.setState({loaded: false});
   };
@@ -109,44 +116,18 @@ export default class Home extends Component {
         {!this.state.loaded && (
           <FlatList
             keyExtractor={(item) => item.id}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              <>{this.state.activityIndicator && <ActivityIndicator />}</>
+            }
+            initialNumToRender={this.state.itemGroups.length}
+            onEndReached={() =>
+              this.getItemGroups(this.props.Products.itemGroupLinks.next)
+            }
             data={this.state.itemGroups}
             ref={(ref) => {
               this.flatListRef = ref;
             }}
-            ListEmptyComponent={
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flex: 1,
-                }}>
-                <Ionicons
-                  name="bookmark"
-                  size={100}
-                  color={Colors.color5}
-                />
-                <Text style={{fontSize: RFValue(12), fontFamily: Fonts.medium}}>
-                  You have no Shared Products
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  style={{
-                    padding: 8,
-                    backgroundColor: Colors.color3,
-                    borderRadius: 5,
-                  }}
-                  onPress={() => this.props.navigation.navigate('Home')}>
-                  <Text
-                    style={{
-                      fontSize: RFValue(12),
-                      fontFamily: Fonts.regular,
-                      color: Colors.white,
-                    }}>
-                    BROWSE PRODUCTS
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            }
             renderItem={(item) => (
               <ItemGroupCard
                 Products={item}

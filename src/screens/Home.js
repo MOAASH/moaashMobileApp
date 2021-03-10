@@ -8,8 +8,10 @@ import {
   Dimensions,
   Image,
   SafeAreaView,
+  ActivityIndicator,
   TextInput,
   Icon,
+  AppState,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -36,36 +38,79 @@ export default class Home extends Component {
     this.state = {
       sharing: false,
       loaded: true,
+      refreshing: false,
+      images: [],
+      message: '',
+      itemGroups: [],
+      itemGroupNumber: 0,
+      activityIndicator: false,
     };
   }
 
   componentDidMount = () => {
-    console.log('Home page of the app');
+    this.props.navigation.setParams({
+      scrollToTop: () => {
+        this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
+      },
+    });
     this.getItemGroups();
   };
-  
-  getItemGroups = async () => {
-    console.log("thisssssss"+JSON.stringify(this.props.User.userInformation.attributes))
-    let gettingItemGroup = await this.props.Products.getItemGroups(
-      this.props.User.userInformation.attributes.authentication_token,
-    );
-    this.setState({loaded: false});
+
+  getItemGroups = async (page = 1, refreshing = false) => {
+    if (page != null) {
+      if (refreshing) {
+        this.setState({refreshing: true, itemGroups: []});
+      }
+      this.setState({activityIndicator: true});
+      let gettingItemGroup = await this.props.Products.getItemGroups(
+        this.props.User.userInformation.attributes.authentication_token,
+        page,
+      );
+      var stateItemGroups = this.state.itemGroups;
+      stateItemGroups = stateItemGroups.concat(this.props.Products.itemGroups);
+      await this.setState({itemGroups: stateItemGroups});
+      // console.log(stateItemGroups);
+    }
+    this.setState({loaded: false, refreshing: false, activityIndicator: false});
   };
-  
+
   shareProduct = async () => {
     this.setState({sharing: true});
   };
-  
+  productImages = async (productImages) => {
+    // console.log('My images are: ', productImages);
+    this.setState({images: productImages});
+  };
+
   hidePopup = async () => {
     this.setState({sharing: false});
   };
 
+  number = async (number) => {
+    // console.log('setting item group number to ', number);
+    this.setState({itemGroupNumber: number});
+  };
+  loading = async (loading) => {
+    console.log('Hello loading', loading);
+    this.setState({loaded: loading});
+  };
+  message = async (message) => {
+    this.setState({message: message});
+  };
   render() {
-    const data = ['../../assets/MoaashBanner.png', '../../assets/Logo.png'];
+    const data = [
+      require('../../assets/MoaashBanner.png'),
+      require('../../assets/Logo.png'),
+    ];
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
             <Image
               style={{
                 width: 150,
@@ -73,15 +118,26 @@ export default class Home extends Component {
               }}
               source={require('../../assets/logo_english.png')}
             />
-            <Ionicons
-              name="cart-outline"
-              size={24}
-              onPress={() => this.props.navigation.navigate('Invoice')}
-              style={{paddingRight: 12}}
-              color={Colors.color5}
-            />
+            <View style={{flexDirection: 'row'}}>
+              <Ionicons
+                name="cart-outline"
+                size={24}
+                onPress={() => this.props.navigation.navigate('Invoice')}
+                style={{paddingRight: 12}}
+                color={Colors.color5}
+              />
+              <Ionicons
+                name="bookmark-outline"
+                size={24}
+                onPress={() =>
+                  this.props.navigation.navigate('MySharedProducts')
+                }
+                style={{paddingRight: 12}}
+                color={Colors.color5}
+              />
+            </View>
           </View>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <TextInput
               style={[styles.inputStyle]}
               placeholder="Search by Keyword or Product ID"
@@ -90,44 +146,69 @@ export default class Home extends Component {
               returnKeyType="next"
               onChangeText={(text) => this.setState({email: text})}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        { !this.state.loaded && (
+        {!this.state.loaded && (
           <FlatList
-          ListHeaderComponent={
-            <>
-              <View>
-                <FlatList
-                  keyExtractor={(item) => item.id}
-                  data={data}
-                  horizontal
-                  pagingEnabled={true}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={(item) => (
-                    <AdSlider
-                      AdImage={item}
-                      scrollEnabled={true}
-                      navigation={this.props.navigation}
-                    />
-                  )}
-                />
-              </View>
-              <QualityBanner />
-            </>
-          }
-          keyExtractor={(item) => item.id}
-          data={this.props.Products.itemGroups}
-          renderItem={(item) => (
-            <ItemGroupCard
-              Products={item}
-              scrollEnabled={false}
-              navigation={this.props.navigation}
-              shareProduct={this.shareProduct}
-            />
-          )}
-        />
+            refreshing={this.state.refreshing}
+            onRefresh={() => this.getItemGroups(1, true)}
+            onEndReachedThreshold={0.5}
+            initialNumToRender={this.state.itemGroups.length}
+            onEndReached={() =>
+              this.getItemGroups(this.props.Products.itemGroupLinks.next)
+            }
+            ListFooterComponent={
+              <>{this.state.activityIndicator && <ActivityIndicator />}</>
+            }
+            ListHeaderComponent={
+              <>
+                <View>
+                  <FlatList
+                    keyExtractor={(item) => item.id}
+                    data={data}
+                    horizontal
+                    pagingEnabled={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={(item) => (
+                      <AdSlider
+                        AdImage={item}
+                        scrollEnabled={true}
+                        navigation={this.props.navigation}
+                      />
+                    )}
+                  />
+                </View>
+                <QualityBanner />
+              </>
+            }
+            keyExtractor={(item) => item.id}
+            data={this.state.itemGroups}
+            ref={(ref) => {
+              this.flatListRef = ref;
+            }}
+            renderItem={(item) => (
+              <ItemGroupCard
+                Products={item}
+                scrollEnabled={false}
+                navigation={this.props.navigation}
+                shareProduct={this.shareProduct}
+                productImages={this.productImages}
+                message={this.message}
+                number={this.number}
+                loading={this.loading}
+              />
+            )}
+          />
         )}
-        {this.state.sharing && <WhatsappPopup hidePopup={this.hidePopup} />}
+        {this.state.sharing && (
+          <WhatsappPopup
+            hidePopup={this.hidePopup}
+            images={this.state.images}
+            message={this.state.message}
+            number={this.state.itemGroupNumber}
+            // loading={this.loading()}
+          />
+        )}
         {this.state.loaded && <Loader />}
       </SafeAreaView>
     );
@@ -138,6 +219,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+    marginBottom: 50,
   },
   inputStyle: {
     paddingHorizontal: 10,

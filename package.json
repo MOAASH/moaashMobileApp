@@ -27,6 +27,7 @@
     "react-native-fast-image": "^8.3.4",
     "react-native-flash-message": "^0.1.21",
     "react-native-gesture-handler": "^1.8.0",
+    "react-native-image-base64": "^0.1.4",
     "react-native-paper": "^4.2.0",
     "react-native-reanimated": "^1.13.1",
     "react-native-render-html": "^5.0.1",
@@ -37,6 +38,7 @@
     "react-navigation": "^4.4.2",
     "react-navigation-stack": "^2.8.4",
     "react-navigation-tabs": "^2.10.1",
+    "tailwind-rn": "^3.0.1",
     "yup": "^0.32.8"
   },
   "devDependencies": {
