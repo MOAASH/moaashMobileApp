@@ -1,6 +1,7 @@
 import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Products {
   @observable itemGroups = [];
@@ -39,12 +40,12 @@ class Products {
     return response_fetched;
   };
   @action
-  getItemGroups = async (token, page) => {
+  getItemGroups = async (token, page, extra_params = {}) => {
     let response_fetched = false;
     // console.log('my token is ', token);
     this.userToken = token;
     await axios
-      .get(`/item_groups?page=${[page]}`, {
+      .get(`/item_groups?page=${[page]}${extra_params}`, {
         headers: {
           Authorization: `Token ${this.userToken}`,
         },
@@ -123,6 +124,33 @@ class Products {
 
     return [response_fetched, error_message];
   };
+  
+  @action
+  getCategories = async () => {
+    let response_fetched = false;
+    let currentItemGroup = {};
+    let categories = {};
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+
+    // console.log('my item id is ', userAuthToken);
+    await axios
+      .get(`/item_groups/categories`, {
+        headers: {
+          Authorization: `Token ${userAuthToken}`,
+        },
+      })
+      .then((response) => {
+        // console.log('items Response-> ' + JSON.stringify(response.data));
+        
+        categories = response.data.data
+        response_fetched = true;
+        return [response_fetched, categories];
+      })
+      .catch((error) => {
+        // console.log('bari zor ka error wajja hai items per ' + error);
+      });
+    return [response_fetched, categories];
+  }
 }
 
 export default Products;
