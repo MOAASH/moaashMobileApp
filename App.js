@@ -28,6 +28,7 @@ import Payments from './src/screens/Payments';
 import ProductDetail from './src/screens/ProductDetail';
 import ReferralEarn from './src/screens/ReferralEarn';
 import MySharedProducts from './src/screens/MySharedProducts';
+import CategorisedCatalogues from './src/screens/CategorisedCatalogues';
 import Invoice from './src/screens/Invoice';
 import AddMargin from './src/screens/AddMargin';
 import AddShippingAddress from './src/screens/AddShippingAddress';
@@ -77,19 +78,19 @@ const MainTabs = createBottomTabNavigator(
         ),
       },
     },
-    // Categories: {
-    //   screen: Categories,
-    //   navigationOptions: {
-    //     tabBarIcon: ({focused}) => (
-    //       <FontAwesome
-    //         name="list-alt"
-    //         size={28}
-    //         color={focused ? Colors.color1 : Colors.color5}
-    //       />
-    //     ),
-    //     headerTitle: 'Categories',
-    //   },
-    // },
+    Categories: {
+      screen: Categories,
+      navigationOptions: {
+        tabBarIcon: ({focused}) => (
+          <FontAwesome
+            name="list-alt"
+            size={28}
+            color={focused ? Colors.color1 : Colors.color5}
+          />
+        ),
+        headerTitle: 'Categories',
+      },
+    },
     // Orders: {
     //   screen: Orders,
     //   navigationOptions: {
@@ -322,6 +323,20 @@ const AppNavigator = createStackNavigator({
     screen: MySharedProducts,
     navigationOptions: {
       title: 'My Shared Products',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerTintColor: 'white',
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  CategorisedCatalogues: {
+    screen: CategorisedCatalogues,
+    navigationOptions: {
+      title: 'Catalogues',
       headerTitleStyle: {
         fontFamily: Fonts.medium,
       },
