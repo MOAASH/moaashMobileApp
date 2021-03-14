@@ -16,7 +16,7 @@ class BankDetails {
       'APP:UserAuthToken',
     );
     await axios
-      .get('/bank_details', {
+      .get('/v1/bank_details', {
         headers: {Authorization: `Token ${userAuthenticationToken}`},
       })
       .then((response) => {
@@ -40,7 +40,7 @@ class BankDetails {
     );
     await axios
       .post(
-        '/bank_details',
+        '/v1/bank_details',
         {bank_details: bank_details_params},
         {headers: {Authorization: `Token ${userAuthenticationToken}`}},
       )

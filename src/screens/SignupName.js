@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
 import {
-  View,
-  Dimensions,
   Text,
   StyleSheet,
   ScrollView,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import axios from '../utils/axios';
 import Colors from '../utils/colors';
-import {inject} from 'mobx-react';
-import CustomButton from '../components/CustomButton';
+import Fonts from '../utils/fonts'
+import { inject } from 'mobx-react';
 
 @inject('User')
 export default class MainLogin extends Component {
@@ -33,7 +30,7 @@ export default class MainLogin extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
+        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30, fontFamily: Fonts.medium }}>
           What's your name?
         </Text>
         <TextInput

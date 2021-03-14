@@ -22,20 +22,22 @@ class User {
   @action
   setPhone = async (phoneNumber) => {
     let response_fetched = false;
+    let errors = {}
     // console.log('phoneNumber is set to  ', phoneNumber);
     await axios
-      .get(`/users/find_phone_number?phone_number=${phoneNumber}`)
+      .get(`/v2/users/find_phone_number?phone_number=${phoneNumber}`)
       .then((response) => {
-        // console.log('My response is hello ' + JSON.stringify(response.data));
-        this.phoneNumber = phoneNumber;
-      })
-      .catch((error) => {
-        // console.log('error ', error);
+        console.log('My response is hello ' + JSON.stringify(response.data));
         this.phoneNumber = phoneNumber;
         response_fetched = true;
+      })
+      .catch((error) => {
+        console.log('error ', JSON.stringify(error.response.data));
+        this.phoneNumber = phoneNumber;
+        errors = error.response.data
       });
 
-    return response_fetched;
+    return [response_fetched, errors];
   };
 
   @action
@@ -48,7 +50,7 @@ class User {
     //   this.password,
     // );
     await axios
-      .post('/users', {
+      .post('/v2/users', {
         sign_up: {
           name: this.Name,
           phone_number: this.phoneNumber,
@@ -67,12 +69,43 @@ class User {
       });
     return response_fetched;
   };
+  
+  @action
+  verify_sign_up_otp = async (current_otp) => {
+    let response_fetched = false;
+    let errors = {};
+    await axios
+      .put('/v2/users/verify_otp', {
+        user: {
+          phone_number: this.phoneNumber,
+          current_otp: current_otp
+        },
+      })
+      .then((response) => {
+        console.log('signup Response-> ' + JSON.stringify(response.data));
+        this.userInformation = response.data.data;
+        AsyncStorage.setItem(
+          'APP:UserAuthToken',
+          this.userInformation.attributes.authentication_token,
+        );
+        response_fetched = true;
+      })
+      .catch((error) => {
+        console.log("VERIFY OTP ERROR -> ", error.response.data)
+        errors = error.response.data
+        // console.log('bari zor ka error wajja hai signup per ' + error);
+      });
+    return [response_fetched, errors];
+  };
+  
+  
   @action
   loginUser = async (phone, password) => {
     let response_fetched = false;
+    let errors = {}
     // console.log('sign in');
     await axios
-      .post('/users/sign_in', {
+      .post('/v2/users/sign_in', {
         sign_in: {
           phone_number: phone,
           password: password,
@@ -86,32 +119,13 @@ class User {
           this.userInformation.attributes.authentication_token,
         );
         response_fetched = true;
-        return response_fetched;
       })
       .catch((error) => {
-        // console.log('bari zor ka error wajja hai signin per ' + error);
+        this.phoneNumber = phone;
+        errors = error.response.data
+        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
       });
-    return response_fetched;
-  };
-  @action
-  updateBankDetails = async () => {
-    let response_fetched = false;
-    // console.log('Updating Bank Details');
-    await axios
-      .patch('/users/sign_in', {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((response) => {
-        // console.log('signin Response-> ' + JSON.stringify(response.data));
-
-        response_fetched = true;
-        return response_fetched;
-      })
-      .catch((error) => {
-        // console.log('bari zor ka error wajja hai signin per ' + error);
-      });
+    return [response_fetched, errors];
   };
 }
 

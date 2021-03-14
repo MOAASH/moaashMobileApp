@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {inject} from 'mobx-react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -40,12 +41,12 @@ export default class MainLogin extends Component {
       let registerUser = await this.props.User.registerUser();
       this.setState({loaded: false});
       if (registerUser === true) {
-        let value = {
-          phone: this.props.User.phoneNumber,
-          password: this.props.User.password,
-        };
-        let newlogin = await this.storeData(value);
-        this.props.navigation.navigate('Home');
+        // let value = {
+        //   phone: this.props.User.phoneNumber,
+        //   password: this.props.User.password,
+        // };
+        // let newlogin = await this.storeData(value);
+        this.props.navigation.navigate('OTPScreen');
       } else {
         Alert.alert('Unable to create account');
         this.props.navigation.navigate('StartScreen');
@@ -70,7 +71,7 @@ export default class MainLogin extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
+        <Text style={{ fontSize: 20, marginHorizontal: 20, marginTop: 30, fontFamily: Fonts.medium }}>
           Please confirm your password
         </Text>
         <TextInput

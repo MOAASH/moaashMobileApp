@@ -14,12 +14,12 @@ class ShippingAddress {
     let error_message    = {};
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');;
     await axios
-      .get(`/customer_addresses`, { headers: { Authorization: `Token ${userAuthToken}` } }
+      .get(`/v1/customer_addresses`, { headers: { Authorization: `Token ${userAuthToken}` } }
       ).then((response) => {
         this.shippingAddressesList = response.data.data;
         response_fetched = true;
       }).catch((error) => {
-        error_message = error.response;
+        error_message = error.response.data;
       });
 
     return [response_fetched, error_message];   
@@ -31,14 +31,14 @@ class ShippingAddress {
     let error_message    = {};
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');;
     await axios
-      .post(`/customer_addresses`,{
+      .post(`/v1/customer_addresses`,{
         customer_address: addressParams
       }, { headers: { Authorization: `Token ${userAuthToken}` } }
       ).then((response) => {
         // this.shippingAddressesList = response.data.data;
         response_fetched = true;
       }).catch((error) => {
-        error_message = error.response;
+        error_message = error.response.data;
       });
 
     return [response_fetched, error_message];   

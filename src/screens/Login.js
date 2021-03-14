@@ -16,6 +16,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 import Loader from '../components/Loader';
+import {findErrorKey} from  '../utils/Constants'
+
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 export default class MainLogin extends Component {
@@ -39,21 +41,24 @@ export default class MainLogin extends Component {
   loginUser = async () => {
     // console.log('confirming sign in the app');
     this.setState({loaded: true});
-    let loginUser = await this.props.User.loginUser(
+    let [response_fetched, errors] = await this.props.User.loginUser(
       this.state.phone,
-      this.state.password,
-      // '03218449409',
-      // 'Hamza123',
+      this.state.password
     );
-    let value = {phone: this.state.phone, password: this.state.password};
-    // let value = {phone: '03218449409', password: 'Hamza123'};
-    if (loginUser === true) {
-      let newlogin = await this.storeData(value);
+    if (response_fetched) {
       this.props.navigation.navigate('Home');
     } else {
+      let password_error = await findErrorKey(errors.errors, "password");
+      let verify_otp_error = await findErrorKey(errors.errors, "verify_otp");
+
+      if (password_error){
+        Alert.alert('Phone Number and Password is not correct');
+      } else if (verify_otp_error){
+        this.props.navigation.navigate('OTPScreen');
+      } else {
+        Alert.alert('Invalid Credentials!');
+      }
       this.setState({loaded: false});
-      Alert.alert('Invalid Credentials');
-      this.props.navigation.navigate('Login');
     }
   };
   storeData = async (value) => {
@@ -79,7 +84,7 @@ export default class MainLogin extends Component {
             style={[styles.inputStyle, {marginTop: 10}]}
             placeholder="Phone"
             placeholderTextColor="black"
-            keyboardType="default"
+            keyboardType="phone-pad"
             returnKeyType="next"
             onChangeText={(text) => this.setState({phone: text})}
           />

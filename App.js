@@ -35,6 +35,7 @@ import AddShippingAddress from './src/screens/AddShippingAddress';
 import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
+import OTPScreen from './src/screens/OTPScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CartNavigator = createStackNavigator({
@@ -239,6 +240,20 @@ const AppNavigator = createStackNavigator({
     screen: SignupName,
     navigationOptions: {
       title: 'Create your account',
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  OTPScreen: {
+    screen: OTPScreen,
+    navigationOptions: {
+      title: 'Enter OTP Sent to your Number',
       headerTintColor: 'white',
       headerTitleStyle: {
         fontFamily: Fonts.medium,

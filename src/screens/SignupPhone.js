@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import {inject} from 'mobx-react';
 import PhoneLoader from '../components/PhoneLoader';
+import {decorateErrors} from  '../utils/Constants'
 import Loader from '../components/Loader';
 @inject('User')
 export default class MainLogin extends Component {
@@ -22,6 +24,7 @@ export default class MainLogin extends Component {
     this.state = {
       phone: '',
       loaded: false,
+      errors: null
     };
   }
 
@@ -30,33 +33,41 @@ export default class MainLogin extends Component {
   };
   setPhone = async () => {
     this.setState({loaded: true});
-    let available = await this.props.User.setPhone(this.state.phone);
+    let [available, errors] = await this.props.User.setPhone(this.state.phone);
     // console.log('phone set ', available);
     this.setState({loaded: false});
 
-    if (available == true) {
+    if (available) {
       this.props.navigation.navigate('SignupPassword');
     } else {
-      Alert.alert('Phone number taken');
+      let errors_array = await decorateErrors(errors.errors)
+      this.setState({ errors: errors_array, phone: '' })
     }
   };
+
 
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
-          <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
+          <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30, fontFamily: Fonts.medium}}>
             What's your phone number?
           </Text>
           <TextInput
             style={[styles.inputStyle, {marginTop: 4}]}
-            placeholder="Phone"
+            placeholder="923xxxxxxxxx"
             placeholderTextColor="black"
-            keyboardType="default"
+            keyboardType="phone-pad"
             returnKeyType="next"
             autoFocus
+            value={this.state.phone}
             onChangeText={(text) => this.setState({phone: text})}
           />
+          { this.state.errors && 
+            this.state.errors.map( (error) => {
+              return <Text style={{ color: 'red', marginHorizontal: 20, paddingHorizontal: 10, paddingTop: 4, fontFamily: Fonts.medium, fontSize: 12 }}>{error}</Text>
+            })
+          }
           <TouchableOpacity
             style={{
               alignItems: 'center',

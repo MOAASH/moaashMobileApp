@@ -18,10 +18,11 @@ class Cart {
     const fetchInvoiceIdFromStorage = await AsyncStorage.getItem(
       'APP:CurrentInvoiceId',
     );
+    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
     if (fetchInvoiceIdFromStorage != null) {
       await axios
-        .get(`/invoices/${fetchInvoiceIdFromStorage}`, {
-          headers: {Authorization: `Token ${token}`},
+        .get(`/v1/invoices/${fetchInvoiceIdFromStorage}`, {
+          headers: {Authorization: `Token ${userAuthenticationToken}`},
         })
         .then((response) => {
           this.invoiceID = response.data.data.id;
@@ -41,14 +42,15 @@ class Cart {
   addToInvoice = async (token, invoice_params) => {
     try {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
+      const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
       let response_fetched = false;
       // console.log('=====InvoiceID', invoiceId);
       if (invoiceId == null) {
-        response_fetched = await this.createInvoice(token, invoice_params);
+        response_fetched = await this.createInvoice(userAuthenticationToken, invoice_params);
       } else {
         // console.log('=====LOLOLOLOLOL');
         response_fetched = await this.updateInvoice(
-          token,
+          userAuthenticationToken,
           invoice_params,
           invoiceId,
         );
@@ -85,15 +87,16 @@ class Cart {
   createInvoice = async (token, invoiceParams) => {
     let response_fetched = false;
     let error_message = {};
+    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .post(
-        '/invoices',
+        '/v1/invoices',
         {
           invoice: invoiceParams,
         },
         {
-          headers: {Authorization: `Token ${token}`},
+          headers: {Authorization: `Token ${userAuthenticationToken}`},
         },
       )
       .then((response) => {
@@ -117,15 +120,16 @@ class Cart {
   updateInvoice = async (token, invoiceParams, invoiceID) => {
     let response_fetched = false;
     let error_message = {};
+    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
-        `/invoices/${invoiceID}`,
+        `/v1/invoices/${invoiceID}`,
         {
           invoice: invoiceParams,
         },
         {
-          headers: {Authorization: `Token ${token}`},
+          headers: {Authorization: `Token ${userAuthenticationToken}`},
         },
       )
       .then((response) => {
@@ -159,13 +163,14 @@ class Cart {
     let response_fetched = false;
     let error_message = {};
     const invoiceID = await AsyncStorage.getItem('APP:CurrentInvoiceId');
+    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
     // console.log('invoice user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
-        `/invoices/${invoiceID}/place_order`,
+        `/v1/invoices/${invoiceID}/place_order`,
         {},
         {
-          headers: {Authorization: `Token ${token}`},
+          headers: {Authorization: `Token ${userAuthenticationToken}`},
         },
       )
       .then((response) => {
@@ -196,7 +201,7 @@ class Cart {
     let error_message = {};
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     await axios
-      .get('/invoices', {
+      .get('/v1/invoices', {
         headers: {Authorization: `Token ${userAuthToken}`},
       })
       .then((response) => {
@@ -216,7 +221,7 @@ class Cart {
     let invoiceDetails = null;
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     await axios
-      .get(`/invoices/${invoice_id}`, {
+      .get(`/v1/invoices/${invoice_id}`, {
         headers: {Authorization: `Token ${userAuthToken}`},
       })
       .then((response) => {
