@@ -78,7 +78,7 @@ export default class SelectShippingAddress extends Component {
     );
     // console.log(invoiceParams);
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
-      this.props.User.userInformation.attributes.authentication_token,
+      this.props.User.mainUserAuthenticationToken,
       invoiceParams,
     );
     // this.props.loading(false);

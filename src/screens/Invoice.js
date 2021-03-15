@@ -54,7 +54,7 @@ export default class Invoice extends Component {
     } else {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
       let [result_fetched, error_message] = await this.props.Cart.fetchInvoice(
-        this.props.User.userInformation.attributes.authentication_token,
+        this.props.User.mainUserAuthenticationToken,
       );
       if (result_fetched) {
         await this.setState({invoiceDetails: this.props.Cart.invoiceDetail});
@@ -75,7 +75,7 @@ export default class Invoice extends Component {
       [{id: id, destroy: true}],
     );
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
-      this.props.User.userInformation.attributes.authentication_token,
+      this.props.User.mainUserAuthenticationToken,
       invoiceParams,
     );
     if (updateInvoice) {

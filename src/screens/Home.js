@@ -63,7 +63,7 @@ export default class Home extends Component {
       }
       this.setState({activityIndicator: true});
       let gettingItemGroup = await this.props.Products.getItemGroups(
-        this.props.User.userInformation.attributes.authentication_token,
+        this.props.User.mainUserAuthenticationToken,
         page,
       );
       var stateItemGroups = this.state.itemGroups;

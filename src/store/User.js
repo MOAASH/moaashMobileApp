@@ -8,8 +8,26 @@ class User {
   @observable phoneNumber = '100000';
   @observable password = '';
   @observable userInformation = {};
+  @observable mainUserAuthenticationToken = null;
 
-  constructor() {}
+  constructor() {
+    this.set_auth_token();
+  }
+  
+  set_auth_token = async () => {
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    if (userAuthToken){
+      console.log('BITCH FOUND NOTHING', userAuthToken);
+      this.mainUserAuthenticationToken = userAuthToken;
+    } else {
+      console.log('BITCH FOUND NOTHING');
+    }
+  };
+  
+  @action
+  get_auth_token = () => {
+    return this.mainUserAuthenticationToken;
+  }
   setName = (name) => {
     // console.log('Name is set to  ', name);
     this.Name = name;
@@ -88,6 +106,7 @@ class User {
           'APP:UserAuthToken',
           this.userInformation.attributes.authentication_token,
         );
+        this.mainUserAuthenticationToken = this.userInformation.attributes.authentication_token
         response_fetched = true;
       })
       .catch((error) => {
@@ -118,6 +137,7 @@ class User {
           'APP:UserAuthToken',
           this.userInformation.attributes.authentication_token,
         );
+        this.mainUserAuthenticationToken = this.userInformation.attributes.authentication_token
         response_fetched = true;
       })
       .catch((error) => {

@@ -17,30 +17,10 @@ export default class Splash extends Component {
   }
 
   componentDidMount = async () => {
-    // console.log('Starting the app');
-    try {
-      let jsonValue = await AsyncStorage.getItem('@storage_Key');
-      // console.log('My value is ', jsonValue);
-      if (jsonValue === null) {
-        this.interval = setInterval(() => {
-          this.inc();
-        }, 1000);
-      } else {
-        const value = JSON.parse(jsonValue);
-        // console.log('My username is ', value.phone);
-        // console.log('My password is ', value.password);
-        let userLogin = await this.props.User.loginUser(
-          value.phone,
-          value.password,
-        );
-        // console.log('userloging is ', userLogin);
-        userLogin == true
-          ? this.props.navigation.navigate('Home')
-          : this.props.navigation.navigate('StartScreen');
-      }
-    } catch (e) {
-      // error reading value
-    }
+    const userAuthToken = this.props.User.get_auth_token();
+    userAuthToken
+      ? this.props.navigation.navigate('Home')
+      : this.props.navigation.navigate('StartScreen');
   };
 
   inc = () => {

@@ -2,7 +2,8 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import User from './User';
+const user = new User();
 class Products {
   @observable itemGroups = [];
   @observable currentItemGroup = {};
@@ -19,7 +20,7 @@ class Products {
   @action
   getShareItemGroups = async (token) => {
     let response_fetched = false;
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
     // console.log('my token is ', token);
     this.userToken = token;
     await axios
@@ -44,8 +45,8 @@ class Products {
   @action
   getItemGroups = async (token, page, extra_params = {}) => {
     let response_fetched = false;
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
-
+    const userAuthToken = user.get_auth_token();
+    console.log('HELLLLLLLOOOO ------------> ',user.get_auth_token());
     // console.log('my token is ', token);
     await axios
       .get(`/v1/item_groups?page=${[page]}${extra_params}`, {
@@ -71,7 +72,7 @@ class Products {
     let currentItemGroup = {};
     this.itemgroupNumber = ID;
     let items = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
 
     // console.log('my item id is ', ID);
     await axios
@@ -107,7 +108,7 @@ class Products {
     //   ' and token is ',
     //   this.userToken,
     // );
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
     await axios
       .post(
         `/v1/item_groups/${itemgroupNumber}/add_to_shared`,
@@ -135,7 +136,7 @@ class Products {
     let response_fetched = false;
     let currentItemGroup = {};
     let categories = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
 
     // console.log('my item id is ', userAuthToken);
     await axios

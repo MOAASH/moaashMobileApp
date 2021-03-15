@@ -3,6 +3,8 @@ import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {OrderState} from '../utils/order';
+import User from './User';
+const user = new User();
 class Cart {
   @observable userToken = '';
   @observable invoiceID = '';
@@ -18,7 +20,7 @@ class Cart {
     const fetchInvoiceIdFromStorage = await AsyncStorage.getItem(
       'APP:CurrentInvoiceId',
     );
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthenticationToken = user.get_auth_token()
     if (fetchInvoiceIdFromStorage != null) {
       await axios
         .get(`/v1/invoices/${fetchInvoiceIdFromStorage}`, {
@@ -42,7 +44,7 @@ class Cart {
   addToInvoice = async (token, invoice_params) => {
     try {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
-      const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+      const userAuthenticationToken = user.get_auth_token()
       let response_fetched = false;
       // console.log('=====InvoiceID', invoiceId);
       if (invoiceId == null) {
@@ -87,7 +89,7 @@ class Cart {
   createInvoice = async (token, invoiceParams) => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthenticationToken = user.get_auth_token()
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .post(
@@ -120,7 +122,7 @@ class Cart {
   updateInvoice = async (token, invoiceParams, invoiceID) => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthenticationToken = user.get_auth_token()
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
@@ -163,7 +165,7 @@ class Cart {
     let response_fetched = false;
     let error_message = {};
     const invoiceID = await AsyncStorage.getItem('APP:CurrentInvoiceId');
-    const userAuthenticationToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthenticationToken = user.get_auth_token()
     // console.log('invoice user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
@@ -199,7 +201,7 @@ class Cart {
   fetchInvoicesList = async () => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
     await axios
       .get('/v1/invoices', {
         headers: {Authorization: `Token ${userAuthToken}`},
@@ -219,7 +221,7 @@ class Cart {
     let response_fetched = false;
     let error_message = {};
     let invoiceDetails = null;
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = user.get_auth_token()
     await axios
       .get(`/v1/invoices/${invoice_id}`, {
         headers: {Authorization: `Token ${userAuthToken}`},

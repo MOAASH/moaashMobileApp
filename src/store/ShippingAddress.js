@@ -2,6 +2,8 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import User from './User';
+const user = new User();
 
 class ShippingAddress {
   @observable shippingAddressesList = [];
@@ -12,7 +14,7 @@ class ShippingAddress {
   getShippingAddresses = async () => {
     let response_fetched = false;
     let error_message    = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');;
+    const userAuthToken = user.get_auth_token();
     await axios
       .get(`/v1/customer_addresses`, { headers: { Authorization: `Token ${userAuthToken}` } }
       ).then((response) => {
@@ -29,7 +31,7 @@ class ShippingAddress {
   createShippingAddress = async (addressParams) => {
     let response_fetched = false;
     let error_message    = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');;
+    const userAuthToken = user.get_auth_token();
     await axios
       .post(`/v1/customer_addresses`,{
         customer_address: addressParams
