@@ -36,6 +36,18 @@ export default class OTPScreen extends Component {
   componentDidMount = async () => {
     // console.log('Starting the app');
   };
+  
+  perform_action = async (code) => {
+    if (this.props.navigation.state.params && this.props.navigation.state.params.forgot_password) {
+      this.reset_password(code);
+    } else {
+      this.setPhone(code);
+    }
+  }
+  
+  reset_password = async (code) => {
+    this.props.navigation.navigate('ForgotPasswordConfirmation', { forgot_password: true, current_otp: code });
+  }
 
   verify_otp = async (code) => {
     console.log('CODE: ', code);
@@ -64,7 +76,7 @@ export default class OTPScreen extends Component {
           codeInputFieldStyle={styles.underlineStyleBase}
           codeInputHighlightStyle={styles.underlineStyleHighLighted}
           onCodeFilled = {(code) => {
-              this.verify_otp(code)
+              this.perform_action(code)
           }}
         />
         {

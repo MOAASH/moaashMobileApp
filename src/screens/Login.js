@@ -46,7 +46,7 @@ export default class MainLogin extends Component {
       this.state.password
     );
     if (response_fetched) {
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('Home', { set_user: true });
     } else {
       let password_error = await findErrorKey(errors.errors, "password");
       let verify_otp_error = await findErrorKey(errors.errors, "verify_otp");
@@ -121,6 +121,15 @@ export default class MainLogin extends Component {
             }}
             onPress={() => this.loginUser()}>
             <Text style={{fontSize: 20, color: Colors.white}}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              marginHorizontal: 80,
+              padding: 16,
+            }}
+            onPress={() => this.props.navigation.navigate('SignupPhone', { forgot_password: true })}>
+            <Text style={{fontSize: 12, color: Colors.color1}}>Forgot Password?</Text>
           </TouchableOpacity>
         </ScrollView>
         {this.state.loaded && <Loader />}

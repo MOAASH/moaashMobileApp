@@ -9,11 +9,13 @@ class User {
   @observable password = '';
   @observable userInformation = {};
   @observable mainUserAuthenticationToken = null;
+  @observable resetPasswordToken = null;
 
   constructor() {
     this.set_auth_token();
   }
   
+  @action
   set_auth_token = async () => {
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     if (userAuthToken){
@@ -25,8 +27,36 @@ class User {
   };
   
   @action
-  get_auth_token = () => {
-    return this.mainUserAuthenticationToken;
+  get_auth_token = async () => {
+    if (this.mainUserAuthenticationToken) {
+      console.log('Fetched get_auth_token: ',this.mainUserAuthenticationToken);
+      return this.mainUserAuthenticationToken;
+    }
+    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    return userAuthToken;
+  }
+  
+  @action fetch_user_details_from_auth_token = async () => {
+    let response_fetched = false;
+    let errors = {}
+    const userAuthenticationToken = await this.get_auth_token();
+
+    axios
+      .get(`/v2/user_details`, {
+        headers: {Authorization: `Token ${userAuthenticationToken}`},
+      })
+      .then((response) => {
+        console.log('fetch_user_details_from_auth_token Response:  ' + JSON.stringify(response.data));
+        this.userInformation = response.data.data;
+        response_fetched = true;
+      })
+      .catch((error) => {
+        console.log('fetch_user_details_from_auth_token Error: ', JSON.stringify(error.response.data));
+        errors = error.response.data
+      });
+
+    console.log('I am tryingg. ')
+    return [response_fetched, errors];
   }
   setName = (name) => {
     // console.log('Name is set to  ', name);
@@ -41,6 +71,7 @@ class User {
   setPhone = async (phoneNumber) => {
     let response_fetched = false;
     let errors = {}
+    
     // console.log('phoneNumber is set to  ', phoneNumber);
     await axios
       .get(`/v2/users/find_phone_number?phone_number=${phoneNumber}`)
@@ -135,13 +166,68 @@ class User {
         this.userInformation = response.data.data;
         AsyncStorage.setItem(
           'APP:UserAuthToken',
-          this.userInformation.attributes.authentication_token,
+          this.userInformation.attributes.authentication_token
         );
         this.mainUserAuthenticationToken = this.userInformation.attributes.authentication_token
         response_fetched = true;
       })
       .catch((error) => {
         this.phoneNumber = phone;
+        errors = error.response.data
+        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
+      });
+    return [response_fetched, errors];
+  };
+  
+  @action
+  forgot_password = async (phone_number) => {
+    let response_fetched = false;
+    let errors = {}
+    // console.log('sign in');
+    await axios
+      .post('/v1/passwords/forgot', {
+        user: {
+          phone_number: phone_number
+        },
+      })
+      .then((response) => {
+        console.log('forgot_password Response ---> ' + JSON.stringify(response.data.data));
+        this.resetPasswordToken = response.data.data.attributes.reset_password_token
+        response_fetched = true;
+      })
+      .catch((error) => {
+        errors = error.response.data
+        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
+      });
+    return [response_fetched, errors];
+  };
+  
+  @action
+  reset_password = async (current_token, password, password_confirmation) => {
+    let response_fetched = false;
+    let errors = {}
+    // console.log('sign in');
+    await axios
+      .post('/v1/passwords/reset', {
+        user: {
+          token: this.resetPasswordToken,
+          current_otp: current_token,
+          password: password,
+          password_confirmation: password_confirmation
+        },
+      })
+      .then((response) => {
+        console.log('reset_password Response-> ' + JSON.stringify(response.data.data));
+        this.userInformation = response.data.data;
+        AsyncStorage.setItem(
+          'APP:UserAuthToken',
+          this.userInformation.attributes.authentication_token
+        );
+        this.resetPasswordToken = null;
+        this.mainUserAuthenticationToken = this.userInformation.attributes.authentication_token
+        response_fetched = true;
+      })
+      .catch((error) => {
         errors = error.response.data
         console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
       });

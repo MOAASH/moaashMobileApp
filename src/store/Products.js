@@ -20,7 +20,7 @@ class Products {
   @action
   getShareItemGroups = async (token) => {
     let response_fetched = false;
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
     // console.log('my token is ', token);
     this.userToken = token;
     await axios
@@ -45,8 +45,7 @@ class Products {
   @action
   getItemGroups = async (token, page, extra_params = {}) => {
     let response_fetched = false;
-    const userAuthToken = user.get_auth_token();
-    console.log('HELLLLLLLOOOO ------------> ',user.get_auth_token());
+    const userAuthToken = await user.get_auth_token();
     // console.log('my token is ', token);
     await axios
       .get(`/v1/item_groups?page=${[page]}${extra_params}`, {
@@ -72,7 +71,7 @@ class Products {
     let currentItemGroup = {};
     this.itemgroupNumber = ID;
     let items = {};
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
 
     // console.log('my item id is ', ID);
     await axios
@@ -108,7 +107,7 @@ class Products {
     //   ' and token is ',
     //   this.userToken,
     // );
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
     await axios
       .post(
         `/v1/item_groups/${itemgroupNumber}/add_to_shared`,
@@ -136,7 +135,7 @@ class Products {
     let response_fetched = false;
     let currentItemGroup = {};
     let categories = {};
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
 
     // console.log('my item id is ', userAuthToken);
     await axios

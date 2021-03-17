@@ -14,7 +14,7 @@ class ShippingAddress {
   getShippingAddresses = async () => {
     let response_fetched = false;
     let error_message    = {};
-    const userAuthToken = user.get_auth_token();
+    const userAuthToken = await user.get_auth_token();
     await axios
       .get(`/v1/customer_addresses`, { headers: { Authorization: `Token ${userAuthToken}` } }
       ).then((response) => {
@@ -31,7 +31,7 @@ class ShippingAddress {
   createShippingAddress = async (addressParams) => {
     let response_fetched = false;
     let error_message    = {};
-    const userAuthToken = user.get_auth_token();
+    const userAuthToken = await user.get_auth_token();
     await axios
       .post(`/v1/customer_addresses`,{
         customer_address: addressParams

@@ -20,7 +20,7 @@ class Cart {
     const fetchInvoiceIdFromStorage = await AsyncStorage.getItem(
       'APP:CurrentInvoiceId',
     );
-    const userAuthenticationToken = user.get_auth_token()
+    const userAuthenticationToken = await user.get_auth_token()
     if (fetchInvoiceIdFromStorage != null) {
       await axios
         .get(`/v1/invoices/${fetchInvoiceIdFromStorage}`, {
@@ -44,7 +44,7 @@ class Cart {
   addToInvoice = async (token, invoice_params) => {
     try {
       const invoiceId = await AsyncStorage.getItem('APP:CurrentInvoiceId');
-      const userAuthenticationToken = user.get_auth_token()
+      const userAuthenticationToken = await user.get_auth_token()
       let response_fetched = false;
       // console.log('=====InvoiceID', invoiceId);
       if (invoiceId == null) {
@@ -89,7 +89,7 @@ class Cart {
   createInvoice = async (token, invoiceParams) => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = user.get_auth_token()
+    const userAuthenticationToken = await user.get_auth_token()
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .post(
@@ -122,7 +122,7 @@ class Cart {
   updateInvoice = async (token, invoiceParams, invoiceID) => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = user.get_auth_token()
+    const userAuthenticationToken = await user.get_auth_token()
     // console.log('My user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
@@ -165,7 +165,7 @@ class Cart {
     let response_fetched = false;
     let error_message = {};
     const invoiceID = await AsyncStorage.getItem('APP:CurrentInvoiceId');
-    const userAuthenticationToken = user.get_auth_token()
+    const userAuthenticationToken = await user.get_auth_token()
     // console.log('invoice user token is ',token,'and company ID is ',companyID,' quantity is ',quantity,' and item id is ',itemID,);
     await axios
       .patch(
@@ -201,7 +201,7 @@ class Cart {
   fetchInvoicesList = async () => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
     await axios
       .get('/v1/invoices', {
         headers: {Authorization: `Token ${userAuthToken}`},
@@ -221,7 +221,7 @@ class Cart {
     let response_fetched = false;
     let error_message = {};
     let invoiceDetails = null;
-    const userAuthToken = user.get_auth_token()
+    const userAuthToken = await user.get_auth_token()
     await axios
       .get(`/v1/invoices/${invoice_id}`, {
         headers: {Authorization: `Token ${userAuthToken}`},

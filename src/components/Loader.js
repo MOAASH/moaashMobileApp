@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    opacity: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',

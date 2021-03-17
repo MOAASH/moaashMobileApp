@@ -17,10 +17,24 @@ export default class Splash extends Component {
   }
 
   componentDidMount = async () => {
-    const userAuthToken = this.props.User.get_auth_token();
-    userAuthToken
-      ? this.props.navigation.navigate('Home')
-      : this.props.navigation.navigate('StartScreen');
+    const userAuthToken = await this.props.User.get_auth_token();
+    console.log('GOINGGG', userAuthToken);
+    // if (userAuthToken) {
+    //   let [response_fetched, errors] = await this.props.User.fetch_user_details_from_auth_token();
+      
+    //   if (!response_fetched) {
+    //     console.log('Yeh Kya baat hai bc')
+    //     AsyncStorage.clear();
+    //     this.props.navigation.navigate('StartScreen');
+    //   }
+    // }
+    
+    // console.log('GOINGGG', userAuthToken);
+    if (userAuthToken) {
+      this.props.navigation.navigate('Home', { set_user: true });
+    } else {
+      this.props.navigation.navigate('StartScreen');
+    }
   };
 
   inc = () => {

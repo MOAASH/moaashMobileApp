@@ -47,13 +47,20 @@ export default class Home extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.props.navigation.setParams({
       scrollToTop: () => {
         this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
       },
     });
-    this.getItemGroups();
+    if (this.props.navigation.state.params && this.props.navigation.state.params.set_user){
+      // await this.props.User.set_auth_token();
+      this.props.User.fetch_user_details_from_auth_token();
+      console.log('LOLOLOLOLOLOLLOLOLOLOLOLOLLOLOLOLOLOLOL')
+    }
+    console.log('LOLOLOLOLOLOLLOLOLOLOLOLOLLOLOLOLOLOLOL     2222')
+    console.log('---------------->', this.props.User.get_auth_token());
+    await this.getItemGroups();
   };
 
   getItemGroups = async (page = 1, refreshing = false) => {

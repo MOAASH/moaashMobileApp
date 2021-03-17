@@ -31,6 +31,29 @@ export default class MainLogin extends Component {
   componentDidMount = async () => {
     // console.log('Starting the app');
   };
+  
+  perform_action = async () => {
+    if (this.props.navigation.state.params && this.props.navigation.state.params.forgot_password) {
+      this.forgot_password();
+    } else {
+      this.setPhone();
+    }
+  }
+  
+  forgot_password = async () => {
+    this.setState({loaded: true});
+    let [response_fetched, errors] = await this.props.User.forgot_password(this.state.phone);
+    // console.log('phone set ', response_fetched);
+    this.setState({loaded: false});
+
+    if (response_fetched) {
+      this.props.navigation.navigate('OTPScreen', { forgot_password: true });
+    } else {
+      let errors_array = await decorateErrors(errors.errors)
+      this.setState({ errors: errors_array, phone: '' })
+    }
+  }
+  
   setPhone = async () => {
     this.setState({loaded: true});
     let [available, errors] = await this.props.User.setPhone(this.state.phone);
@@ -77,7 +100,7 @@ export default class MainLogin extends Component {
               marginTop: 60,
               padding: 16,
             }}
-            onPress={() => this.setPhone()}>
+            onPress={() => this.perform_action()}>
             <Text style={{fontSize: 20, color: Colors.white}}>Next</Text>
           </TouchableOpacity>
         </ScrollView>
