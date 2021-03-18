@@ -62,7 +62,6 @@ export default class MainLogin extends Component {
     }
   };
   storeData = async (value) => {
-    console.log('MY value is ', value);
     try {
       const login = JSON.stringify(value);
       await AsyncStorage.setItem('@storage_Key', login);

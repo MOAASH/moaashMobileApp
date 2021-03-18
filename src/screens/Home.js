@@ -56,10 +56,7 @@ export default class Home extends Component {
     if (this.props.navigation.state.params && this.props.navigation.state.params.set_user){
       // await this.props.User.set_auth_token();
       this.props.User.fetch_user_details_from_auth_token();
-      console.log('LOLOLOLOLOLOLLOLOLOLOLOLOLLOLOLOLOLOLOL')
     }
-    console.log('LOLOLOLOLOLOLLOLOLOLOLOLOLLOLOLOLOLOLOL     2222')
-    console.log('---------------->', this.props.User.get_auth_token());
     await this.getItemGroups();
   };
 
@@ -94,11 +91,9 @@ export default class Home extends Component {
   };
 
   number = async (number) => {
-    // console.log('setting item group number to ', number);
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {
-    console.log('Hello loading', loading);
     this.setState({loaded: loading});
   };
   message = async (message) => {

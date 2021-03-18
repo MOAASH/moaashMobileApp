@@ -19,17 +19,13 @@ class User {
   set_auth_token = async () => {
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
     if (userAuthToken){
-      console.log('BITCH FOUND NOTHING', userAuthToken);
       this.mainUserAuthenticationToken = userAuthToken;
-    } else {
-      console.log('BITCH FOUND NOTHING');
     }
   };
   
   @action
   get_auth_token = async () => {
     if (this.mainUserAuthenticationToken) {
-      console.log('Fetched get_auth_token: ',this.mainUserAuthenticationToken);
       return this.mainUserAuthenticationToken;
     }
     const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
@@ -46,16 +42,13 @@ class User {
         headers: {Authorization: `Token ${userAuthenticationToken}`},
       })
       .then((response) => {
-        console.log('fetch_user_details_from_auth_token Response:  ' + JSON.stringify(response.data));
         this.userInformation = response.data.data;
         response_fetched = true;
       })
       .catch((error) => {
-        console.log('fetch_user_details_from_auth_token Error: ', JSON.stringify(error.response.data));
         errors = error.response.data
       });
 
-    console.log('I am tryingg. ')
     return [response_fetched, errors];
   }
   setName = (name) => {
@@ -76,12 +69,11 @@ class User {
     await axios
       .get(`/v2/users/find_phone_number?phone_number=${phoneNumber}`)
       .then((response) => {
-        console.log('My response is hello ' + JSON.stringify(response.data));
+        // console.log('My response is hello ' + JSON.stringify(response.data));
         this.phoneNumber = phoneNumber;
         response_fetched = true;
       })
       .catch((error) => {
-        console.log('error ', JSON.stringify(error.response.data));
         this.phoneNumber = phoneNumber;
         errors = error.response.data
       });
@@ -131,7 +123,6 @@ class User {
         },
       })
       .then((response) => {
-        console.log('signup Response-> ' + JSON.stringify(response.data));
         this.userInformation = response.data.data;
         AsyncStorage.setItem(
           'APP:UserAuthToken',
@@ -141,9 +132,7 @@ class User {
         response_fetched = true;
       })
       .catch((error) => {
-        console.log("VERIFY OTP ERROR -> ", error.response.data)
         errors = error.response.data
-        // console.log('bari zor ka error wajja hai signup per ' + error);
       });
     return [response_fetched, errors];
   };
@@ -174,7 +163,6 @@ class User {
       .catch((error) => {
         this.phoneNumber = phone;
         errors = error.response.data
-        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
       });
     return [response_fetched, errors];
   };
@@ -191,13 +179,11 @@ class User {
         },
       })
       .then((response) => {
-        console.log('forgot_password Response ---> ' + JSON.stringify(response.data.data));
         this.resetPasswordToken = response.data.data.attributes.reset_password_token
         response_fetched = true;
       })
       .catch((error) => {
         errors = error.response.data
-        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
       });
     return [response_fetched, errors];
   };
@@ -217,7 +203,6 @@ class User {
         },
       })
       .then((response) => {
-        console.log('reset_password Response-> ' + JSON.stringify(response.data.data));
         this.userInformation = response.data.data;
         AsyncStorage.setItem(
           'APP:UserAuthToken',
@@ -229,7 +214,6 @@ class User {
       })
       .catch((error) => {
         errors = error.response.data
-        console.log('ERRRORRR: ' + JSON.stringify(error.response.data));
       });
     return [response_fetched, errors];
   };

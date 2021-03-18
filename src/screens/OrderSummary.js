@@ -52,11 +52,6 @@ export default class OrderSummary extends Component {
   };
 
   placeOrder = async () => {
-    // console.log('order placed');
-    // console.log(
-    //   'lol',
-    //   this.props.User.mainUserAuthenticationToken,
-    // );
     this.setState({ loaded: true })
     let [placeOrder, errorMessage] = await this.props.Cart.placeOrder(
       this.props.User.mainUserAuthenticationToken,

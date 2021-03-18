@@ -187,12 +187,7 @@ class Cart {
         response_fetched = true;
       })
       .catch((error) => {
-        // console.log(
-        //   'bari zor ka error wajja hai place order invoicd per ',
-        //   error.response.data,
-        // );
         error_message = error.response.data;
-        console.log('ERROR ====> ', error_message);
       });
     return [response_fetched, error_message];
   };
