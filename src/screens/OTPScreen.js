@@ -41,7 +41,7 @@ export default class OTPScreen extends Component {
     if (this.props.navigation.state.params && this.props.navigation.state.params.forgot_password) {
       this.reset_password(code);
     } else {
-      this.setPhone(code);
+      this.verify_otp(code);
     }
   }
   
