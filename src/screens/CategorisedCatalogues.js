@@ -67,7 +67,7 @@ export default class Home extends Component {
     if (page != null) {
       this.setState({activityIndicator: true});
       let gettingItemGroup = await this.props.Products.getItemGroups(
-        this.props.User.userInformation.attributes.authentication_token,
+        this.props.User.mainUserAuthenticationToken,
         page,
         this.props.navigation.state.params.extra_params
       ); 
@@ -137,7 +137,7 @@ export default class Home extends Component {
                 productImages={this.productImages}
                 message={this.message}
                 number={this.number}
-                // loading={this.loading}
+                loading={this.loading}
               />
             )}
           />

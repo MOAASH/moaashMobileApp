@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  StatusBar
 } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +17,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 import Loader from '../components/Loader';
+import {findErrorKey} from  '../utils/Constants'
+
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
 @inject('User')
 export default class MainLogin extends Component {
@@ -39,25 +42,27 @@ export default class MainLogin extends Component {
   loginUser = async () => {
     // console.log('confirming sign in the app');
     this.setState({loaded: true});
-    let loginUser = await this.props.User.loginUser(
+    let [response_fetched, errors] = await this.props.User.loginUser(
       this.state.phone,
-      this.state.password,
-      // '03218449409',
-      // 'Hamza123',
+      this.state.password
     );
-    let value = {phone: this.state.phone, password: this.state.password};
-    // let value = {phone: '03218449409', password: 'Hamza123'};
-    if (loginUser === true) {
-      let newlogin = await this.storeData(value);
-      this.props.navigation.navigate('Home');
+    if (response_fetched) {
+      this.props.navigation.navigate('Home', { set_user: true });
     } else {
+      let password_error = await findErrorKey(errors.errors, "password");
+      let verify_otp_error = await findErrorKey(errors.errors, "verify_otp");
+
+      if (password_error){
+        Alert.alert('Phone Number and Password is not correct');
+      } else if (verify_otp_error){
+        this.props.navigation.navigate('OTPScreen');
+      } else {
+        Alert.alert('Invalid Credentials!');
+      }
       this.setState({loaded: false});
-      Alert.alert('Invalid Credentials');
-      this.props.navigation.navigate('Login');
     }
   };
   storeData = async (value) => {
-    console.log('MY value is ', value);
     try {
       const login = JSON.stringify(value);
       await AsyncStorage.setItem('@storage_Key', login);
@@ -71,6 +76,11 @@ export default class MainLogin extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+        animated={true}
+        backgroundColor={Colors.color1}
+        barStyle="light-content"
+        hidden={false} />
         <ScrollView>
           <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
             Enter your phone number
@@ -79,7 +89,7 @@ export default class MainLogin extends Component {
             style={[styles.inputStyle, {marginTop: 10}]}
             placeholder="Phone"
             placeholderTextColor="black"
-            keyboardType="default"
+            keyboardType="phone-pad"
             returnKeyType="next"
             onChangeText={(text) => this.setState({phone: text})}
           />
@@ -116,6 +126,15 @@ export default class MainLogin extends Component {
             }}
             onPress={() => this.loginUser()}>
             <Text style={{fontSize: 20, color: Colors.white}}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              alignItems: 'center',
+              marginHorizontal: 80,
+              padding: 16,
+            }}
+            onPress={() => this.props.navigation.navigate('SignupPhone', { forgot_password: true })}>
+            <Text style={{fontSize: 12, color: Colors.color1}}>Forgot Password?</Text>
           </TouchableOpacity>
         </ScrollView>
         {this.state.loaded && <Loader />}

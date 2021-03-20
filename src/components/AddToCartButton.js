@@ -40,7 +40,7 @@ export default class AddToCartButton extends Component {
         ],
       );
       let [createInvoice, errorMessage] = await this.props.Cart.addToInvoice(
-        this.props.User.userInformation.attributes.authentication_token,
+        this.props.User.mainUserAuthenticationToken,
         invoiceParams,
       );
       this.props.loading(false);

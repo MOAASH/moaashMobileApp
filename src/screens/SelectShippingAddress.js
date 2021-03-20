@@ -29,7 +29,7 @@ export default class SelectShippingAddress extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      shippingAddressList: null,
+      shippingAddressList: [],
       selectedAddressIndex: 0,
       selectedAddressId: null,
       loaded: false,
@@ -44,11 +44,14 @@ export default class SelectShippingAddress extends Component {
         error_message,
       ] = await this.props.ShippingAddress.getShippingAddresses();
       if (response_fetched) {
-        this.setState({
-          shippingAddressList: this.props.ShippingAddress.shippingAddressesList,
-          selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0]
-            .id,
-        });
+        console.log(this.props.ShippingAddress.shippingAddressesList)
+        if (this.props.ShippingAddress.shippingAddressesList.length > 0){          
+          this.setState({
+            shippingAddressList: this.props.ShippingAddress.shippingAddressesList,
+            selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0]
+              .id,
+          });
+        }
       }
     });
     let [
@@ -56,11 +59,13 @@ export default class SelectShippingAddress extends Component {
       error_message,
     ] = await this.props.ShippingAddress.getShippingAddresses();
     if (response_fetched) {
-      this.setState({
-        shippingAddressList: this.props.ShippingAddress.shippingAddressesList,
-        selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0]
-          .id,
-      });
+      if (this.props.ShippingAddress.shippingAddressesList.length > 0){          
+        this.setState({
+          shippingAddressList: this.props.ShippingAddress.shippingAddressesList,
+          selectedAddressId: this.props.ShippingAddress.shippingAddressesList[0]
+            .id,
+        });
+      }
     }
   };
 
@@ -78,7 +83,7 @@ export default class SelectShippingAddress extends Component {
     );
     // console.log(invoiceParams);
     let [updateInvoice, errorMessage] = await this.props.Cart.addToInvoice(
-      this.props.User.userInformation.attributes.authentication_token,
+      this.props.User.mainUserAuthenticationToken,
       invoiceParams,
     );
     // this.props.loading(false);
@@ -197,23 +202,25 @@ export default class SelectShippingAddress extends Component {
               Add New Address
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              alignItems: 'center',
-              backgroundColor: Colors.color2,
-              flex: 1,
-              padding: 16,
-            }}
-            onPress={() => this.updateInvoice()}>
-            <Text
-              style={{
-                fontSize: RFValue(12),
-                fontFamily: Fonts.regular,
-                color: Colors.white,
-              }}>
-              Continue
-            </Text>
-          </TouchableOpacity>
+          { this.state.shippingAddressList.length > 0 && (
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  backgroundColor: Colors.color2,
+                  flex: 1,
+                  padding: 16,
+                }}
+                onPress={() => this.updateInvoice()}>
+                <Text
+                  style={{
+                    fontSize: RFValue(12),
+                    fontFamily: Fonts.regular,
+                    color: Colors.white,
+                  }}>
+                  Continue
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
         {this.state.loaded && <Loader />}
       </SafeAreaView>

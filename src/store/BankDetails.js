@@ -2,7 +2,8 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import User from './User';
+const user = new User();
 class BankDetails {
   @observable bankAccountsList = [];
 
@@ -12,11 +13,9 @@ class BankDetails {
   fetchBankDetails = async () => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = await AsyncStorage.getItem(
-      'APP:UserAuthToken',
-    );
+    const userAuthenticationToken = await user.get_auth_token();
     await axios
-      .get('/bank_details', {
+      .get('/v1/bank_details', {
         headers: {Authorization: `Token ${userAuthenticationToken}`},
       })
       .then((response) => {
@@ -35,12 +34,10 @@ class BankDetails {
   createBankDetails = async (bank_details_params) => {
     let response_fetched = false;
     let error_message = {};
-    const userAuthenticationToken = await AsyncStorage.getItem(
-      'APP:UserAuthToken',
-    );
+    const userAuthenticationToken = await user.get_auth_token();
     await axios
       .post(
-        '/bank_details',
+        '/v1/bank_details',
         {bank_details: bank_details_params},
         {headers: {Authorization: `Token ${userAuthenticationToken}`}},
       )

@@ -16,6 +16,7 @@ import SignupName from './src/screens/SignupName';
 import SignupPhone from './src/screens/SignupPhone';
 import SignupPassword from './src/screens/SignupPassword';
 import SignupConfirmPassword from './src/screens/SignupConfirmPassword';
+import ForgotPasswordConfirmation from './src/screens/ForgotPasswordConfirmation';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import Orders from './src/screens/Orders';
@@ -35,6 +36,7 @@ import AddShippingAddress from './src/screens/AddShippingAddress';
 import SelectShippingAddress from './src/screens/SelectShippingAddress';
 import OrderSummary from './src/screens/OrderSummary';
 import OrderPlaced from './src/screens/OrderPlaced';
+import OTPScreen from './src/screens/OTPScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CartNavigator = createStackNavigator({
@@ -249,6 +251,20 @@ const AppNavigator = createStackNavigator({
       },
     },
   },
+  OTPScreen: {
+    screen: OTPScreen,
+    navigationOptions: {
+      title: 'Enter OTP Sent to your Number',
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
   SignupPhone: {
     screen: SignupPhone,
     navigationOptions: {
@@ -267,6 +283,20 @@ const AppNavigator = createStackNavigator({
     screen: SignupPassword,
     navigationOptions: {
       title: 'Create your account',
+      headerTintColor: 'white',
+      headerTitleStyle: {
+        fontFamily: Fonts.medium,
+      },
+      headerBackTitleVisible: false,
+      headerStyle: {
+        backgroundColor: Colors.color2,
+      },
+    },
+  },
+  ForgotPasswordConfirmation: {
+    screen: ForgotPasswordConfirmation,
+    navigationOptions: {
+      title: 'Confirm your new password',
       headerTintColor: 'white',
       headerTitleStyle: {
         fontFamily: Fonts.medium,

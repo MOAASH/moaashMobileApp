@@ -2,7 +2,8 @@ import {observable, action} from 'mobx';
 import axios from '../utils/axios';
 import {observer} from 'mobx-react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import User from './User';
+const user = new User();
 class Products {
   @observable itemGroups = [];
   @observable currentItemGroup = {};
@@ -19,12 +20,13 @@ class Products {
   @action
   getShareItemGroups = async (token) => {
     let response_fetched = false;
+    const userAuthToken = await user.get_auth_token()
     // console.log('my token is ', token);
     this.userToken = token;
     await axios
-      .get('/item_groups/shared', {
+      .get('/v1/item_groups/shared', {
         headers: {
-          Authorization: `Token ${this.userToken}`,
+          Authorization: `Token ${userAuthToken}`,
         },
       })
       .then((response) => {
@@ -39,15 +41,16 @@ class Products {
       });
     return response_fetched;
   };
+  
   @action
   getItemGroups = async (token, page, extra_params = {}) => {
     let response_fetched = false;
+    const userAuthToken = await user.get_auth_token();
     // console.log('my token is ', token);
-    this.userToken = token;
     await axios
-      .get(`/item_groups?page=${[page]}${extra_params}`, {
+      .get(`/v1/item_groups?page=${[page]}${extra_params}`, {
         headers: {
-          Authorization: `Token ${this.userToken}`,
+          Authorization: `Token ${userAuthToken}`,
         },
       })
       .then((response) => {
@@ -68,12 +71,13 @@ class Products {
     let currentItemGroup = {};
     this.itemgroupNumber = ID;
     let items = {};
+    const userAuthToken = await user.get_auth_token()
 
     // console.log('my item id is ', ID);
     await axios
-      .get(`/item_groups/${ID}/items`, {
+      .get(`/v1/item_groups/${ID}/items`, {
         headers: {
-          Authorization: `Token ${this.userToken}`,
+          Authorization: `Token ${userAuthToken}`,
         },
       })
       .then((response) => {
@@ -103,13 +107,14 @@ class Products {
     //   ' and token is ',
     //   this.userToken,
     // );
+    const userAuthToken = await user.get_auth_token()
     await axios
       .post(
-        `/item_groups/${itemgroupNumber}/add_to_shared`,
+        `/v1/item_groups/${itemgroupNumber}/add_to_shared`,
         {},
         {
           headers: {
-            Authorization: `Token ${this.userToken}`,
+            Authorization: `Token ${userAuthToken}`,
           },
         },
       )
@@ -130,11 +135,11 @@ class Products {
     let response_fetched = false;
     let currentItemGroup = {};
     let categories = {};
-    const userAuthToken = await AsyncStorage.getItem('APP:UserAuthToken');
+    const userAuthToken = await user.get_auth_token()
 
     // console.log('my item id is ', userAuthToken);
     await axios
-      .get(`/item_groups/categories`, {
+      .get(`/v1/item_groups/categories`, {
         headers: {
           Authorization: `Token ${userAuthToken}`,
         },

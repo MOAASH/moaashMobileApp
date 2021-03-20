@@ -11,6 +11,7 @@ import {
 import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import {inject} from 'mobx-react';
 import CustomButton from '../components/CustomButton';
 
@@ -38,7 +39,7 @@ export default class MainLogin extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
+        <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30, fontFamily: Fonts.medium}}>
           What's your password?
         </Text>
 

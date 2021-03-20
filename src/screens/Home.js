@@ -12,6 +12,7 @@ import {
   TextInput,
   Icon,
   AppState,
+  StatusBar,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -47,13 +48,17 @@ export default class Home extends Component {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.props.navigation.setParams({
       scrollToTop: () => {
         this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
       },
     });
-    this.getItemGroups();
+    if (this.props.navigation.state.params && this.props.navigation.state.params.set_user){
+      // await this.props.User.set_auth_token();
+      this.props.User.fetch_user_details_from_auth_token();
+    }
+    await this.getItemGroups();
   };
 
   getItemGroups = async (page = 1, refreshing = false) => {
@@ -63,7 +68,7 @@ export default class Home extends Component {
       }
       this.setState({activityIndicator: true});
       let gettingItemGroup = await this.props.Products.getItemGroups(
-        this.props.User.userInformation.attributes.authentication_token,
+        this.props.User.mainUserAuthenticationToken,
         page,
       );
       var stateItemGroups = this.state.itemGroups;
@@ -87,11 +92,9 @@ export default class Home extends Component {
   };
 
   number = async (number) => {
-    // console.log('setting item group number to ', number);
     this.setState({itemGroupNumber: number});
   };
   loading = async (loading) => {
-    console.log('Hello loading', loading);
     this.setState({loaded: loading});
   };
   message = async (message) => {
@@ -104,6 +107,11 @@ export default class Home extends Component {
     ];
     return (
       <SafeAreaView style={styles.container}>
+        <StatusBar
+        animated={true}
+        backgroundColor={Colors.color1}
+        barStyle="dark-content"
+        hidden={false} />
         <View style={styles.header}>
           <View
             style={{

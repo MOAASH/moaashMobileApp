@@ -53,6 +53,7 @@ export default class ItemGroupCard extends Component {
     const images = this.state.attributes.items_images;
     return (
       <TouchableOpacity
+      activeOpacity={1}
         style={styles.productCard}
         onPress={() =>
           this.props.navigation.navigate('ItemGroupDetails', {

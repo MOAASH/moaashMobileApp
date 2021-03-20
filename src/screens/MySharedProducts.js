@@ -63,7 +63,7 @@ export default class Home extends Component {
     //   'thisssssss' + JSON.stringify(this.props.User.userInformation.attributes),
     // );
     let gettingItemGroup = await this.props.Products.getShareItemGroups(
-      this.props.User.userInformation.attributes.authentication_token,
+      this.props.User.mainUserAuthenticationToken,
     );
     var stateItemGroups = this.state.itemGroups;
     stateItemGroups = stateItemGroups.concat(this.props.Products.sharedGroups);

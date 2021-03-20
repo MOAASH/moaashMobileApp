@@ -132,6 +132,7 @@ export default class BankDetails extends Component {
                 paddingRight: 16,
                 paddingTop: 22,
                 color: Colors.Gray,
+                flex: 1
               }}>
               <DropDownPicker
                 items={[
