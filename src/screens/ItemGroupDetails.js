@@ -172,7 +172,7 @@ export default class ItemGroupDetails extends Component {
                         </Text>
                       </TouchableOpacity>
                     </View>
-                    <View
+                    {/* <View
                       style={{
                         borderWidth: 1,
                         borderColor: Colors.lightGray,
@@ -197,7 +197,7 @@ export default class ItemGroupDetails extends Component {
                           Wishlist
                         </Text>
                       </TouchableOpacity>
-                    </View>
+                    </View> */}
                   </View>
                 </View>
               </>

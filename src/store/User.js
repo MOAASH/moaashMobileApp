@@ -113,6 +113,7 @@ class User {
   
   @action
   verify_sign_up_otp = async (current_otp) => {
+    console.log('User Logged In', this.phoneNumber)
     let response_fetched = false;
     let errors = {};
     await axios
