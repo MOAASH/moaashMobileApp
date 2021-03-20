@@ -43,15 +43,14 @@ export default class ForgotPasswordConfirmation extends Component {
     this.setState({showPasswordConfirmation: !this.state.showPasswordConfirmation});
   };
   reset_password = async () => {
-    console.log('WARR RE BC')
     if (this.state.password != this.state.password_confirmation){
-      console.log(this.props.navigation.state.params.current_otp, this.state.password, this.state.password_confirmation)
+      // console.log(this.props.navigation.state.params.current_otp, this.state.password, this.state.password_confirmation)
       this.setState({ errors: ['The Passwords do not match'] });
       return;
     }
     this.setState({loaded: true});
     let [response_fetched, errors] = await this.props.User.reset_password(this.props.navigation.state.params.current_otp, this.state.password, this.state.password_confirmation);
-    // console.log('phone set ', response_fetched);
+    // console.log('phone92342 set ', response_fetched);
     this.setState({loaded: false});
 
     if (response_fetched) {

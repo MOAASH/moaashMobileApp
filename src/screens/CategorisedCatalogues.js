@@ -137,7 +137,7 @@ export default class Home extends Component {
                 productImages={this.productImages}
                 message={this.message}
                 number={this.number}
-                // loading={this.loading}
+                loading={this.loading}
               />
             )}
           />

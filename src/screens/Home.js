@@ -12,6 +12,7 @@ import {
   TextInput,
   Icon,
   AppState,
+  StatusBar,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -106,6 +107,11 @@ export default class Home extends Component {
     ];
     return (
       <SafeAreaView style={styles.container}>
+        <StatusBar
+        animated={true}
+        backgroundColor={Colors.color1}
+        barStyle="dark-content"
+        hidden={false} />
         <View style={styles.header}>
           <View
             style={{

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   Dimensions,
+  StatusBar
 } from 'react-native';
 import axios from '../utils/axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -75,6 +76,11 @@ export default class MainLogin extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+        animated={true}
+        backgroundColor={Colors.color1}
+        barStyle="light-content"
+        hidden={false} />
         <ScrollView>
           <Text style={{fontSize: 20, marginHorizontal: 20, marginTop: 30}}>
             Enter your phone number

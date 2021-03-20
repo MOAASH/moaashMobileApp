@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions, StatusBar} from 'react-native';
 import axios from '../utils/axios';
 import Colors from '../utils/colors';
 import {inject} from 'mobx-react';
@@ -18,6 +18,10 @@ export default class MainLogin extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+        animated={true}
+        backgroundColor="#61dafb"
+        hidden={false} />
         <Image
           style={{
             width: Dimensions.get('screen').width,
