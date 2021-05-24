@@ -104,7 +104,7 @@ export default class ProductDetail extends Component {
     this.setState({sharing: true});
     var myImages = await this.convertTo64();
     this.setState({myImages: myImages});
-    console.log('The images of this product are ');
+    // console.log('The images of this product are ');
   };
   convertTo64 = async () => {
     let myImages = [];

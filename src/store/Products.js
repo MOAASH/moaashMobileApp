@@ -6,6 +6,7 @@ import User from './User';
 const user = new User();
 class Products {
   @observable itemGroups = [];
+  @observable demoItemGroups = [];
   @observable currentItemGroup = {};
   @observable items = {};
   @observable companyDetails = {};
@@ -156,6 +157,27 @@ class Products {
       });
     return [response_fetched, categories];
   }
+  
+  @action demo_items = async () => {
+    let response_fetched = false;
+    let error_message = {};
+    await axios
+      .get(
+        `/v1/item_groups/demo_items`,
+        {}, {}
+      )
+      .then((response) => {
+        this.demoItemGroups = response.data.data
+        // console.log('shared response --------> ', response.data.data);
+        response_fetched = true;
+      })
+      .catch((error) => {
+        error_message = error.response;
+      });
+    // console.log('done');
+
+    return [response_fetched, error_message];
+  };
 }
 
 export default Products;

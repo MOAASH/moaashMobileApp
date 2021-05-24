@@ -24,14 +24,18 @@ export default class ItemGroupCard extends Component {
     };
   }
   shareProduct = async () => {
-    // console.log('Lets share ', this.state.id);
-    this.props.loading(true);
-    this.props.number(this.state.id);
-    var myImages = await this.convertImage();
-    this.props.productImages(myImages);
-    this.props.message(this.state.attributes.shareable_message);
-    this.props.loading(false);
-    this.props.shareProduct(true);
+    if (this.props.demoScreen){
+      this.props.navigation.navigate('StartScreen')
+    } else {      
+      // console.log('Lets share ', this.state.id);
+      this.props.loading(true);
+      this.props.number(this.state.id);
+      var myImages = await this.convertImage();
+      this.props.productImages(myImages);
+      this.props.message(this.state.attributes.shareable_message);
+      this.props.loading(false);
+      this.props.shareProduct(true);
+    }
   };
   convertImage = async () => {
     let myImages = [];
@@ -56,7 +60,7 @@ export default class ItemGroupCard extends Component {
       activeOpacity={1}
         style={styles.productCard}
         onPress={() =>
-          this.props.navigation.navigate('ItemGroupDetails', {
+          this.props.demoScreen ? this.props.navigation.navigate('StartScreen') : this.props.navigation.navigate('ItemGroupDetails', {
             groupID: this.state.id,
           })
         }>

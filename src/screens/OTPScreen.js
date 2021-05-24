@@ -50,14 +50,14 @@ export default class OTPScreen extends Component {
   }
 
   verify_otp = async (code) => {
-    console.log('CODE: ', code);
+    // console.log('CODE: ', code);
     this.setState({ loading: true });
     let [response_fetched, errors] = await this.props.User.verify_sign_up_otp(code)
     if (response_fetched){
       this.props.navigation.navigate('Home');
     } else {
       let errors_array = await decorateErrors(errors.errors);
-      console.log('OTP SCREEN ERROR -> ', errors_array);
+      // console.log('OTP SCREEN ERROR -> ', errors_array);
       this.setState({ errors: errors_array });
     }
     this.setState({ loading: false });

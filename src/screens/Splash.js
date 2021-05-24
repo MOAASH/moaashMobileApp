@@ -21,7 +21,7 @@ export default class Splash extends Component {
     if (userAuthToken) {
       this.props.navigation.navigate('Home', { set_user: true });
     } else {
-      this.props.navigation.navigate('StartScreen');
+      this.props.navigation.navigate('DemoScreen', { demo_screen: true });
     }
   };
 

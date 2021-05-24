@@ -50,7 +50,7 @@ export default class Categories extends Component {
   };
   
   showCategorisedCatalogue = async (sub_category_id) => {
-    console.log('ExtraParams', `&sub_category_id=${sub_category_id}`)
+    // console.log('ExtraParams', `&sub_category_id=${sub_category_id}`)
     this.props.navigation.navigate('CategorisedCatalogues', {
       extra_params: `&sub_category_id=${sub_category_id}`
     })

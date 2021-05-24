@@ -20,6 +20,7 @@ import axios from '../utils/axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Colors from '../utils/colors';
+import Fonts from '../utils/fonts';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {inject} from 'mobx-react';
 import CategoriesList from '../components/CategoriesList';
@@ -45,6 +46,7 @@ export default class Home extends Component {
       itemGroups: [],
       itemGroupNumber: 0,
       activityIndicator: false,
+      demo_screen: this.props.navigation.state.params && this.props.navigation.state.params.demo_screen
     };
   }
 
@@ -58,8 +60,23 @@ export default class Home extends Component {
       // await this.props.User.set_auth_token();
       this.props.User.fetch_user_details_from_auth_token();
     }
-    await this.getItemGroups();
+    if (this.props.navigation.state.params && this.props.navigation.state.params.demo_screen){
+      await this.get_demo_items();
+    } else {
+      await this.getItemGroups();
+    }
   };
+  
+  get_demo_items = async () => {
+    this.setState({loaded: true});
+    let [response_fetched, errors] = await this.props.Products.demo_items();
+    if (response_fetched) {
+      var stateItemGroups = this.state.itemGroups;
+      stateItemGroups = stateItemGroups.concat(this.props.Products.demoItemGroups);
+      await this.setState({itemGroups: stateItemGroups});
+    }
+    this.setState({loaded: false, refreshing: false, activityIndicator: false});
+  }
 
   getItemGroups = async (page = 1, refreshing = false) => {
     if (page != null) {
@@ -130,7 +147,7 @@ export default class Home extends Component {
               <Ionicons
                 name="cart-outline"
                 size={24}
-                onPress={() => this.props.navigation.navigate('Invoice')}
+                onPress={() => this.state.demo_screen ? this.props.navigation.navigate('StartScreen') : this.props.navigation.navigate('Invoice')}
                 style={{paddingRight: 12}}
                 color={Colors.color5}
               />
@@ -138,7 +155,7 @@ export default class Home extends Component {
                 name="bookmark-outline"
                 size={24}
                 onPress={() =>
-                  this.props.navigation.navigate('MySharedProducts')
+                  this.state.demo_screen ? this.props.navigation.navigate('StartScreen') : this.props.navigation.navigate('MySharedProducts')
                 }
                 style={{paddingRight: 12}}
                 color={Colors.color5}
@@ -159,14 +176,21 @@ export default class Home extends Component {
         {!this.state.loaded && (
           <FlatList
             refreshing={this.state.refreshing}
-            onRefresh={() => this.getItemGroups(1, true)}
+            onRefresh={() => this.state.demo_screen ? null : this.getItemGroups(1, true)}
             onEndReachedThreshold={0.5}
             initialNumToRender={this.state.itemGroups.length}
             onEndReached={() =>
               this.getItemGroups(this.props.Products.itemGroupLinks.next)
             }
             ListFooterComponent={
-              <>{this.state.activityIndicator && <ActivityIndicator />}</>
+              <>{!this.state.demo_screen && this.state.activityIndicator && <ActivityIndicator />}
+                {this.state.demo_screen && (
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('StartScreen')}
+                  style={{ justifyContent: 'center', alignItems: 'center', margin: 12, backgroundColor: Colors.success, padding: 12, borderColor: Colors.success, borderRadius: 10, borderWidth: 1}}>
+                    <Text style={{ color: Colors.white, fontFamily: Fonts.bold }}>Sign Up/Login to Continue!!</Text>
+                  </TouchableOpacity>
+                )}
+              </>
             }
             ListHeaderComponent={
               <>
@@ -196,6 +220,7 @@ export default class Home extends Component {
             }}
             renderItem={(item) => (
               <ItemGroupCard
+                demoScreen={this.state.demo_screen}
                 Products={item}
                 scrollEnabled={false}
                 navigation={this.props.navigation}

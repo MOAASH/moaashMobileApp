@@ -44,7 +44,7 @@ export default class SelectShippingAddress extends Component {
         error_message,
       ] = await this.props.ShippingAddress.getShippingAddresses();
       if (response_fetched) {
-        console.log(this.props.ShippingAddress.shippingAddressesList)
+        // console.log(this.props.ShippingAddress.shippingAddressesList)
         if (this.props.ShippingAddress.shippingAddressesList.length > 0){          
           this.setState({
             shippingAddressList: this.props.ShippingAddress.shippingAddressesList,

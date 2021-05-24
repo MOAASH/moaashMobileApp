@@ -223,6 +223,12 @@ const AppNavigator = createStackNavigator({
       headerShown: false,
     },
   },
+  DemoScreen: {
+    screen: Home,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
   Login: {
     screen: Login,
     navigationOptions: {
