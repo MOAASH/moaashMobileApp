@@ -76,14 +76,14 @@ export default class SelectSizePopup extends Component {
             </Text>
             {Object.keys(this.state.isSizeSelected).length > 0 && (
               <FlatList
-                numColumns={8}
+                horizontal
+                showsHorizontalScrollIndicator={false}
                 data={this.props.sizes}
                 renderItem={({item}) => (
                   <SizeCard
                     size={item}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
                     selected={this.state.isSizeSelected[item]}
-                    navigation={this.props.navigation}
                     sizeChoosen={this.sizeChoosen}
                   />
                 )}

@@ -56,6 +56,7 @@ const FormInput = ({
         ]}
         label={placeholder}
         placeholder={placeholder}
+        placeholderTextColor="black"
         keyboardType={keyboard ? keyboard : 'default'}
         returnKeyType="next"
         onChangeText={handleChange}

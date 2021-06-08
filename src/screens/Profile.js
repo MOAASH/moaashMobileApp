@@ -212,13 +212,32 @@ export default class MainLogin extends Component {
               Log Out
             </Text>
           </View>
-          <View
-            style={{
-              alignItems: 'flex-end',
-            }}>
-            <Ionicons name="ios-chevron-forward-outline" size={20} style={{}} />
-          </View>
         </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            backgroundColor: Colors.white,
+            padding: 8,
+            paddingVertical: 20,
+            alignContent: 'center'
+          }}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Ionicons
+              name="call-outline"
+              size={20}
+              style={{fontWeight: '700'}}
+            />
+            <Text
+              style={{
+                alignSelf: 'center',
+                paddingLeft: 12,
+                fontSize: 16,
+              }}>
+              Contact us at +923331473395
+            </Text>
+          </View>
+        </View>
+        
       </SafeAreaView>
     );
   }

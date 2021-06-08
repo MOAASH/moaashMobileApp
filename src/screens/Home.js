@@ -29,6 +29,7 @@ import QualityBanner from '../components/QualityBanner';
 import WhatsappPopup from '../components/WhatsappPopup';
 import ItemGroupCard from '../components/ItemGroupCard';
 import Loader from '../components/Loader';
+import Analytics from '../services/analytics';
 
 const SCREEN_HEIGHT = Math.round(Dimensions.get('window').height);
 const SCREEN_WIDTH = Math.round(Dimensions.get('window').width);
@@ -51,11 +52,13 @@ export default class Home extends Component {
   }
 
   componentDidMount = async () => {
+    if (!this.state.sharing){
     this.props.navigation.setParams({
       scrollToTop: () => {
         this.flatListRef.scrollToOffset({x: 0, y: 0, animated: true});
       },
     });
+  }
     if (this.props.navigation.state.params && this.props.navigation.state.params.set_user){
       // await this.props.User.set_auth_token();
       this.props.User.fetch_user_details_from_auth_token();
@@ -63,6 +66,9 @@ export default class Home extends Component {
     if (this.props.navigation.state.params && this.props.navigation.state.params.demo_screen){
       await this.get_demo_items();
     } else {
+      console.log("LOOOOOOOOL");
+      
+      console.log("LOOOOOOOOL --------------");
       await this.getItemGroups();
     }
   };

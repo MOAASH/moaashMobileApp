@@ -12,6 +12,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImgToBase64 from 'react-native-image-base64';
 import {inject} from 'mobx-react';
+import analytics from '@react-native-firebase/analytics';
 @inject('Products')
 export default class ItemGroupCard extends Component {
   constructor(props) {
@@ -59,10 +60,21 @@ export default class ItemGroupCard extends Component {
       <TouchableOpacity
       activeOpacity={1}
         style={styles.productCard}
-        onPress={() =>
-          this.props.demoScreen ? this.props.navigation.navigate('StartScreen') : this.props.navigation.navigate('ItemGroupDetails', {
-            groupID: this.state.id,
-          })
+        onPress={() =>{
+          if (this.props.demoScreen){
+            this.props.navigation.navigate('StartScreen') 
+          } else {
+            analytics().logEvent('select_content', {
+              content_type: 'image',
+              content_id: 'P12453',
+              items: [{ name: 'Kittens' }]
+            });
+            console.log("YAYYYYYYYYY")
+            this.props.navigation.navigate('ItemGroupDetails', {
+              groupID: this.state.id,
+            })
+          }
+        }
         }>
         {images.length === 1 && (
           <View
