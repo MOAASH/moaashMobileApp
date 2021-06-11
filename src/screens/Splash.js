@@ -19,6 +19,7 @@ export default class Splash extends Component {
   componentDidMount = async () => {
     const userAuthToken = await this.props.User.get_auth_token();
     if (userAuthToken) {
+      // console.log("LOLOLOL")
       this.props.navigation.navigate('Home', { set_user: true });
     } else {
       this.props.navigation.navigate('DemoScreen', { demo_screen: true });

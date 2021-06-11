@@ -43,7 +43,6 @@ export default class MainLogin extends Component {
   forgot_password = async () => {
     this.setState({loaded: true});
     let [response_fetched, errors] = await this.props.User.forgot_password(this.state.phone);
-    // console.log('phone set ', response_fetched);
     this.setState({loaded: false});
 
     if (response_fetched) {

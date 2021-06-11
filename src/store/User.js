@@ -106,8 +106,9 @@ class User {
         return response_fetched;
       })
       .catch((error) => {
-        // console.log('bari zor ka error wajja hai signup per ' + error);
+        // console.log('bari zor ka error wajja hai signup per ', error);
       });
+    // console.log("RESPONSE", response_fetched);
     return response_fetched;
   };
   

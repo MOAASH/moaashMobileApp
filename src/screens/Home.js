@@ -66,9 +66,9 @@ export default class Home extends Component {
     if (this.props.navigation.state.params && this.props.navigation.state.params.demo_screen){
       await this.get_demo_items();
     } else {
-      console.log("LOOOOOOOOL");
+      // console.log("LOOOOOOOOL");
       
-      console.log("LOOOOOOOOL --------------");
+      // console.log("LOOOOOOOOL --------------");
       await this.getItemGroups();
     }
   };
