@@ -100,26 +100,6 @@ export default class OrderTotal extends Component {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            paddingVertical: 4,
-            paddingHorizontal: 16,
-          }}>
-          <Text
-            style={{
-              fontSize: RFValue(10),
-              fontFamily: Fonts.regular,
-              color: Colors.Gray,
-            }}>
-            Shipping Charges
-          </Text>
-          <Text style={{fontSize: RFValue(10), fontFamily: Fonts.regular}}>
-            PKR {this.props.shippingCharges}
-          </Text>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
             paddingHorizontal: 16,
             paddingBottom: this.props.orderSummary ? 0 : 12,
             paddingTop: 12,
