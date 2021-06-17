@@ -19,7 +19,7 @@ export default class OrderTotal extends Component {
     super(props);
     this.state = {
       totalAmount:
-        parseInt(this.props.totalAmount) + parseInt(this.props.shippingCharges),
+        parseInt(this.props.totalAmount),
     };
   }
   componentDidMount = async () => {
@@ -28,7 +28,7 @@ export default class OrderTotal extends Component {
 
   calculateTotalAmount = () => {
     return (
-      parseInt(this.props.totalAmount) + parseInt(this.props.shippingCharges)
+      parseInt(this.props.totalAmount)
     );
   };
 
